@@ -15,4 +15,3 @@ devtools::install()
 usethis::use_r("test")
 
 # Add dependency ----------------------------------------------------------
-usethis::use_package("glue", "Imports")
