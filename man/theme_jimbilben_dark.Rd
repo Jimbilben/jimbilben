@@ -11,7 +11,8 @@ theme_jimbilben_dark(
   base_rect_size = base_size/22,
   grid_line_color = "white",
   x_ticks = FALSE,
-  y_ticks = FALSE
+  y_ticks = FALSE,
+  right_margin = 15
 )
 }
 \arguments{

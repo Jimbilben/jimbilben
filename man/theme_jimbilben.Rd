@@ -12,7 +12,8 @@ theme_jimbilben(
   border_line_color = "grey95",
   grid_line_color = "grey95",
   x_ticks = FALSE,
-  y_ticks = FALSE
+  y_ticks = FALSE,
+  right_margin = 15
 )
 }
 \arguments{

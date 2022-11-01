@@ -1,4 +1,4 @@
-#' Set Regions
+#' Set Custom Regions
 #'
 #' Set variables in your R environment representing different regions of the USA and the states that comprise them. This is necessary for weighting and MRP.
 #'
@@ -6,7 +6,7 @@
 #' @param print If TRUE, this will just print out the region definitions to your R console, set to TRUE by default
 #'
 #' @export
-set_regions <- function(set = TRUE, print = FALSE) {
+set_custom_regions <- function(set = TRUE, print = FALSE) {
 
   midwest <- c('Illinois', 'IL', 'Indiana', 'IN', 'Iowa', 'IA', 'Michigan', 'MI', 'Minnesota', 'MN',
                 'Ohio', 'OH', 'Pennsylvania', 'PA', 'Wisconsin', 'WI')

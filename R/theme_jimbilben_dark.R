@@ -16,7 +16,8 @@ theme_jimbilben_dark <- function (base_size = 12,
                                   base_rect_size = base_size/22,
                                   grid_line_color = "white",
                                   x_ticks = FALSE,
-                                  y_ticks = FALSE) {
+                                  y_ticks = FALSE,
+                                  right_margin = 15) {
   half_line <- base_size/2
   t <- ggplot2::theme(line = element_line(colour = "black",
                                  size = base_line_size,
@@ -133,7 +134,7 @@ theme_jimbilben_dark <- function (base_size = 12,
                                                  margin = margin(0, 0, 5, 0)),
              plot.tag.position = "top",
              plot.margin = margin(5,
-                                  10,
+                                  right_margin,
                                   5,
                                   5),
              complete = TRUE)
