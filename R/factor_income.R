@@ -16,12 +16,12 @@ factor_income <- function(data) {
                                           "Between $100,000 and $150,000",
                                           "Over $150,000"),
                                labels = c("Unclassified",
-                                          "<$20k",
+                                          "Under $20k",
                                           "$20k-$49k",
                                           "$50k-$79k",
                                           "$80k-$99k",
                                           "$100k-$150k",
-                                          ">$150k")))
+                                          "Over $150k")))
 
   return(data)
 

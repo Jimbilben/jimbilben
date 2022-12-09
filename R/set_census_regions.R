@@ -18,7 +18,7 @@ set_census_regions <- function(set = TRUE, print = FALSE) {
                  "New York", "NY",
                  "Pennsylvania", "PA")
 
-  midwest <- c("Indiana", "IN",
+  mid_west <- c("Indiana", "IN", # midwest is a privileged binding in ggplot
                "Illinois", "IL",
                "Michigan", "MI",
                "Ohio", "OH",
@@ -67,7 +67,7 @@ set_census_regions <- function(set = TRUE, print = FALSE) {
   if(print == TRUE) {
 
     print(glue::glue("Northeast = {northeast}"))
-    print(glue::glue("Midwest = {midwest}"))
+    print(glue::glue("Midwest = {mid_west}"))
     print(glue::glue("South = {south}"))
     print(glue::glue("West = {west}"))
 
@@ -75,7 +75,7 @@ set_census_regions <- function(set = TRUE, print = FALSE) {
   }
 
   if(set == TRUE) {
-    midwest <<- midwest
+    mid_west <<- mid_west
     west <<- west
     northeast <<- northeast
     south <<- south
