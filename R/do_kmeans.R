@@ -5,13 +5,15 @@
 #' @param nclusters Numeric, indicating the number of clusters to generate (use NbClust::NbClust() to determine how many clusters are best)
 #' @param data_with_id Your data to be clustered. It should include a unique id column and the target columns to be clustered on. There must be no missing values.
 #' @param id_name A string indicating the name of your unique id column, defaults to "id"
+#' @param decimals Numeric, indicating the number of decimal places to display in the output graphs. Defaults to 1
 
 #'
 #' @export
 
 do_kmeans <- function(nclusters = 3,
                       data_with_id,
-                      id_name = "id") {
+                      id_name = "id",
+                      decimals = 1) {
 
   ids <- pull(data_with_id[1:nrow(data_with_id), id_name])
 
@@ -71,7 +73,7 @@ do_kmeans <- function(nclusters = 3,
     tidytext::scale_y_reordered() +
     ggplot2::scale_x_continuous(expand = expansion(mult = c(0, .1))) +
     ggplot2::geom_col(aes(y = Item, x = Mean, fill = as.factor(Cluster)), alpha = .67, width = .75) +
-    ggplot2::geom_text(aes(y = Item, x = Mean, label = round(Mean, 1)), hjust = 1.5, size = 2.5, family = "Jost") +
+    ggplot2::geom_text(aes(y = Item, x = Mean, label = jimbilben::nice_num(Mean, decimals, FALSE)), hjust = 1.5, size = 2.5, family = "Jost") +
     labs(fill = "Cluster") +
     ggplot2::facet_wrap(~Cluster, ncol = ncols, scales = "free_y") +
     ggplot2::scale_fill_manual(values = color_values, limits = force) +
@@ -106,7 +108,7 @@ do_kmeans <- function(nclusters = 3,
     ggplot2::ggplot(km_cluster_means_long) +
     ggplot2::scale_x_continuous(breaks = 1:nclusters) +
     ggplot2::geom_col(aes(x = Cluster, y = vs_mean, fill = as.factor(Cluster)), alpha = .67, width = .75) +
-    ggplot2::geom_text(aes(x = Cluster, y = 0, label = round(vs_mean, 1)), vjust = -.2, size = 2.5, family = "Jost") +
+    ggplot2::geom_text(aes(x = Cluster, y = 0, label = jimbilben::nice_num(vs_mean, decimals, FALSE)), vjust = -.2, size = 2.5, family = "Jost") +
     ggplot2::geom_hline(aes(yintercept = 0), color = "grey70") +
     labs(title = "Difference of cluster mean vs. average of cluster means",
          fill = "Cluster") +

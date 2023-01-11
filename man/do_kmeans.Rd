@@ -4,7 +4,7 @@
 \alias{do_kmeans}
 \title{Do KMeans}
 \usage{
-do_kmeans(nclusters = 3, data_with_id, id_name = "id")
+do_kmeans(nclusters = 3, data_with_id, id_name = "id", decimals = 1)
 }
 \arguments{
 \item{nclusters}{Numeric, indicating the number of clusters to generate (use NbClust::NbClust() to determine how many clusters are best)}
@@ -12,6 +12,8 @@ do_kmeans(nclusters = 3, data_with_id, id_name = "id")
 \item{data_with_id}{Your data to be clustered. It should include a unique id column and the target columns to be clustered on. There must be no missing values.}
 
 \item{id_name}{A string indicating the name of your unique id column, defaults to "id"}
+
+\item{decimals}{Numeric, indicating the number of decimal places to display in the output graphs. Defaults to 1}
 }
 \description{
 Performs a kmeans clustering analysis, with plots that show cluster characteristics, as well as returning data linking ids to cluster numbers.
