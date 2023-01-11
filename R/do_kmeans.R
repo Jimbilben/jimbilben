@@ -3,7 +3,7 @@
 #' Performs a kmeans clustering analysis, with plots that show cluster characteristics, as well as returning data linking ids to cluster numbers.
 #'
 #' @param nclusters Numeric, indicating the number of clusters to generate (use NbClust::NbClust() to determine how many clusters are best)
-#' @param data_with_id Your data to be clustered. It should include a unique id column and the target columns to be clustered on. There must be no missing values.
+#' @param data_with_id Your data to be clustered. It should include a unique id column and the target columns to be clustered on. Rows containing missing values will be removed.
 #' @param id_name A string indicating the name of your unique id column, defaults to "id"
 #' @param decimals Numeric, indicating the number of decimal places to display in the output graphs. Defaults to 1
 
@@ -14,6 +14,17 @@ do_kmeans <- function(nclusters = 3,
                       data_with_id,
                       id_name = "id",
                       decimals = 1) {
+
+  pre <- nrow(data_with_id)
+
+  # in case NAs are in fact included in the data that is input:
+  data_with_id <- tidyr::drop_na(data_with_id)
+
+  post <- nrow(data_with_id)
+
+  if(post < pre) {
+    message(glue::glue("{pre - post} row(s) dropped from the data due to containing missing values."))
+  }
 
   ids <- pull(data_with_id[1:nrow(data_with_id), id_name])
 

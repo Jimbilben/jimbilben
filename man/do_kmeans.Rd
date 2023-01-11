@@ -9,7 +9,7 @@ do_kmeans(nclusters = 3, data_with_id, id_name = "id", decimals = 1)
 \arguments{
 \item{nclusters}{Numeric, indicating the number of clusters to generate (use NbClust::NbClust() to determine how many clusters are best)}
 
-\item{data_with_id}{Your data to be clustered. It should include a unique id column and the target columns to be clustered on. There must be no missing values.}
+\item{data_with_id}{Your data to be clustered. It should include a unique id column and the target columns to be clustered on. Rows containing missing values will be removed.}
 
 \item{id_name}{A string indicating the name of your unique id column, defaults to "id"}
 
