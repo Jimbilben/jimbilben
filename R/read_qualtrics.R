@@ -43,7 +43,7 @@ read_qualtrics <- function(file,
 
   if(convert_time == TRUE) {
     qual <- qual %>%
-      mutate(across(.cols = contains("_time_"),
+      mutate(across(.cols = contains("time_"),
                     ~ as.numeric(.)))
   }
 

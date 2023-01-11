@@ -13,8 +13,8 @@ assess_weighting <- function(targets,
                                  .data) {
 
     target_tibble <-
-      dplyr::tibble(level = names(my_targets[[var_name]]),
-                    pct = my_targets[[var_name]] * 100,
+      dplyr::tibble(level = names(targets[[var_name]]),
+                    pct = targets[[var_name]] * 100,
                     variable = var_name,
                     type = "Target")
 
@@ -199,7 +199,7 @@ assess_weighting <- function(targets,
       ggplot2::geom_text(aes(label = glue::glue("{round(pct, 1)}%"), y = level, x = perc_pos, color = type), position = position_dodge(.8), size = 3, family = "Jost", show.legend = FALSE) +
       ggplot2::geom_text(data = comparison_tibble, aes(label = glue::glue("{round(Difference, 1)}%\n{round(Ratio, 1)}"), y = level, x = diff_pos), size = 3, family = "Jost", color = "black") +
       ggplot2::scale_color_manual(values = c("black", "black")) +
-      ggplot2::scale_fill_manual(values = c("#ecd149", "#145980")) +
+      ggplot2::scale_fill_manual(values = c("#216d99", "#f3cf1f")) +
       ggplot2::labs(title = glue::glue({var_name}),
                     y = "Level of variable",
                     x = "Percentage") +
