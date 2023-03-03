@@ -38,8 +38,8 @@ get_hdi <- function(variable = "outcome", data, type = "ordinal", level = .95, d
                 prior = ordinal_priors,
                 chains = 4,
                 cores = 4,
-                iter = 2500,
-                warmup = 500,
+                iter = 3500,
+                warmup = 1000,
                 init = 0,
                 seed = 1010)
 
@@ -106,8 +106,8 @@ get_hdi <- function(variable = "outcome", data, type = "ordinal", level = .95, d
                 prior = bernoulli_priors,
                 chains = 4,
                 cores = 4,
-                iter = 2500,
-                warmup = 500,
+                iter = 3000,
+                warmup = 1000,
                 init = 0,
                 seed = 1010)
 
@@ -192,8 +192,8 @@ get_hdi <- function(variable = "outcome", data, type = "ordinal", level = .95, d
                 prior = categorical_priors,
                 chains = 4,
                 cores = 4,
-                iter = 2500,
-                warmup = 500,
+                iter = 3000,
+                warmup = 1000,
                 init = 0,
                 seed = 1010)
 
