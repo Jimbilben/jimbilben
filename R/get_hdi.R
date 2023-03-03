@@ -13,7 +13,7 @@
 #'
 #' @export
 
-get_hdi <- function(variable = "outcome", data, type = "ordinal", level = .95, decimals = 1, point_est = "median", prior = NULL) {
+get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, decimals = 1, point_est = "median", prior = NULL) {
 
   type <- tolower(type)
 

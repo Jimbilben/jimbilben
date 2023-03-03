@@ -5,17 +5,17 @@
 \title{Get confidence interval}
 \usage{
 get_ci(
-  variable = "outcome",
   data,
+  variable = "outcome",
   type = "ordinal",
   level = 0.95,
   decimals = 1
 )
 }
 \arguments{
-\item{variable}{Character string, indicating the outcome variable name for which confidence interval will be generated}
-
 \item{data}{Your data}
+
+\item{variable}{Character string, indicating the outcome variable name for which confidence interval will be generated}
 
 \item{type}{A string indicating whether to outcome is ordinal (or likert, cumulative), binary (or bernoulli, binomial), or categorical (or multinomial, nominal). Defaults to ordinal}
 

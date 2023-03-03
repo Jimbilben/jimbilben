@@ -5,8 +5,8 @@
 \title{Get highest density interval}
 \usage{
 get_hdi(
-  variable = "outcome",
   data,
+  variable = "outcome",
   type = "ordinal",
   level = 0.95,
   decimals = 1,
@@ -15,9 +15,9 @@ get_hdi(
 )
 }
 \arguments{
-\item{variable}{Character string, indicating the outcome variable name for which confidence interval will be generated}
-
 \item{data}{Your data}
+
+\item{variable}{Character string, indicating the outcome variable name for which confidence interval will be generated}
 
 \item{type}{A string indicating whether to outcome is ordinal (or likert, cumulative), binary (or bernoulli, binomial), or categorical (or multinomial, nominal). Defaults to ordinal}
 

@@ -11,7 +11,7 @@
 #'
 #' @export
 
-get_ci <- function(variable = "outcome", data, type = "ordinal", level = .95, decimals = 1) {
+get_ci <- function(data, variable = "outcome", type = "ordinal", level = .95, decimals = 1) {
 
   type <- tolower(type)
 
