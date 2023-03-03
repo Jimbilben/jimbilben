@@ -1,12 +1,12 @@
-#' Round up
+#' Round down
 #'
-#' Round a number up to the nearest specified number
+#' Round a number down to the nearest specified number
 #'
 #' @param number The number to be rounded up
 #' @param accuracy What to round up to the nearest multiple of
 #'
 #' @export
-round_up <- function(number, accuracy = 10, f = ceiling) {
+round_down <- function(number, accuracy = 10, f = floor) {
 
   f(number / accuracy) * accuracy
 

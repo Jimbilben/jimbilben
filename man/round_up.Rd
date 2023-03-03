@@ -4,7 +4,7 @@
 \alias{round_up}
 \title{Round up}
 \usage{
-round_up(number, accuracy, f = ceiling)
+round_up(number, accuracy = 10, f = ceiling)
 }
 \arguments{
 \item{number}{The number to be rounded up}

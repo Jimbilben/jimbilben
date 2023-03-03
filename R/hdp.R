@@ -2,7 +2,7 @@
 #'
 #' Get the highest density point (essentially, the mode) of a distribution of values.
 #'
-#' @param data The data for which the region variable will be made
+#' @param data A vector of data for which the highest density point (essentially, the mode) will be calculated.
 #'
 #' @export
 hdp <- function(data) {

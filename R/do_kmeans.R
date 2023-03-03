@@ -31,6 +31,8 @@ do_kmeans <- function(nclusters = 3,
   data_for_kmeans <-
     data_with_id[, -which(names(data_with_id) == id_name)]
 
+  set.seed(40999)
+
   km_out <-
     stats::kmeans(data_for_kmeans,
                   centers = nclusters)
