@@ -18,7 +18,7 @@ get_ci <- function(data, variable = "outcome", type = "ordinal", level = .95, de
   if(type == "ordinal" | type == "likert" | type == "cumulative") {
     cumulative_model <-
       ordinal::clm(
-        formula = glue::glue("{variable} ~ 1"),
+        formula = glue::glue("`{variable}` ~ 1"),
         data = data,
         link = "probit"
       )
@@ -45,15 +45,17 @@ get_ci <- function(data, variable = "outcome", type = "ordinal", level = .95, de
 
   else if(type == "binomial" | type == "bernoulli" | type == "binary") {
 
-    binom_form <- as.formula(glue::glue("{variable} ~ 1"))
+    variable_df <- str_replace(variable, " ", ".")
+
+    binom_form <- as.formula(glue::glue("`{variable_df}` ~ 1"))
 
     data <- data.frame(data)
 
-    if(is.logical(data[, variable]) == FALSE & is.numeric(data[, variable]) == FALSE) {
+    if(is.logical(data[, variable_df]) == FALSE & is.numeric(data[, variable_df]) == FALSE) {
 
       counted_data <-
         data %>%
-        tidystats::count_data(eval(as.symbol(variable)), na.rm = TRUE) %>%
+        tidystats::count_data(eval(as.symbol(variable_df)), na.rm = TRUE) %>%
         dplyr::arrange(-n)
 
       new_data <-
@@ -66,13 +68,13 @@ get_ci <- function(data, variable = "outcome", type = "ordinal", level = .95, de
 
       summary <-
         emmeans::emmeans(binom_model,
-                specs = ~ 1,
-                type = "response",
-                level = level) %>%
+                         specs = ~ 1,
+                         type = "response",
+                         level = level) %>%
         tibble::as_tibble() %>%
         dplyr::rename(std_error = SE,
-               lower_prob = asymp.LCL,
-               upper_prob = asymp.UCL) %>%
+                      lower_prob = asymp.LCL,
+                      upper_prob = asymp.UCL) %>%
         dplyr::mutate(pct = prob * 100,
                       lower = lower_prob * 100,
                       upper = upper_prob * 100,
@@ -116,13 +118,13 @@ get_ci <- function(data, variable = "outcome", type = "ordinal", level = .95, de
 
       summary <-
         emmeans::emmeans(binom_model,
-                specs = ~ 1,
-                type = "response",
-                level = level) %>%
+                         specs = ~ 1,
+                         type = "response",
+                         level = level) %>%
         tibble::as_tibble() %>%
         dplyr::rename(std_error = SE,
-               lower_prob = asymp.LCL,
-               upper_prob = asymp.UCL) %>%
+                      lower_prob = asymp.LCL,
+                      upper_prob = asymp.UCL) %>%
         dplyr::mutate(pct = prob * 100,
                       lower = lower_prob * 100,
                       upper = upper_prob * 100,
@@ -161,11 +163,14 @@ get_ci <- function(data, variable = "outcome", type = "ordinal", level = .95, de
   }
 
   else if(type == "nominal" | type == "categorical" | type == "multinomial") {
-    multinom_form <- as.formula(glue::glue("{variable} ~ 1"))
+
+    multinom_form <- as.formula(glue::glue("`{variable}` ~ 1"))
 
     multinom_model <-
       nnet::multinom(formula = multinom_form,
                      data = data)
+
+    variable_em <- glue::glue("`{variable}`")
 
     summary <-
       emmeans::emmeans(multinom_model,

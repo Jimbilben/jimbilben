@@ -17,9 +17,12 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
 
   type <- tolower(type)
 
+  names(data) <- map_chr(.x = make.names(names(data)), .f = str_replace_all, pattern = "__", replacement = "")
+  variable_brm <-  str_replace_all(make.names(variable), pattern = "__", replacement = "")
+
   if(type == "ordinal" | type == "likert" | type == "cumulative") {
 
-    ordinal_levels <- data %>% dplyr::pull({{variable}}) %>% levels()
+    ordinal_levels <- data %>% dplyr::pull({{variable_brm}}) %>% levels()
 
     if(is.null(prior)) {
       ordinal_priors <- brms::set_prior("student_t(3, 0, 1.5)", class = "Intercept")
@@ -28,7 +31,7 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
       ordinal_priors <- prior
     }
 
-    my_formula <- glue::glue("{variable} ~ 1")
+    my_formula <- glue::glue("`{variable_brm}` ~ 1")
 
     ordinal_model <-
       brms::brm(formula = my_formula,
@@ -57,8 +60,8 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
                        median = median(proportion * 100),
                        mode = density(proportion * 100)$x[which.max(density(proportion * 100)$y)],
                        pct = dplyr::case_when(point_est == "median" ~ median,
-                                       point_est == "mean" ~ mean,
-                                       point_est == "mode" ~ mode),
+                                              point_est == "mean" ~ mean,
+                                              point_est == "mode" ~ mode),
                        hdi_reference = tidybayes::hdi(proportion, level),
                        lower = hdi_reference[ , 1] * 100,
                        upper = hdi_reference[ , 2] * 100,
@@ -87,7 +90,9 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
   else if(type == "binomial" | type == "bernoulli" | type == "binary") {
 
     bernoulli_levels <-
-      data %>% dplyr::pull({{variable}}) %>% levels()
+      data %>% dplyr::pull({{variable_brm}}) %>% levels()
+
+    print(bernoulli_levels)
 
     if(is.null(prior)) {
       bernoulli_priors <- brms::set_prior("student_t(3, 0 , 2.5)", class = "Intercept")
@@ -96,7 +101,9 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
       bernoulli_priors <- prior
     }
 
-    my_formula <- glue::glue("{variable} ~ 1")
+    my_formula <- glue::glue("`{variable_brm}` ~ 1")
+
+    print(my_formula)
 
     bernoulli_model <-
       brms::brm(formula = my_formula,
@@ -161,7 +168,7 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
     else {
       summary <-
         summary %>%
-        mutate(outcome = data %>% dplyr::pull({{variable}}) %>% unique() %>% sort() %>% rev()) %>%
+        mutate(outcome = data %>% dplyr::pull({{variable_brm}}) %>% unique() %>% sort() %>% rev()) %>%
         relocate(outcome)
     }
 
@@ -173,7 +180,7 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
 
   else if(type == "nominal" | type == "categorical" | type == "multinomial") {
 
-    categorical_levels <- data %>% dplyr::pull({{variable}}) %>% levels()
+    categorical_levels <- data %>% dplyr::pull({{variable_brm}}) %>% levels()
 
     if(is.null(prior)) {
       categorical_priors <- brms::set_prior("student_t(3, 0, 2.5)", class = "Intercept")
@@ -182,7 +189,7 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
       categorical_priors <- prior
     }
 
-    my_formula <- glue::glue("{variable} ~ 1")
+    my_formula <- glue::glue("`{variable_brm}` ~ 1")
 
     categorical_model <-
       brms::brm(formula = my_formula,
@@ -231,6 +238,8 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
                                        levels = categorical_levels))
 
     }
+
+    names(summary)[1] <- variable
 
     return(summary %>% tibble::as_tibble())
 
