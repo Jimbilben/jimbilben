@@ -1,6 +1,6 @@
 #' Theme Jimbilben
 #'
-#' A good theme with a grey panel background. All text elements are ggtext::element_markdown()
+#' A good theme with a white panel background. All text elements are ggtext::element_markdown()
 #' @param base_size Base size of text - defaults to 12
 #' @param base_family Overall font family - defaults to Jost
 #' @param border_line_color Color for the border around the plot - defaults to grey95
@@ -11,7 +11,7 @@
 #'
 #' @export
 #'
-theme_jimbilben <- function (base_size = 11,
+theme_jimbilben <- function (base_size = 10,
                              base_family = "Jost",
                              base_line_size = base_size/22,
                              base_rect_size = base_size/22,

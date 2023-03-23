@@ -5,7 +5,7 @@
 \title{Theme Jimbilben}
 \usage{
 theme_jimbilben(
-  base_size = 11,
+  base_size = 10,
   base_family = "Jost",
   base_line_size = base_size/22,
   base_rect_size = base_size/22,
@@ -30,5 +30,5 @@ theme_jimbilben(
 \item{y_ticks}{TRUE of FALSE, whether to include y ticks or not - defaults to FALSE}
 }
 \description{
-A good theme with a grey panel background. All text elements are ggtext::element_markdown()
+A good theme with a white panel background. All text elements are ggtext::element_markdown()
 }

@@ -11,7 +11,8 @@ get_hdi(
   level = 0.95,
   decimals = 1,
   point_est = "median",
-  prior = NULL
+  prior = NULL,
+  outcome_name = NULL
 )
 }
 \arguments{
@@ -28,6 +29,8 @@ get_hdi(
 \item{point_est}{Character string, either median, mean, or mode, to select which type of posterior point estimate to include in the label and as the pct output column}
 
 \item{prior}{Optionally set a more specific prior for the model using the typical brms set_prior function, for example: brms::set_prior("student_t(3, 0, 1.5)", class = "Intercept")}
+
+\item{outcome_name}{By default, the variable indicating the name of the outcome (e.g., Yes vs. No for binomial) will be the string provided in 'variable'. This can be overridden by specifying a different string to outcome_name.}
 }
 \description{
 Provides Bayesian highest density intervals for ordinal, binary, or categorical outcomes.
