@@ -2,6 +2,12 @@
 #'
 #' A good theme with a white panel background. All text elements are ggtext::element_markdown()
 #' @param base_size Base size of text - defaults to 12
+#' @param legend_vjust vjust of the legend title
+#' @param legend_hjust hjust of the legend title
+#' @param top_margin top margin, defaults to 5
+#' @param right_margin top margin, defaults to 15
+#' @param bottom_margin top margin, defaults to 5
+#' @param left_margin top margin, defaults to 5
 #' @param base_family Overall font family - defaults to Jost
 #' @param border_line_color Color for the border around the plot - defaults to grey95
 #' @param grid_line_color Color for the grid lines - defaults to grey95
@@ -12,6 +18,8 @@
 #' @export
 #'
 theme_jimbilben <- function (base_size = 10,
+                             legend_vjust = .075,
+                             legend_hjust = 0,
                              base_family = "Jost",
                              base_line_size = base_size/22,
                              base_rect_size = base_size/22,
@@ -19,7 +27,10 @@ theme_jimbilben <- function (base_size = 10,
                              grid_line_color = "grey95",
                              x_ticks = FALSE,
                              y_ticks = FALSE,
-                             right_margin = 15) {
+                             top_margin = 5,
+                             right_margin = 15,
+                             bottom_margin = 5,
+                             left_margin = 5) {
   half_line <- base_size/2
   t <- ggplot2::theme(line = element_line(colour = "black",
                                  size = base_line_size,
@@ -85,8 +96,8 @@ theme_jimbilben <- function (base_size = 10,
                                                     color = "grey10",
                                                     vjust = .075),
              legend.text.align = NULL,
-             legend.title = ggtext::element_markdown(hjust = 0,
-                                                     vjust = .075,
+             legend.title = ggtext::element_markdown(hjust = legend_hjust,
+                                                     vjust = legend_vjust,
                                                      size = rel(.925)),
              legend.title.align = NULL,
              legend.position = "bottom",
@@ -140,10 +151,10 @@ theme_jimbilben <- function (base_size = 10,
                                                  vjust = 0.5,
                                                  margin = margin(0, 0, 5, 0)),
              plot.tag.position = "top",
-             plot.margin = margin(5,
+             plot.margin = margin(top_margin,
                                   right_margin,
-                                  5,
-                                  5),
+                                  bottom_margin,
+                                  left_margin),
              complete = TRUE)
   #ggplot_global$theme_all_null %+replace% t
 }
