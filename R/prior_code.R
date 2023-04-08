@@ -5,7 +5,7 @@
 #' @export
 prior_code <- function() {
 
-  intercept <- glue::glue('set_prior("normal(0 , 2)", class = "Intercept")')
+  intercept <- glue::glue('c(set_prior("normal(0 , 2)", class = "Intercept"),\nset_prior("normal(0 , 1)", class = "b"))')
   specific_coefficient <- glue::glue('set_prior("normal(0, .5)", class = "b", coef = "conditiontreatment:oz", dpar = "muDontKnow")')
   reminder <- "You can just put these into a list/vector with c()"
 
