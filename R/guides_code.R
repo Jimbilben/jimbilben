@@ -1,6 +1,9 @@
 #' Guides code
 #'
 #' Print out code for manipulating multiple aspects of the guide_legend
+#'
+#' @export
+
 
 guides_code <- function() {
 

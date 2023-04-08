@@ -7,7 +7,7 @@
 expand_code(type = "mult", low = 0, high = 0.05)
 }
 \arguments{
-\item{type}{String, defaults to "mult" vs. "add"}
+\item{type}{String, defaults to "mult" (vs. "add")}
 
 \item{low}{Numeric, expansion at the bottom of the axis - defaults to 0}
 
