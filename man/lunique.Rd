@@ -7,7 +7,7 @@
 lunique(variable, data = ref_data)
 }
 \arguments{
-\item{variable}{A string indicating the variable to assess unique values of}
+\item{variable}{the variable to assess unique values of}
 
 \item{data}{What data to draw the unique values from - defaults to ref data}
 }

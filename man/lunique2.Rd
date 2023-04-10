@@ -9,7 +9,7 @@ lunique2(data = ref_data, variable)
 \arguments{
 \item{data}{What data to draw the unique values from - defaults to ref data}
 
-\item{variable}{A string indicating the variable to assess unique values of}
+\item{variable}{the variable to assess unique values of}
 }
 \description{
 Get unique values from a variable in a data frame with less typing, formatted to work in a pipe
