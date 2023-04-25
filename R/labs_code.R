@@ -12,6 +12,6 @@ labs_code <- function() {
   y <- glue::glue('y = "this",')
   fill <- glue::glue('fill = "this"')
 
-  glue::glue('labs({title}\n{subtitle}\n{caption}\n{x}\n{y}\n{fill})')
+  glue::glue('labs({title}\n{subtitle}\n{caption}\n{x}\n{y}\n{fill}\n)')
 
 }

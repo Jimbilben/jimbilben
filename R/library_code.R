@@ -14,7 +14,8 @@ library_code <- function() {
   scales <- glue::glue('library(scales)')
   magrittr <- glue::glue('library(magrittr)')
   ggtext <- glue::glue('library(ggtext)')
+  readxl <- glue::glue('library(readxl)')
 
-  glue::glue('{tidyverse}\n{jimbilben}\n{tidystats}\n{glue}\n{brms}\n{tidybayes}\n{scales}\n{magrittr}\n{ggtext}')
+  glue::glue('{tidyverse}\n{jimbilben}\n{tidystats}\n{glue}\n{brms}\n{tidybayes}\n{scales}\n{magrittr}\n{ggtext}\n{readxl}')
 
 }
