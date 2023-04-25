@@ -21,17 +21,16 @@
 #' # Save a PNG file with custom dimensions and resolution
 #' j_png("test_plot_large.png", width = 12, height = 12, res = 300)
 
-custom_png <- function(filename = ".png",
-                       width = 6,
-                       height = 6,
-                       units = "in",
-                       type = "cairo",
-                       res = 1200,
-                       path = glue::glue("{getwd()}/pngs"),
-                       directory = getwd(),
-                       ...) {
-  # Set the path to the "pngs" folder in the current working directory
-  full_path <- file.path(directory, path, filename)
+j_png <- function(filename = ".png",
+                  width = 6,
+                  height = 6,
+                  units = "in",
+                  type = "cairo",
+                  res = 1200,
+                  full_path = glue::glue("{getwd()}/pngs/{filename}"),
+                  ...) {
+  # Check if the directory exists, create it if not
+  dir.create(dirname(full_path), showWarnings = FALSE)
 
   png(filename = full_path,
       width = width,
