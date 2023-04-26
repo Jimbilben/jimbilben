@@ -219,6 +219,32 @@ gen_us <- function(target_variable = "options",
     return(urban_suburban_rural_weights)
 
   }
+  else if(target_variable == "intfreq") {
+
+    intfreq_weights <-
+      weights::wpct(c('Almost constantly', 'Several times a day', 'Once a day or less', 'Less than several times a week'),
+                    c(.31, .48, .1, .11))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c('Almost constantly', 'Several times a day', 'Once a day or less', 'Less than several times a week'), collapse = '; ')}"))
+    }
+
+    return(intfreq_weights)
+
+  }
+  else if(target_variable == "intfreq_collapse") {
+
+    intfreq_collapse_weights <-
+      weights::wpct(c('Almost constantly', 'Several times a day', 'Once a day or less'),
+                    c(.31, .48, .21))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c('Almost constantly', 'Several times a day', 'Once a day or less'), collapse = '; ')}"))
+    }
+
+    return(intfreq_collapse_weights)
+
+  }
   else if(target_variable == "conmedic" | grepl("medicine", target_variable)) {
 
     gss_conmedic_2021_weights <-
