@@ -62,6 +62,14 @@ assess_weighting <- function(targets,
                                         levels = c('Male', 'Female'))
 
     }
+    else if(var_name == "male") {
+
+      combo_tibble$level <- factor(combo_tibble$level,
+                                   levels = c('-.5', '.5'))
+      comparison_tibble$level <- factor(comparison_tibble$level,
+                                        levels = c('-.5', '.5'))
+
+    }
     else if(var_name == "race") {
 
       combo_tibble$level <- factor(combo_tibble$level,
@@ -132,17 +140,33 @@ assess_weighting <- function(targets,
     else if(var_name == "spanking") {
 
       combo_tibble$level <- factor(combo_tibble$level,
-                                   levels = c('Strongly disagree','Disagree', 'Agree', 'Strongly disagree'))
+                                   levels = c('Strongly disagree','Disagree', 'Agree', 'Strongly agree'))
       comparison_tibble$level <- factor(comparison_tibble$level,
-                                        levels = c('Strongly disagree','Disagree', 'Agree', 'Strongly disagree'))
+                                        levels = c('Strongly disagree','Disagree', 'Agree', 'Strongly agree'))
 
     }
     else if(var_name == "bible") {
 
       combo_tibble$level <- factor(combo_tibble$level,
-                                   levels = c('word of god', 'inspired word', 'book of fables'))
+                                   levels = c('Word of God', 'Inspired word', 'Book of fables'))
       comparison_tibble$level <- factor(comparison_tibble$level,
-                                        levels = c('word of god', 'inspired word', 'book of fables'))
+                                        levels = c('Word of God', 'Inspired word', 'Book of fables'))
+
+    }
+    else if(var_name == "intfreq") {
+
+      combo_tibble$level <- factor(combo_tibble$level,
+                                   levels = c('Almost constantly', 'Several times a day', 'Once a day or less', 'Less than several times a week'))
+      comparison_tibble$level <- factor(comparison_tibble$level,
+                                        levels = c('Almost constantly', 'Several times a day', 'Once a day or less', 'Less than several times a week'))
+
+    }
+    else if(var_name == "intfreq_collapse") {
+
+      combo_tibble$level <- factor(combo_tibble$level,
+                                   levels = c('Almost constantly', 'Several times a day', 'Once a day or less'))
+      comparison_tibble$level <- factor(comparison_tibble$level,
+                                        levels = c('Almost constantly', 'Several times a day', 'Once a day or less'))
 
     }
     else if(var_name == "polviews" | var_name == "lib_con" | var_name == "left_right" | var_name == "libcon") {
