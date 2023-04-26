@@ -124,9 +124,9 @@ assess_weighting <- function(targets,
     else if(var_name == "trust") {
 
       combo_tibble$level <- factor(combo_tibble$level,
-                                   levels = c("Can trust", "Can't be too careful"))
+                                   levels = c("Can trust people", "Can't be too careful"))
       comparison_tibble$level <- factor(comparison_tibble$level,
-                                        levels = c("Can trust", "Can't be too careful"))
+                                        levels = c("Can trust people", "Can't be too careful"))
 
     }
     else if(var_name == "spanking") {

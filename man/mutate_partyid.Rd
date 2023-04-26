@@ -9,7 +9,7 @@ mutate_partyid(data, var_name = party_raw)
 \arguments{
 \item{data}{The data for which the mutate will be made}
 
-\item{var_name}{The target of the mutate - i.e., the variable name in which the numeric ages are stored.}
+\item{var_name}{The target of the mutate - i.e., the original party ID variable.}
 }
 \description{
 Mutate a political party variable that includes Other and Not Sure into a simplified version where these become Independent. The mutated variable will be called 'partyid'.

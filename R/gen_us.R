@@ -157,11 +157,11 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "trust") {
 
     gss_trust_2018_weights <-
-      weights::wpct(c("Can trust", "Can't be too careful"),
+      weights::wpct(c("Can trust people", "Can't be too careful"),
                     c(.331, .669))
 
     if(show_levels == TRUE) {
-      print(glue::glue('Levels for {target_variable}: {paste(c("Can trust", "Can\'t be too careful"), collapse = "; ")}'))
+      print(glue::glue('Levels for {target_variable}: {paste(c("Can trust people", "Can\'t be too careful"), collapse = "; ")}'))
     }
 
     return(gss_trust_2018_weights)
@@ -183,11 +183,11 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "bible") {
 
     gss_bible_2018_weights <-
-      weights::wpct(c('word of god', 'inspired word', 'book of fables'),
+      weights::wpct(c('Word of God', 'Inspired word', 'Book of fables'),
                     c(.310, .473, .217))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('word of god', 'inspired word', 'book of fables'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Word of God', 'Inspired word', 'Book of fables'), collapse = '; ')}"))
     }
 
     return(gss_bible_2018_weights)
