@@ -171,11 +171,11 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "spanking") {
 
     gss_spanking_2021_weights <-
-      weights::wpct(c('Strongly disagree','Disagree', 'Agree', 'Strongly disagree'),
+      weights::wpct(c('Strongly disagree','Disagree', 'Agree', 'Strongly agree'),
                     c(.170, .308, .364, .158))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Strongly disagree','Disagree', 'Agree', 'Strongly disagree'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Strongly disagree','Disagree', 'Agree', 'Strongly agree'), collapse = '; ')}"))
     }
 
     return(gss_spanking_2021_weights)
