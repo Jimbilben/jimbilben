@@ -10,7 +10,9 @@ mrp_party_normal_poststrat(
   outcome = "vaccines",
   interval = 0.95,
   poststrat_tibble = acs5_2020_poststrat_with_partyid,
-  poststrat_epred = acs5_2020_model_expected_n
+  poststrat_epred = acs5_2020_model_expected_n,
+  .decimals = 2,
+  .point_est = "median"
 )
 }
 \arguments{

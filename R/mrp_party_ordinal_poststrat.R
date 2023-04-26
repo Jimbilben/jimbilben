@@ -16,7 +16,10 @@ mrp_party_ordinal_poststrat <- function(current_model_epred, # posterior predict
                                         outcome = "Vaccine support", # give a name to the outcome/response being assessed, e.g., Support for Vaccines
                                         interval = .95, # the summary interval level
                                         poststrat_tibble = acs5_2020_poststrat_with_partyid, # this is the tibble - usually an ACS tibble - containing the demographic variable names. You can group it!
-                                        poststrat_epred = acs5_2020_model_expected_n) { # this is the epred for our party poststrat model containing proportions expected to fall into each party
+                                        poststrat_epred = acs5_2020_model_expected_n, # this is the epred for our party poststrat model containing proportions expected to fall into each party
+                                        .point_est = "median",
+                                        .decimals = 1,
+                                        .remove_lead = FALSE) {
 
   if(subgroups == FALSE) {
 
@@ -46,7 +49,9 @@ mrp_party_ordinal_poststrat <- function(current_model_epred, # posterior predict
       group_by(rating) %>%
       jimbilben::nice_post(proportion,
                            interval = interval,
-                           decimals = 1,
+                           decimals = .decimals,
+                           point_est = .point_est,
+                           remove_lead = .remove_lead,
                            percentage = TRUE) %>%
       mutate(outcome = outcome,
              grouping_type = "Population")
@@ -61,7 +66,9 @@ mrp_party_ordinal_poststrat <- function(current_model_epred, # posterior predict
     ordinal_mean_summary <-
       ordinal_mean_posterior %>%
       jimbilben::nice_post(average,
-                           interval = interval) %>%
+                           interval = interval,
+                           point_est = .point_est,
+                           remove_lead = FALSE) %>%
       mutate(outcome = outcome,
              grouping_type = "Population")
 
@@ -118,7 +125,9 @@ mrp_party_ordinal_poststrat <- function(current_model_epred, # posterior predict
       ordinal_mean_posterior %>%
       group_by(across(all_of(which_subgroups))) %>%
       jimbilben::nice_post(average,
-                           interval = interval) %>%
+                           interval = interval,
+                           point_est = .point_est,
+                           remove_lead = FALSE) %>%
       mutate(outcome = outcome,
              grouping_type = "Subgrouped")
 
@@ -129,7 +138,9 @@ mrp_party_ordinal_poststrat <- function(current_model_epred, # posterior predict
       group_by(across(all_of(which_subgroups))) %>%
       jimbilben::nice_post(proportion,
                            interval = interval,
-                           decimals = 1,
+                           decimals = .decimals,
+                           point_est = .point_est,
+                           remove_lead = .remove_lead,
                            percentage = TRUE) %>%
       mutate(outcome = outcome,
              grouping_type = "Subgrouped")

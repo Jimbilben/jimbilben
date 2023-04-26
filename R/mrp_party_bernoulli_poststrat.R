@@ -16,7 +16,10 @@ mrp_party_bernoulli_poststrat <- function(current_model_epred, # posterior predi
                                           outcome = "yes_no", # give a name to the outcome being computed (e.g., likelihood of answering yes)
                                           interval = .95, # the summary interval level
                                           poststrat_tibble = acs5_2020_poststrat_with_partyid, # this is the tibble - usually an ACS tibble - containing the demographic variable names
-                                          poststrat_epred = acs5_2020_model_expected_n) { # this is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
+                                          poststrat_epred = acs5_2020_model_expected_n, # this is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
+                                          .point_est = "median",
+                                          .decimals = 1,
+                                          .remove_lead = FALSE) {
 
   if(subgroups == FALSE) {
 
@@ -32,9 +35,10 @@ mrp_party_bernoulli_poststrat <- function(current_model_epred, # posterior predi
       bernoulli_posterior %>%
       jimbilben::nice_post(proportion,
                            interval = interval,
-                           decimals = 1,
-                           remove_lead = FALSE,
-                           percentage = TRUE) %>%
+                           decimals = .decimals,
+                           remove_lead = .remove_lead,
+                           percentage = TRUE,
+                           point_est = .point_est) %>%
       mutate(outcome = outcome,
              grouping_type = "Population")
 
@@ -82,9 +86,10 @@ mrp_party_bernoulli_poststrat <- function(current_model_epred, # posterior predi
       group_by(across(all_of(which_subgroups))) %>%
       jimbilben::nice_post(proportion,
                            interval = interval,
-                           decimals = 1,
-                           remove_lead = FALSE,
-                           percentage = TRUE) %>%
+                           decimals = .decimals,
+                           remove_lead = .remove_lead,
+                           percentage = TRUE,
+                           point_est = .point_est) %>%
       mutate(outcome = outcome,
              grouping_type = "Subgrouped")
 

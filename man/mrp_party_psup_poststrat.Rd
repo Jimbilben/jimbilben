@@ -13,7 +13,10 @@ mrp_party_psup_poststrat(
   inferior_name = "Inf",
   equal_name = "Same",
   poststrat_tibble = acs5_2020_poststrat_with_partyid,
-  poststrat_epred = acs5_2020_model_expected_n
+  poststrat_epred = acs5_2020_model_expected_n,
+  .point_est = "median",
+  .decimals = 2,
+  .remove_lead = TRUE
 )
 }
 \arguments{

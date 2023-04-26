@@ -16,7 +16,9 @@ mrp_party_normal_poststrat <- function(current_model_epred, # posterior predicti
                                        outcome = "vaccines", # give a name to the outcome being computed (e.g., support for vaccines)
                                        interval = .95, # the summary interval level
                                        poststrat_tibble = acs5_2020_poststrat_with_partyid, # this is the tibble - usually an ACS tibble - containing the demographic variable names. You can group it!
-                                       poststrat_epred = acs5_2020_model_expected_n) { # this is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
+                                       poststrat_epred = acs5_2020_model_expected_n,
+                                       .decimals = 2,
+                                       .point_est = "median") { # this is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
 
   if(subgroups == FALSE) {
 
@@ -32,7 +34,8 @@ mrp_party_normal_poststrat <- function(current_model_epred, # posterior predicti
       normal_posterior %>%
       jimbilben::nice_post(mean,
                            interval = interval,
-                           decimals = 2,
+                           decimals = .decimals,
+                           point_est = .point_est,
                            remove_lead = FALSE,
                            percentage = FALSE) %>%
       mutate(outcome = outcome,
@@ -82,7 +85,8 @@ mrp_party_normal_poststrat <- function(current_model_epred, # posterior predicti
       group_by(across(all_of(which_subgroups))) %>%
       jimbilben::nice_post(mean,
                            interval = interval,
-                           decimals = 2,
+                           decimals = .decimals,
+                           point_est = .point_est,
                            remove_lead = FALSE,
                            percentage = FALSE) %>%
       mutate(outcome = outcome,

@@ -10,7 +10,10 @@ mrp_party_ordinal_poststrat(
   outcome = "Vaccine support",
   interval = 0.95,
   poststrat_tibble = acs5_2020_poststrat_with_partyid,
-  poststrat_epred = acs5_2020_model_expected_n
+  poststrat_epred = acs5_2020_model_expected_n,
+  .point_est = "median",
+  .decimals = 1,
+  .remove_lead = FALSE
 )
 }
 \arguments{

@@ -22,7 +22,10 @@ mrp_party_psup_poststrat <- function(current_model_epred, # posterior prediction
                                      inferior_name = "Inf",
                                      equal_name = "Same",
                                      poststrat_tibble = acs5_2020_poststrat_with_partyid, # this is the tibble - usually an ACS tibble - containing the demographic variable names. You can group it!
-                                     poststrat_epred = acs5_2020_model_expected_n) { # this is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
+                                     poststrat_epred = acs5_2020_model_expected_n, # this is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
+                                     .point_est = "median",
+                                     .decimals = 2,
+                                     .remove_lead = TRUE) {
 
   if(subgroups == FALSE) {
 
@@ -45,8 +48,10 @@ mrp_party_psup_poststrat <- function(current_model_epred, # posterior prediction
       psup_posterior %>%
       jimbilben::nice_post(psup,
                            interval = interval,
-                           decimals = 2,
+                           decimals = .decimals,
                            percentage = FALSE,
+                           remove_lead = .remove_lead,
+                           point_est = .point_est,
                            above = .575,
                            below = .425,
                            between = c(.425, .575)) %>%
@@ -104,8 +109,10 @@ mrp_party_psup_poststrat <- function(current_model_epred, # posterior prediction
       group_by(across(all_of(which_subgroups))) %>%
       jimbilben::nice_post(psup,
                            interval = interval,
-                           decimals = 2,
+                           decimals = .decimals,
                            percentage = FALSE,
+                           remove_lead = .remove_lead,
+                           point_est = .point_est,
                            above = .575,
                            below = .425,
                            between = c(.425, .575)) %>%

@@ -16,8 +16,10 @@ mrp_party_categorical_poststrat <- function(current_model_epred, # posterior pre
                                             outcome = "Vaccine support", # give a name to the outcome/response being assessed, e.g., Support for Vaccines
                                             interval = .95, # the summary interval level
                                             poststrat_tibble = acs5_2020_poststrat_with_partyid, # this is the tibble - usually an ACS tibble - containing the demographic variable names. You can group it!
-                                            poststrat_epred = acs5_2020_model_expected_n) { # this is the epred for our party poststrat model containing proportions expected to fall into each party
-
+                                            poststrat_epred = acs5_2020_model_expected_n, # this is the epred for our party poststrat model containing proportions expected to fall into each party
+                                            .point_est = "median",
+                                            .decimals = 1,
+                                            .remove_lead = FALSE) {
   if(subgroups == FALSE) {
 
     # a function that will get the posterior for the probability of ONE of the categorical responses
@@ -48,8 +50,10 @@ mrp_party_categorical_poststrat <- function(current_model_epred, # posterior pre
       group_by(choice) %>%
       jimbilben::nice_post(proportion,
                            interval = interval,
-                           decimals = 1,
-                           percentage = TRUE) %>%
+                           decimals = .decimals,
+                           percentage = TRUE,
+                           point_est = .point_est,
+                           remove_lead = .remove_lead) %>%
       mutate(outcome = outcome,
              grouping_type = "Population")
 
@@ -102,8 +106,10 @@ mrp_party_categorical_poststrat <- function(current_model_epred, # posterior pre
       group_by(across(all_of(which_subgroups))) %>%
       jimbilben::nice_post(proportion,
                            interval = interval,
-                           decimals = 1,
-                           percentage = TRUE) %>%
+                           decimals = .decimals,
+                           percentage = TRUE,
+                           point_est = .point_est,
+                           remove_lead = .remove_lead) %>%
       mutate(outcome = outcome,
              grouping_type = "Subgrouped")
 
