@@ -12,5 +12,5 @@ mutate_intfreq_collapse(data, var_name = intfreq_og)
 \item{var_name}{The target of the mutate where the original data is.}
 }
 \description{
-Mutate an Internet Frequency variable with 3 collapsed response options used in weighting. The mutated variable will be called 'intfreq_collapse'.
+Mutate an Internet Frequency variable with 3 collapsed response options used in weighting. The mutated variable will be called 'intfreq_collapse'. The mutated variable will be called 'intfreq_collapse'. Source is Pew https://www.pewresearch.org/wp-content/uploads/2021/03/Internet-Frequency-Update-Methodology-Topline.pdf
 }

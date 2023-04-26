@@ -20,6 +20,7 @@ gen_us <- function(target_variable = "options",
     print(glue::glue('From Gallup: "partyid"'))
     print(glue::glue('From the GSS: "spanking", "trust", "bible", "polviews", "conmedic", "consci"'))
     print(glue::glue('From misc sources: "urban_rural_suburban"'))
+    print(glue::glue('From Pew Internet Frequency Update: "intfreq", "intfreq_collapse"'))
   }
 
   if(target_variable == "education") {
