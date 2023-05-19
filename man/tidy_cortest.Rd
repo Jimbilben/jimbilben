@@ -5,56 +5,74 @@
 \title{Tidy Correlation Test}
 \usage{
 tidy_cortest(
+  data,
   x,
   y,
-  data,
   method = "spearman",
   alternative = "two.sided",
   threshold = 0.01,
   continuity = TRUE,
   sep = " - ",
+  prior = brms::set_prior("normal(0 , .5)", class = "Intercept"),
+  .lower = 45,
+  .upper = 55,
+  point_est = "mean",
+  decimals = 1,
+  percentage = TRUE,
   ...
 )
 }
 \arguments{
+\item{data}{A data frame containing the variables specified in `x` and `y`.}
+
 \item{x}{A character string or variable name representing the first variable for the correlation test.}
 
 \item{y}{A character string or variable name representing the second variable for the correlation test.}
 
-\item{data}{A data frame containing the variables specified in `x` and `y`.}
-
-\item{method}{A character string specifying the correlation method. Options are "spearman" (default), "pearson", and "kendall".}
+\item{method}{A character string specifying the correlation method. Options are "spearman" (default), "pearson", "kendall" and "pmedsup", "psup", "psupmed" for Probability of Median Superiority.}
 
 \item{alternative}{A character string specifying the alternative hypothesis for the correlation test. Options are "two.sided" (default), "less", and "greater".}
 
-\item{threshold}{A numeric value indicating the significance level for flagging correlations as significant. Default is 0.01.}
+\item{threshold}{A numeric value indicating the significance level for flagging correlations as significant (or the size of the HDI interval to use for Probability of Median Superiority, which is 1 - the threshold). Default is 0.01.}
 
-\item{continuity}{A logical value indicating whether to apply a continuity correction in the correlation test. Default is TRUE.}
+\item{continuity}{A logical value indicating whether to apply a continuity correction in the correlation test. Default is TRUE for Pearson, Spearman, and Kendall methods.}
 
 \item{sep}{A character string specifying the separator between variable names in the 'pairing' column of the output. Default is " - ".}
+
+\item{prior}{Prior specification for the Bayesian model when method is one of "pmedsup", "psup", "psupmed". Default is a normal distribution with mean 0 and standard deviation 0.5.}
+
+\item{.lower}{Lower bound for the ROPE. Default is 45.}
+
+\item{.upper}{Upper bound for the ROPE. Default is 55.}
+
+\item{point_est}{A character string specifying the posterior point estimate to use with Probability of Median Superiority. Default is "mean".}
+
+\item{decimals}{Number of decimal places to round to when presenting results for Probability of Median Superiority. Default is 1.}
+
+\item{percentage}{A logical value indicating whether to present results as percentages when assessing Probability of Median Superiority. Default is TRUE.}
 
 \item{...}{Additional arguments passed to `cor.test()`.}
 }
 \value{
 A data frame with the following columns:
   - estimate: The correlation coefficient.
-  - p_value: The p-value of the correlation test.
-  - statistic: The test statistic.
+  - p_value: The p-value of the correlation test (only for Pearson, Spearman, Kendall methods).
+  - statistic: The test statistic (only for Pearson, Spearman, Kendall methods).
   - x_var: The name of the first variable.
   - y_var: The name of the second variable.
-  - method: The correlation method used (Spearman, Pearson, or Kendall).
+  - method: The correlation method used (Spearman, Pearson, Kendall or Probability of Median Superiority).
   - sig: A logical value indicating whether the correlation is significant based on the specified threshold.
   - pos_neg: The direction of the correlation (Positive, Negative, or Neutral).
   - pairing: A combination of the variable names separated by the specified separator.
+  - rope_decision: The decision based on the ROPE analysis (only for Probability of Median Superiority).
+  - rope: The Range Of Practical Equivalence (ROPE) (only for Probability of Median Superiority).
+  - lower: The lower limit of the HDI (only for Probability of Median Superiority).
+  - upper: The upper limit of the HDI (only for Probability of Median Superiority).
+  - below: The proportion of the posterior distribution below the lower ROPE threshold (only for Probability of Median Superiority).
+  - above: The proportion of the posterior distribution above the upper ROPE threshold (only for Probability of Median Superiority).
+  - between: The proportion of the posterior distribution within the ROPE (only for Probability of Median Superiority).
 }
 \description{
 This function computes the correlation between two numeric variables and returns a tidy data frame with the results.
-It supports Pearson, Spearman, and Kendall correlation methods.
-}
-\examples{
-data(mtcars)
-tidy_cortest(mpg, disp, data = mtcars)
-tidy_cortest("mpg", "disp", data = mtcars, method = "pearson")
-tidy_cortest(mpg, disp, data = mtcars, alternative = "greater", threshold = 0.05)
-
+It supports Pearson, Spearman, Kendall correlation methods and Probability of Median Superiority.
 }
