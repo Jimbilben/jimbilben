@@ -4,7 +4,7 @@
 #'
 #' @param data The data for which the mutate will be made
 #' @param from The variable name of the original label - defaults to label
-#' @param to The variable name for the converted label - defaluts to label_break
+#' @param to The variable name for the converted label - defaults to label_break
 
 #'
 #' @export

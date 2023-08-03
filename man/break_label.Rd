@@ -11,7 +11,7 @@ break_label(data, from = label, to = label_break)
 
 \item{from}{The variable name of the original label - defaults to label}
 
-\item{to}{The variable name for the converted label - defaluts to label_break}
+\item{to}{The variable name for the converted label - defaults to label_break}
 }
 \description{
 Add a line break to a label of the form 'X.XX [Y.YY - Z.ZZ]' so that the confidence interval comes on a new line
