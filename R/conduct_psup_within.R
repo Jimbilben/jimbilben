@@ -20,11 +20,37 @@ conduct_psup_within <- function(variable,
                                 prefix = "psup_",
                                 sep = "_min_") {
 
+  unique_outcomes <- data %>% pull(!!sym(variable)) %>% unique() %>% na.omit()
+  print(unique_outcomes)
+  n_outcomes <- length(unique_outcomes)
+  print(n_outcomes)
+
   if(is.null(prior)) {
-    prior <-
-      c(brms::set_prior("normal(0 , 1.25)", class = "Intercept"),
-        brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu0"),
-        brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu1"))
+
+    if(n_outcomes == 3) {
+      prior <-
+        c(brms::set_prior("normal(0 , 1.25)", class = "Intercept"),
+          brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu0"),
+          brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu1"))
+    }
+    else if(n_outcomes == 2) {
+      if(0.5 %in% as.numeric(unique_outcomes) == FALSE) {
+        prior <-
+          c(brms::set_prior("normal(0 , 1.25)", class = "Intercept"),
+            brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu1"))
+      }
+      else if(0 %in% as.numeric(unique_outcomes) == FALSE) {
+        prior <-
+          c(brms::set_prior("normal(0 , 1.25)", class = "Intercept"),
+            brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu1"))
+      }
+      else if(1 %in% as.numeric(unique_outcomes) == FALSE) {
+        prior <-
+          c(brms::set_prior("normal(0 , 1.25)", class = "Intercept"),
+            brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu0"))
+      }
+    }
+
   }
 
   data <-

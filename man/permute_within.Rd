@@ -9,6 +9,7 @@ permute_within(
   a,
   b,
   direction = "two-sided",
+  binary = FALSE,
   sims = 2500,
   current_prefix = "item_",
   new_prefix = "comp_",
@@ -25,6 +26,8 @@ permute_within(
 
 \item{direction}{Specifies the expected direction of the difference between the pair of columns. It can be "superior" (a > b), "inferior" (a < b), or "two-sided" (non-directional). Defaults to "two-sided".}
 
+\item{binary}{A logical indicating whether the outcome is a binary outcome (in the form of 0 and 1) - if TRUE a permutation test on the ratio of the pairs will also be conducted. Defaults to FALSE.}
+
 \item{sims}{The number of random permutations to perform. Defaults to 2500.}
 
 \item{current_prefix}{The current prefix of the column names in the data frame. Defaults to "item_".}
@@ -39,5 +42,5 @@ permute_within(
 A dataframe containing the summary of the permutation tests. If verbose = TRUE, a list containing both the detailed comparisons for each simulation and the summary is returned.
 }
 \description{
-This function conducts permutation testing for paired (i.e., within subjects) ratings. It will provide estimates for 'Probability of Superiority' and 'Observation oriented modelling', in which tied values count against any directional difference.
+This function conducts permutation testing for paired (i.e., within subjects) ratings. It will provide estimates for 'Probability of Superiority' and 'Observation oriented modelling', in which tied values count against any directional difference. If Binary is TRUE, it additionally permutes a ratio.
 }
