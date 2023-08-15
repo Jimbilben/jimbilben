@@ -15,6 +15,7 @@ nice_num <- function(number, decimals = 2, remove_lead = TRUE) {
 
   if(remove_lead == TRUE) {
     output <- sub("^0+", "", get_to_dp)
+    output <- stringr::str_replace(output, "-0.", "-.")
   }
   else {
     output <- get_to_dp
