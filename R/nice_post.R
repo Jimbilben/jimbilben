@@ -131,7 +131,7 @@ nice_post <- function(posterior,
     post_summ %>%
     dplyr::select(-jimbilben_hdi_reference)
 
-  final_names <- str_remove(names(post_summ), "jimbilben_")
+  final_names <- stringr::str_remove(names(post_summ), "jimbilben_")
   names(post_summ) <- final_names
 
   if(hdi_checking > 2) {
