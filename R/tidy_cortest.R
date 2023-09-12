@@ -37,7 +37,7 @@
 #'   - above: The proportion of the posterior distribution above the upper ROPE threshold (only for Probability of Median Superiority).
 #'   - between: The proportion of the posterior distribution within the ROPE (only for Probability of Median Superiority).
 #' @export
-tidy_cortest <- function(data, x, y, method = "spearman", alternative = "two.sided", threshold = .01, continuity = TRUE, sep = " - ", prior = brms::set_prior("normal(0 , .5)", class = "Intercept"), .lower = 45, .upper = 55, point_est = "mean", decimals = 1, percentage = TRUE, ...) {
+tidy_cortest <- function(data, x, y, method = "spearman", alternative = "two.sided", threshold = .01, continuity = TRUE, sep = " - ", prior = brms::set_prior("normal(0 , .75)", class = "Intercept"), .lower = 45, .upper = 55, point_est = "mean", decimals = 1, percentage = TRUE, ...) {
 
   x <- as.character(ensym(x))
   y <- as.character(ensym(y))
@@ -70,17 +70,20 @@ tidy_cortest <- function(data, x, y, method = "spearman", alternative = "two.sid
   else if(tolower(method) %in% c("pmedsup", "psup", "psupmed")) {
 
     data <-
-      tibble(x = data %>% dplyr::pull({{x}}),
-             y = data %>% dplyr::pull({{y}})) %>%
+      tibble(x = data %>% dplyr::pull({{x}}) %>% as.numeric(),
+             y = data %>% dplyr::pull({{y}}) %>% as.numeric()) %>%
       mutate(xmed = dplyr::case_when(x > median(x, na.rm = TRUE) ~ 1,
                                      x == median(x, na.rm = TRUE) ~ .5,
                                      x < median(x, na.rm = TRUE) ~ 0),
              ymed = dplyr::case_when(y > median(y, na.rm = TRUE) ~ 1,
                                      y == median(y, na.rm = TRUE) ~ .5,
                                      y < median(y, na.rm = TRUE) ~ 0),
-             pmedsup = dplyr::case_when(xmed == .5 | ymed == .5 ~ jimbilben::lottery(),
-                                        xmed == ymed ~ 1,
-                                        TRUE ~ 0))
+             pmedsup = dplyr::case_when(xmed == .5 | ymed == .5 ~ "equal",
+                                        xmed == ymed ~ "pos",
+                                        TRUE ~ "neg"))
+
+    unique_length <-
+      data %>% pull(pmedsup) %>% unique() %>% na.omit() %>% length()
 
 
     interval <- 1 - threshold
@@ -91,55 +94,129 @@ tidy_cortest <- function(data, x, y, method = "spearman", alternative = "two.sid
       2500
     }
 
-    pmedsup_model <-
-      brms::brm(formula = pmedsup ~ 1,
-                family = brms::bernoulli(),
-                data = data,
-                control = list(adapt_delta = 0.99, max_treedepth = 15),
-                prior = prior,
-                chains = 4,
-                cores = 4,
-                iter = iterations,
-                warmup = 500,
-                init = 0,
-                backend = 'cmdstanr',
-                threads = brms::threading(4),
-                seed = 1010,
-                stan_model_args=list(stanc_options = list('O1')))
+    if(unique_length > 1) {
+      pmedsup_model <-
+        brms::brm(formula = pmedsup ~ 1,
+                  family = brms::categorical(),
+                  data = data,
+                  control = list(adapt_delta = 0.99, max_treedepth = 15),
+                  prior = prior,
+                  chains = 4,
+                  cores = 4,
+                  iter = iterations,
+                  warmup = 500,
+                  init = 0,
+                  backend = 'cmdstanr',
+                  threads = brms::threading(4),
+                  seed = 1010,
+                  stan_model_args=list(stanc_options = list('O1')))
 
-    pmedsup_post <-
-      brms::posterior_epred(object = pmedsup_model,
-                            newdata = data[1,]) %>%
-      dplyr::as_tibble()
+      pmedsup_post <-
+        tidybayes::add_epred_draws(object = pmedsup_model,
+                                   newdata = data[1,]) %>%
+        dplyr::as_tibble() %>%
+        ungroup() %>%
+        dplyr::select(.category,
+                      .epred,
+                      .draw) %>%
+        dplyr::mutate(psup = dplyr::case_when(.category == "neg" ~ 0,
+                                              .category == "pos" ~ .epred,
+                                              .category == "equal" ~ .5 * .epred)) %>%
+        dplyr::group_by(.draw) %>%
+        dplyr::summarise(psup = sum(psup)) %>%
+        dplyr::select(psup)
 
-    names(pmedsup_post) <- "proportion"
+      correlation <-
+        pmedsup_post %>%
+        jimbilben::nice_post(psup,
+                             below = .lower / 100,
+                             above = .upper / 100,
+                             between = c(.lower / 100, .upper / 100),
+                             percentage = percentage,
+                             point_est = point_est,
+                             decimals = decimals,
+                             interval = interval) %>%
+        dplyr::select({{point_est}}, lower, upper, label, below, above, between) %>%
+        dplyr::mutate(x_var = x,
+                      y_var = y,
+                      pairing = glue::glue("{x}{sep}{y}"),
+                      pos_neg = dplyr::case_when({{point_est}} > .5 ~ "Positive",
+                                                 {{point_est}} < .5 ~ "Negative",
+                                                 {{point_est}} == .5 ~ "Neutral"),
+                      method = "Probability of median superiority",
+                      sig = dplyr::case_when(lower > .upper | upper < .lower ~ TRUE,
+                                             TRUE ~ FALSE),
+                      rope_decision = dplyr::case_when(lower > .upper ~ "Positive",
+                                                       upper < .lower ~ "Negative",
+                                                       lower > .lower & upper < .upper ~ "Equivalent",
+                                                       TRUE ~ "Unclear"),
+                      rope = glue::glue("{.lower} - {.upper}")) %>%
+        dplyr::select({{point_est}}, label, x_var, y_var, method, sig, rope_decision, pos_neg, pairing, rope, lower, upper, below, above, between)
+    }
+    else {
 
-    correlation <-
-      pmedsup_post %>%
-      jimbilben::nice_post(proportion,
-                           below = .lower / 100,
-                           above = .upper / 100,
-                           between = c(.lower / 100, .upper / 100),
-                           percentage = percentage,
-                           point_est = point_est,
-                           decimals = decimals,
-                           interval = interval) %>%
-      dplyr::select({{point_est}}, lower, upper, label, below, above, between) %>%
-      dplyr::mutate(x_var = x,
-                    y_var = y,
-                    pairing = glue::glue("{x}{sep}{y}"),
-                    pos_neg = dplyr::case_when({{point_est}} > .5 ~ "Positive",
-                                               {{point_est}} < .5 ~ "Negative",
-                                               {{point_est}} == .5 ~ "Neutral"),
-                    method = "Probability of median superiority",
-                    sig = dplyr::case_when(lower > .upper | upper < .lower ~ TRUE,
-                                           TRUE ~ FALSE),
-                    rope_decision = dplyr::case_when(lower > .upper ~ "Positive",
-                                                     upper < .lower ~ "Negative",
-                                                     lower > .lower & upper < .upper ~ "Equivalent",
-                                                     TRUE ~ "Unclear"),
-                    rope = glue::glue("{.lower} - {.upper}")) %>%
-      dplyr::select({{point_est}}, label, x_var, y_var, method, sig, rope_decision, pos_neg, pairing, rope, lower, upper, below, above, between)
+      unique_value <-
+        data %>% pull(pmedsup) %>% unique() %>% na.omit()
+
+      if(unique_value == "equal") {
+        correlation <-
+          tibble(mean = 50,
+                 label = "50.0 [NA - NA]",
+                 x_var = x,
+                 y_var = y,
+                 pairing = glue::glue("{x}{sep}{y}"),
+                 pos_neg = "Neutral",
+                 method = "Probability of median superiority",
+                 sig = NA,
+                 rope_decision = NA,
+                 rope = glue::glue("{.lower} - {.upper}"),
+                 lower = NA, upper = NA, below = NA, above = NA, between = NA) %>%
+          dplyr::select(mean, label, x_var, y_var, method, sig, rope_decision, pos_neg, pairing, rope, lower, upper, below, above, between)
+
+        names(correlation)[1] <- point_est
+
+      }
+
+      else if(unique_value == "neg") {
+        correlation <-
+          tibble(mean = 0,
+                 label = "0.0 [NA - NA]",
+                 x_var = x,
+                 y_var = y,
+                 pairing = glue::glue("{x}{sep}{y}"),
+                 pos_neg = "Negative",
+                 method = "Probability of median superiority",
+                 sig = NA,
+                 rope_decision = NA,
+                 rope = glue::glue("{.lower} - {.upper}"),
+                 lower = NA, upper = NA, below = NA, above = NA, between = NA) %>%
+          dplyr::select(mean, label, x_var, y_var, method, sig, rope_decision, pos_neg, pairing, rope, lower, upper, below, above, between)
+
+        names(correlation)[1] <- point_est
+
+      }
+
+      else if(unique_value == "pos") {
+        correlation <-
+          tibble(mean = 100,
+                 label = "100.0 [NA - NA]",
+                 x_var = x,
+                 y_var = y,
+                 pairing = glue::glue("{x}{sep}{y}"),
+                 pos_neg = "Positive",
+                 method = "Probability of median superiority",
+                 sig = NA,
+                 rope_decision = NA,
+                 rope = glue::glue("{.lower} - {.upper}"),
+                 lower = NA, upper = NA, below = NA, above = NA, between = NA) %>%
+          dplyr::select(mean, label, x_var, y_var, method, sig, rope_decision, pos_neg, pairing, rope, lower, upper, below, above, between)
+
+        names(correlation)[1] <- point_est
+
+      }
+
+    }
+
 
   }
 

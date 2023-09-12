@@ -13,7 +13,7 @@ tidy_cortest(
   threshold = 0.01,
   continuity = TRUE,
   sep = " - ",
-  prior = brms::set_prior("normal(0 , .5)", class = "Intercept"),
+  prior = brms::set_prior("normal(0 , .75)", class = "Intercept"),
   .lower = 45,
   .upper = 55,
   point_est = "mean",
