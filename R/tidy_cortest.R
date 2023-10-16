@@ -215,7 +215,7 @@ tidy_cortest <- function(data, x, y, method = "spearman", alternative = "two.sid
 
       }
 
-    }
+    } #
 
 
   }
