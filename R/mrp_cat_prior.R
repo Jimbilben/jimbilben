@@ -14,20 +14,27 @@
 #' # Example with a categorical variable 'region'
 #' data <- data.frame(region = as.factor(c("North", "East", "West", "South")))
 #' mrp_cat_prior(data$region)
-mrp_cat_prior <- function(categorical_var, intercept_prior = "normal(0, 2)", b_prior = "normal(0, 1)", sd_prior = "exponential(2)") {
-
-  ref_level <- levels(categorical_var)[1] # Assumes the reference level is the first level
-
-  non_ref_levels <- levels(categorical_var)[-1] # Excludes the reference level
-
+mrp_cat_prior <- function (categorical_var,
+                           intercept_prior = "normal(0, 2)",
+                           b_prior = "normal(0, 1)",
+                           sd_prior = "exponential(2)",
+                           sd_lower_bound = NULL)
+{
+  ref_level <- levels(categorical_var)[1]
+  non_ref_levels <- levels(categorical_var)[-1]
   priors <- c(brms::set_prior(intercept_prior, class = "Intercept"),
               brms::set_prior(b_prior, class = "b"))
 
   for (level in non_ref_levels) {
-    clean_level <- gsub("[^[:alnum:].]", "", level) # Remove non-alphanumeric characters except periods
-    prior_str <- sprintf('brms::set_prior("%s", class = "sd", dpar = "mu%s")', sd_prior, clean_level)
-    priors <- c(priors, eval(parse(text = prior_str)))
-  }
+    clean_level <- gsub("[^[:alnum:].]", "", level)
 
+    if (!is.null(sd_lower_bound)) {
+      prior_obj <- brms::set_prior(sd_prior, class = "sd", dpar = paste0("mu", clean_level), lb = sd_lower_bound)
+    } else {
+      prior_obj <- brms::set_prior(sd_prior, class = "sd", dpar = paste0("mu", clean_level))
+    }
+
+    priors <- c(priors, prior_obj)
+  }
   return(priors)
 }

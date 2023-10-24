@@ -8,7 +8,8 @@ mrp_cat_prior(
   categorical_var,
   intercept_prior = "normal(0, 2)",
   b_prior = "normal(0, 1)",
-  sd_prior = "exponential(2)"
+  sd_prior = "exponential(2)",
+  sd_lower_bound = NULL
 )
 }
 \arguments{
