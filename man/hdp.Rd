@@ -4,7 +4,7 @@
 \alias{hdp}
 \title{Highest Density Point}
 \usage{
-hdp(data)
+hdp(data, na.rm = FALSE)
 }
 \arguments{
 \item{data}{A vector of data for which the highest density point (essentially, the mode) will be calculated.}

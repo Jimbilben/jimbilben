@@ -5,7 +5,10 @@
 #' @param data A vector of data for which the highest density point (essentially, the mode) will be calculated.
 #'
 #' @export
-hdp <- function(data) {
+hdp <- function(data, na.rm = FALSE) {
+  if (na.rm) {
+    data <- na.omit(data)
+  }
 
   hdp <- density(data)$x[which.max(density(data)$y)]
 
