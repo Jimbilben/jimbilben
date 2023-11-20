@@ -18,6 +18,8 @@ brm_code <- function() {
           backend = 'cmdstanr',
           threads = threading(4),
           seed = 1010,
+          silent = 0,
+          refresh = 25,
           stan_model_args=list(stanc_options = list('O1')))")
 
 }
