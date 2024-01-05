@@ -12,7 +12,7 @@ set_colors <- function(print = TRUE) {
   light_yellow <<- "#efd394"
   light_blue <<- "#98cbe4"
 
-  dark_blue <- "#184f6a"
+  dark_blue <<- "#184f6a"
 
   dust_pink <<- "#ffb1a6"
   light_dust_pink <<- "#ffcfc8"
@@ -26,11 +26,19 @@ set_colors <- function(print = TRUE) {
   light_fire_red <<- "#ee703d"
   dark_fire_red <<- "#b9441e"
 
+  teal <<- "#90dac8"
+  pink <<- "#ffc1c1"
+  sky_blue <<- "#afe1ff"
+  army_green <<- "#7aa277"
+  golden_brown <<- "#8a6d2a"
+  maroon <<- "#ba4b4b"
+
   if(print == TRUE) {
     print("rp_blue, mid_blue, light_blue, dark_blue")
     print("rp_yellow, dark_yellow, light_yellow")
     print("dust_pink, light_dust_pink, dark_dust_pink")
     print("fire_red, light_fire_red, dark_fire_red")
+    print("teal", "pink", "sky_blue", "army_green", "golden_brown", "maroon")
   }
 
 }

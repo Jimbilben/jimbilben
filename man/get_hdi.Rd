@@ -12,7 +12,9 @@ get_hdi(
   decimals = 1,
   point_est = "median",
   prior = NULL,
-  outcome_name = NULL
+  outcome_name = NULL,
+  .silent = TRUE,
+  .refresh = 250
 )
 }
 \arguments{

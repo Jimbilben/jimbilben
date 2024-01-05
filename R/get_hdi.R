@@ -14,7 +14,7 @@
 #'
 #' @export
 
-get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, decimals = 1, point_est = "median", prior = NULL, outcome_name = NULL) {
+get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, decimals = 1, point_est = "median", prior = NULL, outcome_name = NULL, .silent = TRUE, .refresh = 250) {
 
   type <- tolower(type)
 
@@ -45,6 +45,8 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
                 iter = 3500,
                 warmup = 1000,
                 init = 0,
+                silent = .silent,
+                refresh = .refresh,
                 seed = 1010)
 
     summary <- rstantools::posterior_epred(ordinal_model,
@@ -98,7 +100,7 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
     bernoulli_levels <-
       data %>% dplyr::pull({{variable_brm}}) %>% levels()
 
-    print(bernoulli_levels)
+    #print(bernoulli_levels)
 
     if(is.null(prior)) {
       bernoulli_priors <- brms::set_prior("student_t(3, 0 , 2.5)", class = "Intercept")
@@ -109,7 +111,7 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
 
     my_formula <- glue::glue("`{variable_brm}` ~ 1")
 
-    print(my_formula)
+    #print(my_formula)
 
     bernoulli_model <-
       brms::brm(formula = my_formula,
@@ -122,6 +124,8 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
                 iter = 3000,
                 warmup = 1000,
                 init = 0,
+                silent = .silent,
+                refresh = .refresh,
                 seed = 1010)
 
     summary <- rstantools::posterior_epred(bernoulli_model,
@@ -212,8 +216,19 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
                 cores = 4,
                 iter = 3000,
                 warmup = 1000,
+                silent = .silent,
+                refresh = .refresh,
                 init = 0,
                 seed = 1010)
+
+    # if(!is.null(categorical_levels)) {
+    #   unique_cats <- data %>% select({{variable_brm}}) %>% pull() %>% unique()
+    #   categorical_levels <- categorical_levels[-which(categorical_levels %in% unique_cats == FALSE)]
+    #   data <-
+    #     data %>%
+    #     mutate({{variable_brm}} := factor({{variable_brm}},
+    #                                       levels = categorical_levels))
+    # }
 
     summary <- rstantools::posterior_epred(categorical_model,
                                            ndraws = 5000,
@@ -243,6 +258,10 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
 
     if(!is.null(categorical_levels)) {
 
+      # unique_cats <- data %>% select({{variable_brm}}) %>% pull() %>% unique()
+      #
+      # categorical_levels <- categorical_levels[-which(categorical_levels %in% unique_cats == FALSE)]
+
       summary <-
         summary %>%
         dplyr::mutate(outcome = factor(outcome,
@@ -257,7 +276,7 @@ get_hdi <- function(data, variable = "outcome", type = "ordinal", level = .95, d
       names(summary)[1] <- outcome_name
     }
 
-    return(summary %>% tibble::as_tibble())
+    return(summary %>% tibble::as_tibble() %>% mutate(my_variable = variable))
 
   }
 

@@ -29,6 +29,11 @@ j_png <- function(filename = ".png",
                   res = 1200,
                   full_path = glue::glue("{getwd()}/pngs/{filename}"),
                   ...) {
+
+  if (!grepl("\\.png$", full_path)) {
+    full_path <- paste0(full_path, ".png")
+  }
+
   # Check if the directory exists, create it if not
   dir.create(dirname(full_path), showWarnings = FALSE)
 
