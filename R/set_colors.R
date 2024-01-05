@@ -38,7 +38,7 @@ set_colors <- function(print = TRUE) {
     print("rp_yellow, dark_yellow, light_yellow")
     print("dust_pink, light_dust_pink, dark_dust_pink")
     print("fire_red, light_fire_red, dark_fire_red")
-    print("teal", "pink", "sky_blue", "army_green", "golden_brown", "maroon")
+    print("teal, pink, sky_blue, army_green, golden_brown, maroon")
   }
 
 }
