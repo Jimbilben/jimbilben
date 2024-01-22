@@ -15,7 +15,8 @@ code_library <- function() {
   magrittr <- glue::glue('library(magrittr)')
   ggtext <- glue::glue('library(ggtext)')
   readxl <- glue::glue('library(readxl)')
+  prefer <- glue::glue('tidymodels::tidymodels_prefer(quiet = FALSE)')
 
-  glue::glue('{tidyverse}\n{jimbilben}\n{tidystats}\n{glue}\n{brms}\n{tidybayes}\n{scales}\n{magrittr}\n{ggtext}\n{readxl}')
+  glue::glue('{tidyverse}\n{jimbilben}\n{tidystats}\n{glue}\n{brms}\n{tidybayes}\n{scales}\n{magrittr}\n{ggtext}\n{readxl}\n{prefer}')
 
 }
