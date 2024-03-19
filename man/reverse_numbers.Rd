@@ -4,10 +4,12 @@
 \alias{reverse_numbers}
 \title{Reverse numbers}
 \usage{
-reverse_numbers(numbers)
+reverse_numbers(numbers, minmax = NULL)
 }
 \arguments{
 \item{numbers}{A numeric vector to be reversed.}
+
+\item{minmax}{A numeric vector for the minimum and maximum values - defaults to NULL, in which case the observed min and max from the data are used}
 }
 \value{
 A numeric vector of the same length as the input, with values reversed within the range of the input vector.
