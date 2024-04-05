@@ -55,8 +55,8 @@ nice_post <- function(posterior,
                        jimbilben_point_estimate = case_when(point_est == "median" ~ jimbilben_median,
                                                             point_est == "mean" ~ jimbilben_mean,
                                                             point_est == "mode" ~ jimbilben_mode),
-                       jimbilben_label = glue::glue('{jimbilben::nice_num(jimbilben_point_estimate, remove_lead = remove_lead, decimals = decimals)} [{jimbilben::nice_num(jimbilben_lower, remove_lead = remove_lead, decimals = decimals)} - {jimbilben::nice_num(jimbilben_upper, remove_lead = remove_lead, decimals = decimals)}]'),
-                       jimbilben_label_eti = glue::glue('{jimbilben::nice_num(jimbilben_point_estimate, remove_lead = remove_lead, decimals = decimals)} [{jimbilben::nice_num(jimbilben_lower_eti, remove_lead = remove_lead, decimals = decimals)} - {jimbilben::nice_num(jimbilben_upper_eti, remove_lead = remove_lead, decimals = decimals)}]'),
+                       jimbilben_label = glue::glue('{jimbilben::nice_num(jimbilben_point_estimate, remove_lead = remove_lead, decimals = decimals)} [{jimbilben::nice_num(jimbilben_lower, remove_lead = remove_lead, decimals = decimals)}; {jimbilben::nice_num(jimbilben_upper, remove_lead = remove_lead, decimals = decimals)}]'),
+                       jimbilben_label_eti = glue::glue('{jimbilben::nice_num(jimbilben_point_estimate, remove_lead = remove_lead, decimals = decimals)} [{jimbilben::nice_num(jimbilben_lower_eti, remove_lead = remove_lead, decimals = decimals)}; {jimbilben::nice_num(jimbilben_upper_eti, remove_lead = remove_lead, decimals = decimals)}]'),
                        jimbilben_hdi_width = abs(jimbilben_lower - jimbilben_upper),
                        jimbilben_eti_width = abs(jimbilben_lower_eti - jimbilben_upper_eti))
 
@@ -83,8 +83,8 @@ nice_post <- function(posterior,
                        jimbilben_point_estimate = case_when(point_est == "median" ~ jimbilben_median,
                                                             point_est == "mean" ~ jimbilben_mean,
                                                             point_est == "mode" ~ jimbilben_mode),
-                       jimbilben_label = glue::glue('{jimbilben::nice_num(jimbilben_point_estimate, remove_lead = remove_lead, decimals = decimals)} [{jimbilben::nice_num(jimbilben_lower, remove_lead = remove_lead, decimals = decimals)} - {jimbilben::nice_num(jimbilben_upper, remove_lead = remove_lead, decimals = decimals)}]'),
-                       jimbilben_label_eti = glue::glue('{jimbilben::nice_num(jimbilben_point_estimate, remove_lead = remove_lead, decimals = decimals)} [{jimbilben::nice_num(jimbilben_lower_eti, remove_lead = remove_lead, decimals = decimals)} - {jimbilben::nice_num(jimbilben_upper_eti, remove_lead = remove_lead, decimals = decimals)}]'),
+                       jimbilben_label = glue::glue('{jimbilben::nice_num(jimbilben_point_estimate, remove_lead = remove_lead, decimals = decimals)} [{jimbilben::nice_num(jimbilben_lower, remove_lead = remove_lead, decimals = decimals)}; {jimbilben::nice_num(jimbilben_upper, remove_lead = remove_lead, decimals = decimals)}]'),
+                       jimbilben_label_eti = glue::glue('{jimbilben::nice_num(jimbilben_point_estimate, remove_lead = remove_lead, decimals = decimals)} [{jimbilben::nice_num(jimbilben_lower_eti, remove_lead = remove_lead, decimals = decimals)}; {jimbilben::nice_num(jimbilben_upper_eti, remove_lead = remove_lead, decimals = decimals)}]'),
                        jimbilben_hdi_width = abs(jimbilben_lower - jimbilben_upper),
                        jimbilben_eti_width = abs(jimbilben_lower_eti - jimbilben_upper_eti))
 
