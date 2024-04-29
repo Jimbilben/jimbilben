@@ -26,7 +26,7 @@ mutate_psup_label <- function(data,
       dplyr::mutate(tmp_point_est = !!sym(point_est),
              tmp_lower = !!sym(lower),
              tmp_upper = !!sym(upper),
-             psup_label = glue::glue("**{jimbilben::nice_num(tmp_point_est, 2, remove_lead = TRUE)}**<br><span style='color:{subcolor}; font-size:{size}pt'>{jimbilben::nice_num(tmp_lower, 2, remove_lead = TRUE)} - {jimbilben::nice_num(tmp_upper, 2, remove_lead = TRUE)}</span>")) %>%
+             psup_label = glue::glue("**{jimbilben::nice_num(tmp_point_est, 2, remove_lead = TRUE)}**<br><span style='color:{subcolor}; font-size:{size}pt'>{jimbilben::nice_num(tmp_lower, 2, remove_lead = TRUE)}; {jimbilben::nice_num(tmp_upper, 2, remove_lead = TRUE)}</span>")) %>%
       dplyr::select(-tmp_point_est, -tmp_lower, -tmp_upper)
   }
   else {
@@ -35,7 +35,7 @@ mutate_psup_label <- function(data,
       dplyr::mutate(tmp_point_est = !!sym(point_est),
              tmp_lower = !!sym(lower),
              tmp_upper = !!sym(upper),
-             psup_label = glue::glue("**{jimbilben::nice_num(tmp_point_est, 2, remove_lead = TRUE)}** <span style='color:{subcolor}; font-size:{size}pt'>[{jimbilben::nice_num(tmp_lower, 2, remove_lead = TRUE)} - {jimbilben::nice_num(tmp_upper, 2, remove_lead = TRUE)}]</span>")) %>%
+             psup_label = glue::glue("**{jimbilben::nice_num(tmp_point_est, 2, remove_lead = TRUE)}** <span style='color:{subcolor}; font-size:{size}pt'>[{jimbilben::nice_num(tmp_lower, 2, remove_lead = TRUE)}; {jimbilben::nice_num(tmp_upper, 2, remove_lead = TRUE)}]</span>")) %>%
       dplyr::select(-tmp_point_est, -tmp_lower, -tmp_upper)
   }
 
