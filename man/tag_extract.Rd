@@ -13,7 +13,7 @@ tag_extract(text, tag = "response")
 }
 \value{
 A character string containing the text extracted from between the specified tags.
-If the tag does not exist in the text, the function will return the original text.
+If no matching tags are found, an empty vector is returned.
 }
 \description{
 This function extracts text enclosed within specified XML or HTML tags from a given text string.

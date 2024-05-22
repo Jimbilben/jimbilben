@@ -7,7 +7,7 @@
 #' @param text The full text string from which to extract the tagged content.
 #' @param tag The name of the tag from which to extract the content, without angle brackets. Defaults to "response".
 #' @return A character string containing the text extracted from between the specified tags.
-#' If the tag does not exist in the text, the function will return the original text.
+#' If no matching tags are found, an empty vector is returned.
 #'
 #' @examples
 #' text_example <- "<customtag>Here is the content</customtag>"
@@ -15,7 +15,9 @@
 #'
 #' @export
 tag_extract <- function(text, tag = "response") {
-  pattern <- sprintf(".*<%s>(.*?)</%s>.*", tag, tag)
-  extracted_text <- sub(pattern, "\\1", text, perl = TRUE)
-  return(extracted_text)
+  pattern <- sprintf("<%s>(.*?)</%s>", tag, tag)
+  matches <- gregexpr(pattern, text, perl = TRUE)
+  extracted_texts <- regmatches(text, matches)
+  extracted_texts <- sapply(extracted_texts, function(x) ifelse(length(x) > 0, sub(pattern, "\\1", x), character(0)))
+  return(extracted_texts)
 }
