@@ -18,7 +18,7 @@
 nice_post <- function(posterior,
                       estimate = vars(proportion),
                       interval = .95,
-                      point_est = "median",
+                      point_est = "mean",
                       decimals = 2,
                       remove_lead = TRUE,
                       percentage = FALSE,

@@ -33,12 +33,16 @@ set_colors <- function(print = TRUE) {
   golden_brown <<- "#8a6d2a"
   maroon <<- "#ba4b4b"
 
+  republican_red <<- "#E81B23"
+  democrat_blue <<- "#00AEF3"
+
   if(print == TRUE) {
     print("rp_blue, mid_blue, light_blue, dark_blue")
     print("rp_yellow, dark_yellow, light_yellow")
     print("dust_pink, light_dust_pink, dark_dust_pink")
     print("fire_red, light_fire_red, dark_fire_red")
     print("teal, pink, sky_blue, army_green, golden_brown, maroon")
+    print("republican_red", "democrat_blue")
   }
 
 }

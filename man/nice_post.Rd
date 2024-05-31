@@ -8,7 +8,7 @@ nice_post(
   posterior,
   estimate = vars(proportion),
   interval = 0.95,
-  point_est = "median",
+  point_est = "mean",
   decimals = 2,
   remove_lead = TRUE,
   percentage = FALSE,

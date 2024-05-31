@@ -22,6 +22,14 @@ code_psup_plot <- function(item_name = "item") {
     panel.background = element_blank(),
     panel.grid = element_blank(),
     panel.border = element_blank(),
-    axis.text.x.top = ggtext::element_markdown(angle = 45, vjust = 0, hjust = 0)
+    axis.text.x.top = ggtext::element_markdown(angle = 45, vjust = 0, hjust = 0),
+    legend.position = "bottom",
+    axis.text = ggtext::element_markdown(family = "Jost"),
+    legend.text = element_text(family = "Jost"),
+    legend.title = element_text(family = "Jost"),
+    plot.title = ggtext::element_markdown(family = "Jost"),
+    plot.subtitle = ggtext::element_markdown(family = "Jost"),
+    plot.title.position = "plot",
+    axis.ticks = element_blank()
   )')
 }
