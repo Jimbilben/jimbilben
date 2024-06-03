@@ -21,6 +21,7 @@ gen_us <- function(target_variable = "options",
     print(glue::glue('From the GSS: "spanking", "trust", "bible", "polviews", "conmedic", "consci"'))
     print(glue::glue('From misc sources: "urban_rural_suburban"'))
     print(glue::glue('From Pew Internet Frequency Update: "intfreq", "intfreq_collapse"'))
+    print(glue::glue('From the Federal Election Commission and US Elections Project: "vote_2020", "vote_2020_reduced", "vote_2020_reduced_2"'))
   }
 
   if(target_variable == "education") {
@@ -298,6 +299,54 @@ gen_us <- function(target_variable = "options",
     }
 
     return(partyid_weights)
+
+  }
+
+  else if(target_variable == "vote_2020") {
+
+    vote_weights <- weights::wpct(c('Biden', 'Trump', "Other", "Did not vote"),
+                                 c(.342, .312, .012, .334))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c('Biden', 'Trump', 'Other', 'Did not vote'), collapse = '; ')}"))
+      print("Remember that people who would not have been old enough to vote should not be given NA")
+      "https://www.electproject.org/2020g"
+      "https://www.fec.gov/resources/cms-content/documents/federalelections2020.pdf"
+    }
+
+    return(vote_weights)
+
+  }
+
+  else if(target_variable == "vote_2020_reduced") {
+
+    vote_weights <- weights::wpct(c('Biden', 'Trump', "Other or Did not vote"),
+                                  c(.342, .312, .346))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c('Biden', 'Trump', 'Other or Did not vote'), collapse = '; ')}"))
+      print("Remember that people who would not have been old enough to vote should not be given NA")
+      "https://www.electproject.org/2020g"
+      "https://www.fec.gov/resources/cms-content/documents/federalelections2020.pdf"
+    }
+
+    return(vote_weights)
+
+  }
+
+  else if(target_variable == "vote_2020_reduced_2") {
+
+    vote_weights <- weights::wpct(c('Biden', 'Trump', "Did not vote"),
+                                  c(.346, .316, .338))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c('Biden', 'Trump', 'Other or Did not vote'), collapse = '; ')}"))
+      print("Remember that people who would not have been old enough to vote should not be given NA")
+      "https://www.electproject.org/2020g"
+      "https://www.fec.gov/resources/cms-content/documents/federalelections2020.pdf"
+    }
+
+    return(vote_weights)
 
   }
 
