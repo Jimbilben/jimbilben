@@ -16,7 +16,7 @@ gen_us <- function(target_variable = "options",
 
   if(target_variable == "options") {
     print(glue::glue('Your variable weighting options are...'))
-    print(glue::glue('From the ACS5: "education", "education_collapse", "sex", "male", "race", "race_collapse", "age", "age_alt", "income_ces"/"income", "region", "division" (division is not recommended)'))
+    print(glue::glue('From the ACS5: "education", "education_collapse", "sex", "male", "race", "race_collapse", "age", "age_alt", "income_ces"/"income", "income_ces_2"/"income_2", "region", "division" (division is not recommended)'))
     print(glue::glue('From Gallup: "partyid"'))
     print(glue::glue('From the GSS: "spanking", "trust", "bible", "polviews", "conmedic", "consci"'))
     print(glue::glue('From misc sources: "urban_rural_suburban"'))
@@ -130,6 +130,30 @@ gen_us <- function(target_variable = "options",
     }
 
     return(income_ces_weights)
+
+  }
+  else if(target_variable == "income_2" | target_variable == "income_ces_2") {
+
+    income_ces_weights <- weights::wpct(c('Under 20000', 'Between 20000 and 49999', 'Between 50000 and 79999', 'Between 80000 and 99999', 'Between 100000 and 150000', 'Over 150000'),
+                                        c(.0965, .214, .203, .110, .183, .194))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c('Under 20,000', 'Between 20,000 and 49,999', 'Between 50,000 and 79,999', 'Between 80,000 and 99,999', 'Between 100,000 and 150,000', 'Over 150,000'), collapse = '; ')}"))
+    }
+
+    return(income_ces_weights)
+
+  }
+  else if(target_variable == "income_hilo") {
+
+    income_hilo_weights <- weights::wpct(c('Low', 'High'),
+                                        c(.6235, .3765))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c('Low', 'High'), collapse = '; ')}"))
+    }
+
+    return(income_hilo_weights)
 
   }
   else if(target_variable == "region") {
