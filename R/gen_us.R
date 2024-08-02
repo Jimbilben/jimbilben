@@ -138,7 +138,7 @@ gen_us <- function(target_variable = "options",
                                         c(.0965, .214, .203, .110, .183, .194))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Under 20,000', 'Between 20,000 and 49,999', 'Between 50,000 and 79,999', 'Between 80,000 and 99,999', 'Between 100,000 and 150,000', 'Over 150,000'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Under 20000', 'Between 20000 and 49999', 'Between 50000 and 79999', 'Between 80000 and 99999', 'Between 100000 and 150000', 'Over 150000'), collapse = '; ')}"))
     }
 
     return(income_ces_weights)
