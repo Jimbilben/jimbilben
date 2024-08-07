@@ -18,7 +18,9 @@ conduct_psup_within <- function(variable,
                                 decimals = 2,
                                 prior = NULL,
                                 prefix = "psup_",
-                                sep = "_min_") {
+                                sep = "_min_",
+                                weighted = FALSE,
+                                weight_name = "mod_weights") {
 
   unique_outcomes <- data %>% pull(!!sym(variable)) %>% unique() %>% na.omit()
   print(unique_outcomes)
@@ -58,21 +60,41 @@ conduct_psup_within <- function(variable,
     dplyr::mutate({{variable}} := factor(!!sym(variable),
                                   levels = c("0.5", "0", "1")))
 
-  psup_fit <-
-    brms::brm(formula = glue::glue("{variable} ~ 1"),
-              family = categorical(),
-              data = data,
-              control = list(adapt_delta = 0.99, max_treedepth = 15),
-              prior = prior,
-              chains = 4,
-              cores = 4,
-              iter = 2000,
-              warmup = 500,
-              init = 0,
-              backend = 'cmdstanr',
-              threads = threading(4),
-              seed = 1010,
-              stan_model_args = list(stanc_options = list('O1')))
+  if(weighted != TRUE) {
+    psup_fit <-
+      brms::brm(formula = glue::glue("{variable} ~ 1"),
+                family = categorical(),
+                data = data,
+                control = list(adapt_delta = 0.99, max_treedepth = 15),
+                prior = prior,
+                chains = 4,
+                cores = 4,
+                iter = 2000,
+                warmup = 500,
+                init = 0,
+                backend = 'cmdstanr',
+                threads = threading(4),
+                seed = 1010,
+                stan_model_args = list(stanc_options = list('O1')))
+  }
+  else if(weighted == TRUE) {
+    psup_fit <-
+      brms::brm(formula = glue::glue("{variable} | weights({weight_name}) ~ 1"),
+                family = categorical(),
+                data = data,
+                control = list(adapt_delta = 0.99, max_treedepth = 15),
+                prior = prior,
+                chains = 4,
+                cores = 4,
+                iter = 2000,
+                warmup = 500,
+                init = 0,
+                backend = 'cmdstanr',
+                threads = threading(4),
+                seed = 1010,
+                stan_model_args = list(stanc_options = list('O1')))
+  }
+
 
   psup_category_post <-
     tidybayes::add_epred_draws(newdata = tibble(filler_col = "1"),

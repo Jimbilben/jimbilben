@@ -1,5 +1,7 @@
 #' gen_us
 #'
+#' gen_us
+#'
 #' Generate a weighting target (technically, a weights::wpct() object) for a specified variable in the US population. Run the function without any specification to see your options.
 #'
 #' @param target_variable A character argument indicating for which variable to specify the weighting target. The default "options" will just print the possible variables you can choose.
@@ -16,7 +18,7 @@ gen_us <- function(target_variable = "options",
 
   if(target_variable == "options") {
     print(glue::glue('Your variable weighting options are...'))
-    print(glue::glue('From the ACS5: "education", "education_collapse", "sex", "male", "race", "race_collapse", "age", "age_alt", "income_ces"/"income", "income_ces_2"/"income_2", "region", "division" (division is not recommended)'))
+    print(glue::glue('From the ACS5: "education", "education_collapse", "sex", "male", "race", "race_collapse", "age", "age_alt", "income_ces"/"income", "income_ces_2"/"income_2", "income_ces_3"/"income_3/income_ces_three", "region", "division" (division is not recommended)'))
     print(glue::glue('From Gallup: "partyid"'))
     print(glue::glue('From the GSS: "spanking", "trust", "bible", "polviews", "conmedic", "consci"'))
     print(glue::glue('From misc sources: "urban_rural_suburban"'))
@@ -30,7 +32,7 @@ gen_us <- function(target_variable = "options",
                                        c(.116, .275, .306, .190, .112))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Less than high school', 'Graduated from high school', 'Some college, no degree', 'Graduated from college', 'Completed graduate school'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Less than high school', 'Graduated from high school', 'Some college, no degree', 'Graduated from college', 'Completed graduate school'), collapse = ', ')}"))
     }
 
     return(education_weights)
@@ -42,7 +44,7 @@ gen_us <- function(target_variable = "options",
                                                 c(.391, .306, .190, .112))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('High school or less', 'Some college, no degree', 'Graduated from college', 'Completed graduate school'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('High school or less', 'Some college, no degree', 'Graduated from college', 'Completed graduate school'), collapse = ', ')}"))
     }
 
     return(education_collapse_weights)
@@ -54,7 +56,7 @@ gen_us <- function(target_variable = "options",
                                  c(.487, .513))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Male', 'Female'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Male', 'Female'), collapse = ', ')}"))
     }
 
     return(sex_weights)
@@ -66,7 +68,7 @@ gen_us <- function(target_variable = "options",
                                   c(.487, .513))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c(.5, -.5), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c(.5, -.5), collapse = ', ')}"))
     }
 
     return(male_weights)
@@ -78,7 +80,7 @@ gen_us <- function(target_variable = "options",
                                   c(.0573, .120, .161, .630, .0313))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Asian or Asian American', 'Black or African American', 'Hispanic or Latino', 'White or Caucasian', 'Other'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Asian or Asian American', 'Black or African American', 'Hispanic or Latino', 'White or Caucasian', 'Other'), collapse = ', ')}"))
     }
 
     return(race_weights)
@@ -90,7 +92,7 @@ gen_us <- function(target_variable = "options",
                                            c(.120, .161, .630, .0886))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Black or African American', 'Hispanic or Latino', 'White or Caucasian', 'Other'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Black or African American', 'Hispanic or Latino', 'White or Caucasian', 'Other'), collapse = ', ')}"))
     }
 
     return(race_collapse_weights)
@@ -126,7 +128,7 @@ gen_us <- function(target_variable = "options",
                                         c(.0965, .214, .203, .110, .183, .194))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Under $20,000', 'Between $20,000 and $49,999', 'Between $50,000 and $79,999', 'Between $80,000 and $99,999', 'Between $100,000 and $150,000', 'Over $150,000'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Under $20,000', 'Between $20,000 and $49,999', 'Between $50,000 and $79,999', 'Between $80,000 and $99,999', 'Between $100,000 and $150,000', 'Over $150,000'), collapse = ', ')}"))
     }
 
     return(income_ces_weights)
@@ -134,26 +136,50 @@ gen_us <- function(target_variable = "options",
   }
   else if(target_variable == "income_2" | target_variable == "income_ces_2") {
 
-    income_ces_weights <- weights::wpct(c('Under 20000', 'Between 20000 and 49999', 'Between 50000 and 79999', 'Between 80000 and 99999', 'Between 100000 and 150000', 'Over 150000'),
-                                        c(.0965, .214, .203, .110, .183, .194))
+    income_ces_2_weights <- weights::wpct(c('Under 20000', 'Between 20000 and 49999', 'Between 50000 and 79999', 'Between 80000 and 99999', 'Between 100000 and 150000', 'Over 150000'),
+                                          c(.0965, .214, .203, .110, .183, .194))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Under 20000', 'Between 20000 and 49999', 'Between 50000 and 79999', 'Between 80000 and 99999', 'Between 100000 and 150000', 'Over 150000'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Under 20000', 'Between 20000 and 49999', 'Between 50000 and 79999', 'Between 80000 and 99999', 'Between 100000 and 150000', 'Over 150000'), collapse = ', ')}"))
     }
 
-    return(income_ces_weights)
+    return(income_ces_2_weights)
+
+  }
+  else if(target_variable == "income_3" | target_variable == "income_ces_3" | target_variable == "income_ces_three") {
+
+    income_ces_three_weights <- weights::wpct(c('a', 'b', 'c', 'd', 'e', 'f'),
+                                              c(.0965, .214, .203, .110, .183, .194))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c('a', 'b', 'c', 'd', 'e', 'f'), collapse = ', ')}"))
+    }
+
+    return(income_ces_three_weights)
 
   }
   else if(target_variable == "income_hilo") {
 
     income_hilo_weights <- weights::wpct(c('Low', 'High'),
-                                        c(.6235, .3765))
+                                         c(.6235, .3765))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Low', 'High'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Low', 'High'), collapse = ', ')}"))
     }
 
     return(income_hilo_weights)
+
+  }
+  else if(target_variable == "income_new") {
+
+    income_new_weights <- weights::wpct(c('a', 'b', 'c', 'd', 'e', 'f'),
+                                        c(.0965, .214, .203, .110, .183, .194))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c('a', 'b', 'c', 'd', 'e', 'f'), collapse = ', ')}"))
+    }
+
+    return(income_new_weights)
 
   }
   else if(target_variable == "region") {
@@ -162,7 +188,7 @@ gen_us <- function(target_variable = "options",
                                     c(.208, .175, .379, .237))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Midwest', 'Northeast', 'South', 'West'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Midwest', 'Northeast', 'South', 'West'), collapse = ', ')}"))
     }
 
     return(region_weights)
@@ -174,7 +200,7 @@ gen_us <- function(target_variable = "options",
                                       c(.144, .0584, .128, .0740, .0470, .163, .202, .0646, .119))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('East North Central', 'East South Central', 'Mid Atlantic', 'Mountain', 'New England', 'Pacific', 'South Atlantic', 'West North Central', 'West South Central'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('East North Central', 'East South Central', 'Mid Atlantic', 'Mountain', 'New England', 'Pacific', 'South Atlantic', 'West North Central', 'West South Central'), collapse = ', ')}"))
     }
 
     return(division_weights)
@@ -200,7 +226,7 @@ gen_us <- function(target_variable = "options",
                     c(.170, .308, .364, .158))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Strongly disagree','Disagree', 'Agree', 'Strongly agree'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Strongly disagree','Disagree', 'Agree', 'Strongly agree'), collapse = ', ')}"))
     }
 
     return(gss_spanking_2021_weights)
@@ -213,7 +239,7 @@ gen_us <- function(target_variable = "options",
                     c(.310, .473, .217))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Word of God', 'Inspired word', 'Book of fables'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Word of God', 'Inspired word', 'Book of fables'), collapse = ', ')}"))
     }
 
     return(gss_bible_2018_weights)
@@ -226,7 +252,7 @@ gen_us <- function(target_variable = "options",
                     c(.320, .347, .333))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Conservative', 'Moderate', 'Liberal'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Conservative', 'Moderate', 'Liberal'), collapse = ', ')}"))
     }
 
     return(gss_polviews_2021_weights)
@@ -239,7 +265,7 @@ gen_us <- function(target_variable = "options",
                     c(.31, .55, .14))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Urban', 'Suburban', 'Rural'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Urban', 'Suburban', 'Rural'), collapse = ', ')}"))
     }
 
     return(urban_suburban_rural_weights)
@@ -252,7 +278,7 @@ gen_us <- function(target_variable = "options",
                     c(.31, .48, .1, .11))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Almost constantly', 'Several times a day', 'Once a day or less', 'Less than several times a week'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Almost constantly', 'Several times a day', 'Once a day or less', 'Less than several times a week'), collapse = ', ')}"))
     }
 
     return(intfreq_weights)
@@ -265,7 +291,7 @@ gen_us <- function(target_variable = "options",
                     c(.31, .48, .21))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Almost constantly', 'Several times a day', 'Once a day or less'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Almost constantly', 'Several times a day', 'Once a day or less'), collapse = ', ')}"))
     }
 
     return(intfreq_collapse_weights)
@@ -278,7 +304,7 @@ gen_us <- function(target_variable = "options",
                     c(.0924, .506, .402))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Hardly any', 'Only some', 'A great deal'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Hardly any', 'Only some', 'A great deal'), collapse = ', ')}"))
     }
 
     return(gss_conmedic_2021_weights)
@@ -291,7 +317,7 @@ gen_us <- function(target_variable = "options",
                     c(.0663, .430, .504))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Hardly any', 'Only some', 'A great deal'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Hardly any', 'Only some', 'A great deal'), collapse = ', ')}"))
     }
 
     return(gss_consci_2021_weights)
@@ -319,7 +345,7 @@ gen_us <- function(target_variable = "options",
     }
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Republican', 'Independent', 'Democrat'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Republican', 'Independent', 'Democrat'), collapse = ', ')}"))
     }
 
     return(partyid_weights)
@@ -329,10 +355,10 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "vote_2020") {
 
     vote_weights <- weights::wpct(c('Biden', 'Trump', "Other", "Did not vote"),
-                                 c(.342, .312, .012, .334))
+                                  c(.342, .312, .012, .334))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Biden', 'Trump', 'Other', 'Did not vote'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Biden', 'Trump', 'Other', 'Did not vote'), collapse = ', ')}"))
       print("Remember that people who would not have been old enough to vote should not be given NA")
       "https://www.electproject.org/2020g"
       "https://www.fec.gov/resources/cms-content/documents/federalelections2020.pdf"
@@ -348,7 +374,7 @@ gen_us <- function(target_variable = "options",
                                   c(.342, .312, .346))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Biden', 'Trump', 'Other or Did not vote'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Biden', 'Trump', 'Other or Did not vote'), collapse = ', ')}"))
       print("Remember that people who would not have been old enough to vote should not be given NA")
       "https://www.electproject.org/2020g"
       "https://www.fec.gov/resources/cms-content/documents/federalelections2020.pdf"
@@ -364,7 +390,7 @@ gen_us <- function(target_variable = "options",
                                   c(.346, .316, .338))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Biden', 'Trump', 'Other or Did not vote'), collapse = '; ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Biden', 'Trump', 'Other or Did not vote'), collapse = ', ')}"))
       print("Remember that people who would not have been old enough to vote should not be given NA")
       "https://www.electproject.org/2020g"
       "https://www.fec.gov/resources/cms-content/documents/federalelections2020.pdf"

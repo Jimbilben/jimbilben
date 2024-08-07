@@ -21,5 +21,8 @@ gen_us(
 \item{show_levels}{If TRUE (the default), print the expected levels of the variable to be weighted. Your levels in your data must match these or later weighting stages will not work. If FALSE, it will not print these levels.}
 }
 \description{
+gen_us
+}
+\details{
 Generate a weighting target (technically, a weights::wpct() object) for a specified variable in the US population. Run the function without any specification to see your options.
 }

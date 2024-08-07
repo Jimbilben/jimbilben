@@ -11,7 +11,9 @@ conduct_psup_within(
   decimals = 2,
   prior = NULL,
   prefix = "psup_",
-  sep = "_min_"
+  sep = "_min_",
+  weighted = FALSE,
+  weight_name = "mod_weights"
 )
 }
 \arguments{
