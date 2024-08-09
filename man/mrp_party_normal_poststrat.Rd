@@ -12,7 +12,7 @@ mrp_party_normal_poststrat(
   poststrat_tibble = acs5_2020_poststrat_with_partyid,
   poststrat_epred = acs5_2020_model_expected_n,
   .decimals = 2,
-  .point_est = "median"
+  .point_est = "mean"
 )
 }
 \arguments{

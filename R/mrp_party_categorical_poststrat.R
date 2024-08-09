@@ -17,7 +17,7 @@ mrp_party_categorical_poststrat <- function(current_model_epred, # posterior pre
                                             interval = .95, # the summary interval level
                                             poststrat_tibble = acs5_2020_poststrat_with_partyid, # this is the tibble - usually an ACS tibble - containing the demographic variable names. You can group it!
                                             poststrat_epred = acs5_2020_model_expected_n, # this is the epred for our party poststrat model containing proportions expected to fall into each party
-                                            .point_est = "median",
+                                            .point_est = "mean",
                                             .decimals = 1,
                                             .remove_lead = FALSE) {
   if(subgroups == FALSE) {

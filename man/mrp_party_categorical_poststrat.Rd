@@ -11,7 +11,7 @@ mrp_party_categorical_poststrat(
   interval = 0.95,
   poststrat_tibble = acs5_2020_poststrat_with_partyid,
   poststrat_epred = acs5_2020_model_expected_n,
-  .point_est = "median",
+  .point_est = "mean",
   .decimals = 1,
   .remove_lead = FALSE
 )

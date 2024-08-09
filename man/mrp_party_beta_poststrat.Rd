@@ -14,7 +14,7 @@ mrp_party_beta_poststrat(
   poststrat_epred = acs5_2020_model_expected_n,
   .decimals = 2,
   .phi_decimals = 2,
-  .point_est = "median",
+  .point_est = "mean",
   .remove_lead = FALSE,
   .percentage = FALSE
 )

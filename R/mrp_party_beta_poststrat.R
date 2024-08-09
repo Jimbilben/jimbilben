@@ -25,7 +25,7 @@ mrp_party_beta_poststrat <- function(current_model_epred, # posterior prediction
                                      poststrat_epred = acs5_2020_model_expected_n, # this is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
                                      .decimals = 2,
                                      .phi_decimals = 2,
-                                     .point_est = "median",
+                                     .point_est = "mean",
                                      .remove_lead = FALSE,
                                      .percentage = FALSE) {
 
