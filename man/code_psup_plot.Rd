@@ -4,7 +4,7 @@
 \alias{code_psup_plot}
 \title{PSup plot code}
 \usage{
-code_psup_plot(item_name = "item")
+code_psup_plot()
 }
 \description{
 Print out code for PSup matrix guides and explanations

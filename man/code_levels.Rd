@@ -2,7 +2,7 @@
 % Please edit documentation in R/code_levels.R
 \name{code_levels}
 \alias{code_levels}
-\title{PSup plot code}
+\title{Factor levels code}
 \usage{
 code_levels()
 }

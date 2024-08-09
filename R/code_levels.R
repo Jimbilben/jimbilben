@@ -1,4 +1,4 @@
-#' PSup plot code
+#' Factor levels code
 #'
 #' Print common factor levels
 #'

@@ -7,6 +7,7 @@
 code_rect(
   min = 100,
   max = 125,
+  break_width = 20,
   fill = "grey99",
   color = "grey95",
   linewidth = 0.33
