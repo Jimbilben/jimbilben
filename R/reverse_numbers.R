@@ -21,7 +21,7 @@ reverse_numbers <- function(numbers, minmax = NULL) {
 
   else {
 
-    reversed_numbers <- minmax[2] - numbers + minmax[2]
+    reversed_numbers <- minmax[2] - numbers + minmax[1]
 
   }
 
