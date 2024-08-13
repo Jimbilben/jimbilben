@@ -36,6 +36,13 @@ set_colors <- function(print = TRUE) {
   republican_red <<- "#E81B23"
   democrat_blue <<- "#00AEF3"
 
+  conservative_blue <<- "#0087dc"
+  labour_red <<- "#d50000"
+  libdem_yellow <<- "#FDBB30"
+  reform_blue <<- "#23BBD1"
+
+
+
   if(print == TRUE) {
     print("rp_blue, mid_blue, light_blue, dark_blue")
     print("rp_yellow, dark_yellow, light_yellow")
@@ -43,6 +50,7 @@ set_colors <- function(print = TRUE) {
     print("fire_red, light_fire_red, dark_fire_red")
     print("teal, pink, sky_blue, army_green, golden_brown, maroon")
     print("republican_red, democrat_blue")
+    print("conservative_blue", "labour_red", "libdem_yellow", "reform_blue")
   }
 
 }
