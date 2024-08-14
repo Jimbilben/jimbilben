@@ -50,7 +50,7 @@ set_colors <- function(print = TRUE) {
     print("fire_red, light_fire_red, dark_fire_red")
     print("teal, pink, sky_blue, army_green, golden_brown, maroon")
     print("republican_red, democrat_blue")
-    print("conservative_blue", "labour_red", "libdem_yellow", "reform_blue")
+    print("conservative_blue, labour_red, libdem_yellow, reform_blue")
   }
 
 }
