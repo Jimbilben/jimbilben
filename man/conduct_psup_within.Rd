@@ -12,6 +12,10 @@ conduct_psup_within(
   prior = NULL,
   prefix = "psup_",
   sep = "_min_",
+  intercept_prior = "normal(0 , 1.25)",
+  dpar_prior = "normal(0 , 1)",
+  my_iter = 2000,
+  my_warmup = 500,
   weighted = FALSE,
   weight_name = "mod_weights"
 )

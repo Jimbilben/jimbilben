@@ -19,6 +19,8 @@ conduct_psup_within <- function(variable,
                                 prior = NULL,
                                 prefix = "psup_",
                                 sep = "_min_",
+                                intercept_prior = "normal(0 , 1.25)",
+                                dpar_prior = "normal(0 , 1)",
                                 my_iter = 2000,
                                 my_warmup = 500,
                                 weighted = FALSE,
@@ -33,25 +35,25 @@ conduct_psup_within <- function(variable,
 
     if(n_outcomes == 3) {
       prior <-
-        c(brms::set_prior("normal(0 , 1.25)", class = "Intercept"),
-          brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu0"),
-          brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu1"))
+        c(brms::set_prior(glue::glue("{intercept_prior}"), class = "Intercept"),
+          brms::set_prior(glue::glue("{dpar_prior}"), class = "Intercept", dpar = "mu0"),
+          brms::set_prior(glue::glue("{dpar_prior}"), class = "Intercept", dpar = "mu1"))
     }
     else if(n_outcomes == 2) {
       if(0.5 %in% as.numeric(unique_outcomes) == FALSE) {
         prior <-
-          c(brms::set_prior("normal(0 , 1.25)", class = "Intercept"),
-            brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu1"))
+          c(brms::set_prior(glue::glue("{intercept_prior}"), class = "Intercept"),
+            brms::set_prior(glue::glue("{dpar_prior}"), class = "Intercept", dpar = "mu1"))
       }
       else if(0 %in% as.numeric(unique_outcomes) == FALSE) {
         prior <-
-          c(brms::set_prior("normal(0 , 1.25)", class = "Intercept"),
-            brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu1"))
+          c(brms::set_prior(glue::glue("{intercept_prior}"), class = "Intercept"),
+            brms::set_prior(glue::glue("{dpar_prior}"), class = "Intercept", dpar = "mu1"))
       }
       else if(1 %in% as.numeric(unique_outcomes) == FALSE) {
         prior <-
-          c(brms::set_prior("normal(0 , 1.25)", class = "Intercept"),
-            brms::set_prior("normal(0 , 1)", class = "Intercept", dpar = "mu0"))
+          c(brms::set_prior(glue::glue("{intercept_prior}"), class = "Intercept"),
+            brms::set_prior(glue::glue("{dpar_prior}"), class = "Intercept", dpar = "mu0"))
       }
     }
 
