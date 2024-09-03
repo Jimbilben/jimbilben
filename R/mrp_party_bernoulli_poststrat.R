@@ -131,7 +131,7 @@ mrp_party_bernoulli_poststrat <- function(current_model_epred, # posterior predi
 
     if("age_fine" %in% which_subgroups) {
       bernoulli_posterior <- jimbilben::factor_age_fine(bernoulli_posterior)
-      bernoulli_summary <- jimbilben::factor_age_fine(bernoulli_posterior)
+      bernoulli_summary <- jimbilben::factor_age_fine(bernoulli_summary)
     }
 
     if("region" %in% which_subgroups) {
