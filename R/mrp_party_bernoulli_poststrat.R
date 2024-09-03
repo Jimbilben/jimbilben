@@ -17,7 +17,7 @@ mrp_party_bernoulli_poststrat <- function(current_model_epred, # posterior predi
                                           interval = .95, # the summary interval level
                                           poststrat_tibble = acs5_2020_poststrat_with_partyid, # this is the tibble - usually an ACS tibble - containing the demographic variable names
                                           poststrat_epred = acs5_2020_model_expected_n, # this is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
-                                          .point_est = "median",
+                                          .point_est = "mean",
                                           .decimals = 1,
                                           .remove_lead = FALSE) {
 
@@ -130,25 +130,25 @@ mrp_party_bernoulli_poststrat <- function(current_model_epred, # posterior predi
     }
 
     if("age_fine" %in% which_subgroups) {
-      psup_posterior <- jimbilben::factor_age_fine(bernoulli_posterior)
-      psup_summary <- jimbilben::factor_age_fine(bernoulli_posterior)
+      bernoulli_posterior <- jimbilben::factor_age_fine(bernoulli_posterior)
+      bernoulli_summary <- jimbilben::factor_age_fine(bernoulli_posterior)
     }
 
     if("region" %in% which_subgroups) {
       reference <-
-        psup_summary %>%
+        bernoulli_summary %>%
         group_by(region) %>%
         dplyr::summarise(for_order = mean(median)) %>%
         arrange(for_order)
 
       reference <- reference$region
 
-      psup_posterior <-
-        psup_posterior %>%
+      bernoulli_posterior <-
+        bernoulli_posterior %>%
         mutate(region = factor(region,
                                levels = reference))
-      psup_summary <-
-        psup_summary %>%
+      bernoulli_summary <-
+        bernoulli_summary %>%
         mutate(region = factor(region,
                                levels = reference))
 
@@ -156,19 +156,19 @@ mrp_party_bernoulli_poststrat <- function(current_model_epred, # posterior predi
 
     if("division" %in% which_subgroups) {
       reference <-
-        psup_summary %>%
+        bernoulli_summary %>%
         group_by(division) %>%
         dplyr::summarise(for_order = mean(median)) %>%
         arrange(for_order)
 
       reference <- reference$division
 
-      psup_posterior <-
-        psup_posterior %>%
+      bernoulli_posterior <-
+        bernoulli_posterior %>%
         mutate(division = factor(division,
                                  levels = reference))
-      psup_summary <-
-        psup_summary %>%
+      bernoulli_summary <-
+        bernoulli_summary %>%
         mutate(division = factor(division,
                                  levels = reference))
 

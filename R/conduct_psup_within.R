@@ -105,7 +105,7 @@ conduct_psup_within <- function(variable,
                                object = psup_fit,
                                value = "proportion",
                                category = "outcome",
-                               ndraws = 2500) %>%
+                               ndraws = 4 * (my_iter - my_warmup)) %>%
     dplyr::ungroup() %>%
     dplyr::select(-filler_col) %>%
     dplyr::rename(draw = .draw) %>%
