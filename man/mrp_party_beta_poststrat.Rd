@@ -10,6 +10,7 @@ mrp_party_beta_poststrat(
   subgroups = FALSE,
   outcome = "vaccines",
   interval = 0.95,
+  nsim = 50000,
   poststrat_tibble = acs5_2020_poststrat_with_partyid,
   poststrat_epred = acs5_2020_model_expected_n,
   .decimals = 2,
@@ -29,6 +30,8 @@ mrp_party_beta_poststrat(
 \item{outcome}{Give a name to the outcome being computed (e.g., Support)}
 
 \item{interval}{The summary interval level}
+
+\item{nsim}{How many individual responses to simulate for generating the estimated beta distribution. Defaults to 50000}
 
 \item{poststrat_tibble}{This is the tibble - usually an ACS tibble - containing the demographic variable names. You can group it}
 

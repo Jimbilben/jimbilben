@@ -6,6 +6,7 @@
 #' @param current_model_phi posterior samples of the phi parameter for the model, from as_draws_df - specify a thinned epred with specific draws the same as for current_model_epred
 #' @param subgroups Indicating whether this is a population-level or subgroup prediction
 #' @param outcome Give a name to the outcome being computed (e.g., Support)
+#' @param nsim How many individual responses to simulate for generating the estimated beta distribution. Defaults to 50000
 #' @param interval The summary interval level
 #' @param poststrat_tibble This is the tibble - usually an ACS tibble - containing the demographic variable names. You can group it
 #' @param poststrat_epred This is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
@@ -21,6 +22,7 @@ mrp_party_beta_poststrat <- function(current_model_epred, # posterior prediction
                                      subgroups = FALSE, # just indicating this is a population-level prediction
                                      outcome = "vaccines", # give a name to the outcome being computed (e.g., support for vaccines)
                                      interval = .95, # the summary interval level
+                                     nsim = 50000,
                                      poststrat_tibble = acs5_2020_poststrat_with_partyid, # this is the tibble - usually an ACS tibble - containing the demographic variable names. You can group it!
                                      poststrat_epred = acs5_2020_model_expected_n, # this is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
                                      .decimals = 2,
@@ -29,12 +31,26 @@ mrp_party_beta_poststrat <- function(current_model_epred, # posterior prediction
                                      .remove_lead = FALSE,
                                      .percentage = FALSE) {
 
-  phi_posterior <-
-    current_model_phi %>%
-    rename(og_draw = .draw) %>%
-    mutate(draw = 1:1000,
-           parameter = "phi",
-           outcome = outcome)
+
+  has_draw <-
+    any(str_detect(names(current_model_phi), ".draw"))
+
+  if(has_draw == TRUE) {
+    phi_posterior <-
+      current_model_phi %>%
+      rename(og_draw = .draw) %>%
+      mutate(draw = 1:1000,
+             parameter = "phi",
+             outcome = outcome)
+  }
+  else {
+    phi_posterior <-
+      current_model_phi %>%
+      mutate(draw = 1:1000,
+             parameter = "phi",
+             outcome = outcome)
+  }
+
 
   phi_summary <-
     phi_posterior %>%
@@ -48,7 +64,7 @@ mrp_party_beta_poststrat <- function(current_model_epred, # posterior prediction
 
   beta_average_function <- function(beta_split_data) {
 
-    simulated_beta_vals <- extraDistr::rprop(200000, size = beta_split_data$phi, mean = beta_split_data$mean)
+    simulated_beta_vals <- extraDistr::rprop(nsim, size = beta_split_data$phi, mean = beta_split_data$mean)
     beta_split_data$median <- median(simulated_beta_vals)
     beta_split_data$mode <- jimbilben::hdp(simulated_beta_vals)
 
