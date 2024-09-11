@@ -54,21 +54,35 @@ get_gallup <- function(moving_average = 3,
 
   data_page_for_warning <- data_location[2]
 
-  print(glue::glue("Step 4"))
+  # Make a GET request and capture the content
+  check_response <- httr::GET(data_page_for_warning, httr::config(followlocation = FALSE))
 
+  # Extract content as text
+  check_content <- httr::content(check_response, as = "text")
+
+  # Alternatively, capture from the window.location.href
+  if (grepl("window.location.href", check_content)) {
+    redirected_url <- sub(".*window.location.href='([^']+)'.*", "\\1", check_content)
+  }
+  else {
+    redirected_url <- data_page_for_warning
+  }
+
+  print(glue::glue("Step 4"))
+  print(redirected_url)
   # append the name of the dataset that the page refers to
   # and then you have go the direct location of the csv file that is used
   data_location <-
-    paste(data_location[2], "dataset.csv", sep = "")
+    paste(redirected_url, "dataset.csv", sep = "")
 
   # now read the csv file - it is \t delimited
   gallup_data <-
     read.csv(file = data_location, sep = "\t") %>%
     as_tibble() %>%
     rename("og_date" = X,
-           "og_Republican" = Republicans,
-           "og_Independent" = Independents,
-           "og_Democrat" = Democrats)
+           "og_Republican" = Republican,
+           "og_Independent" = Independent,
+           "og_Democrat" = Democrat)
 
   print(glue::glue("Step 5"))
 
@@ -105,7 +119,7 @@ get_gallup <- function(moving_average = 3,
 
   gallup_data$order <- nrow(gallup_data):1
 
-  warning(glue::glue("Do you want to check where I got the data? I used this URL: {data_page_for_warning}, and the csv is: {data_location}"))
+  warning(glue::glue("Do you want to check where I got the data? I used this URL: {redirected_url}, and the csv is: {data_location}"))
 
   return(gallup_data)
 
