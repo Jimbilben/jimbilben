@@ -121,10 +121,10 @@ mrp_categorical_poststrat <- function(current_model_epred, # posterior predictio
       categorical_summary <- jimbilben::factor_male(categorical_summary)
     }
 
-    if("income_ces" %in% which_subgroups) {
-      categorical_posterior <- jimbilben::factor_income(categorical_posterior)
-      categorical_summary <- jimbilben::factor_income(categorical_summary)
-    }
+    # if("income_ces" %in% which_subgroups) {
+    #   categorical_posterior <- jimbilben::factor_income(categorical_posterior)
+    #   categorical_summary <- jimbilben::factor_income(categorical_summary)
+    # }
 
     if("education" %in% which_subgroups) {
       categorical_posterior <- jimbilben::factor_education(categorical_posterior)
