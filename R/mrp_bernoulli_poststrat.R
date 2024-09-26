@@ -11,13 +11,13 @@
 #'
 #' @export
 mrp_bernoulli_poststrat <- function(current_model_epred, # posterior prediction for the regression model of interest
-                                          subgroups = FALSE, # just indicating this is a population-level prediction
-                                          outcome = "yes_no", # give a name to the outcome being computed (e.g., likelihood of answering yes)
-                                          interval = .95, # the summary interval level
-                                          poststrat_tibble = acs5_2020_poststrat_with_partyid, # this is the tibble - usually an ACS tibble - containing the demographic variable names
-                                          .point_est = "mean",
-                                          .decimals = 1,
-                                          .remove_lead = FALSE) {
+                                    subgroups = FALSE, # just indicating this is a population-level prediction
+                                    outcome = "yes_no", # give a name to the outcome being computed (e.g., likelihood of answering yes)
+                                    interval = .95, # the summary interval level
+                                    poststrat_tibble = acs5_2020_poststrat_with_partyid, # this is the tibble - usually an ACS tibble - containing the demographic variable names
+                                    .point_est = "mean",
+                                    .decimals = 1,
+                                    .remove_lead = FALSE) {
 
   if(subgroups == FALSE) {
 

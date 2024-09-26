@@ -12,15 +12,18 @@ set_colors <- function(print = TRUE) {
   light_yellow <<- "#efd394"
   light_blue <<- "#98cbe4"
 
+
   dark_blue <<- "#184f6a"
+  mid_blue <<- "#5594b2"
+  pale_blue <<- "#c9e7f7"
+
+  old_mid_blue <<- "#4686a4"
 
   dust_pink <<- "#ffb1a6"
   light_dust_pink <<- "#ffcfc8"
   dark_dust_pink <<- "#de8579"
 
   dark_yellow <<- "#de9f10"
-
-  mid_blue <<- "#4686a4"
 
   fire_red <<- "#ea5b21"
   light_fire_red <<- "#ee703d"
@@ -44,7 +47,7 @@ set_colors <- function(print = TRUE) {
 
 
   if(print == TRUE) {
-    print("rp_blue, mid_blue, light_blue, dark_blue")
+    print("rp_blue, mid_blue, old_mid_blue, light_blue, pale_blue, dark_blue")
     print("rp_yellow, dark_yellow, light_yellow")
     print("dust_pink, light_dust_pink, dark_dust_pink")
     print("fire_red, light_fire_red, dark_fire_red")
