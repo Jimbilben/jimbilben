@@ -7,6 +7,7 @@
 gen_us(
   target_variable = "options",
   moving_average = 3,
+  .stop_date = NULL,
   partyid_as_ind_other = TRUE,
   show_levels = TRUE
 )
@@ -16,13 +17,12 @@ gen_us(
 
 \item{moving_average}{Numeric, whole numbers only, 3 by default. Indicating how many of the past months to average over when getting weights for partyid. 3 months is recommended to be responsive to recent shifts but not affected by single month perturbations that could just be error.}
 
+\item{.stop_date}{Defaults to NULL - present date. Character string of the form YYYY-MM-DD: the date at which to stop the partyid collection, if e.g., you want to weight for data from December 2023 then 2023-12-01.}
+
 \item{partyid_as_ind_other}{If TRUE, partyid will be percentages based on collapsing other parties and don't know responses into Independent. If FALSE, it will work with only Democrat, Independent, and Other specifically and you must code all other responses as NA.}
 
 \item{show_levels}{If TRUE (the default), print the expected levels of the variable to be weighted. Your levels in your data must match these or later weighting stages will not work. If FALSE, it will not print these levels.}
 }
 \description{
-gen_us
-}
-\details{
 Generate a weighting target (technically, a weights::wpct() object) for a specified variable in the US population. Run the function without any specification to see your options.
 }

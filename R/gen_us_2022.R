@@ -1,6 +1,6 @@
-#' gen_us
+#' gen_us_22
 #'
-#' Generate a weighting target (technically, a weights::wpct() object) for a specified variable in the US population. Run the function without any specification to see your options.
+#' Generate a weighting target (technically, a weights::wpct() object) for a specified variable in the US population. Run the function without any specification to see your options. This function is updated with ACS5 2022 information on the US population.
 #'
 #' @param target_variable A character argument indicating for which variable to specify the weighting target. The default "options" will just print the possible variables you can choose.
 #' @param moving_average Numeric, whole numbers only, 3 by default. Indicating how many of the past months to average over when getting weights for partyid. 3 months is recommended to be responsive to recent shifts but not affected by single month perturbations that could just be error.
@@ -10,7 +10,7 @@
 
 #' @export
 
-gen_us <- function(target_variable = "options",
+gen_us_2022 <- function(target_variable = "options",
                    moving_average = 3,
                    .stop_date = NULL,
                    partyid_as_ind_other = TRUE,
@@ -18,7 +18,7 @@ gen_us <- function(target_variable = "options",
 
   if(target_variable == "options") {
     print(glue::glue('Your variable weighting options are...'))
-    print(glue::glue('From the ACS5: "education", "education_collapse", "sex", "male", "race", "race_collapse", "age", "age_alt", "income_ces"/"income", "income_ces_2"/"income_2", "income_ces_3"/"income_3/income_ces_three", "region", "division" (division is not recommended)'))
+    print(glue::glue('From the ACS5 2022: "education", "education_collapse", "sex", "male", "race", "race_collapse", "age", "age_fine", "income_ces"/"income", "region", "division" (division is not recommended)'))
     print(glue::glue('From Gallup: "partyid"'))
     print(glue::glue('From the GSS: "spanking", "trust", "bible", "polviews", "conmedic", "consci"'))
     print(glue::glue('From misc sources: "urban_rural_suburban"'))
@@ -29,7 +29,7 @@ gen_us <- function(target_variable = "options",
   if(target_variable == "education") {
 
     education_weights <- weights::wpct(c('Less than high school', 'Graduated from high school', 'Some college, no degree', 'Graduated from college', 'Completed graduate school'),
-                                       c(.116, .275, .306, .190, .112))
+                                       c(.110, .274, .300, .197, .118))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('Less than high school', 'Graduated from high school', 'Some college, no degree', 'Graduated from college', 'Completed graduate school'), collapse = ', ')}"))
@@ -41,7 +41,7 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "education_collapse") {
 
     education_collapse_weights <- weights::wpct(c('High school or less', 'Some college, no degree', 'Graduated from college', 'Completed graduate school'),
-                                                c(.391, .306, .190, .112))
+                                                c(.384, .300, .197, .118))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('High school or less', 'Some college, no degree', 'Graduated from college', 'Completed graduate school'), collapse = ', ')}"))
@@ -53,7 +53,7 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "sex") {
 
     sex_weights <- weights::wpct(c('Male', 'Female'),
-                                 c(.487, .513))
+                                 c(.491, .509))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('Male', 'Female'), collapse = ', ')}"))
@@ -65,7 +65,7 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "male") {
 
     male_weights <- weights::wpct(c(.5, -.5),
-                                  c(.487, .513))
+                                  c(.491, .509))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c(.5, -.5), collapse = ', ')}"))
@@ -77,7 +77,7 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "race") {
 
     race_weights <- weights::wpct(c('Asian or Asian American', 'Black or African American', 'Hispanic or Latino', 'White or Caucasian', 'Other'),
-                                  c(.0573, .120, .161, .630, .0313))
+                                  c(.0589, .118, .167, .618, .0381))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('Asian or Asian American', 'Black or African American', 'Hispanic or Latino', 'White or Caucasian', 'Other'), collapse = ', ')}"))
@@ -89,7 +89,7 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "race_collapse") {
 
     race_collapse_weights <- weights::wpct(c('Black or African American', 'Hispanic or Latino', 'White or Caucasian', 'Other'),
-                                           c(.120, .161, .630, .0886))
+                                           c(.118, .167, .618, .097))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('Black or African American', 'Hispanic or Latino', 'White or Caucasian', 'Other'), collapse = ', ')}"))
@@ -101,7 +101,7 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "age") {
 
     age_weights <- weights::wpct(c("18-24", "25-44", "45-64", "65+"),
-                                 c(.120, .343, .330, .207))
+                                 c(.122, .342, .324, .212))
 
     if(show_levels == TRUE) {
       print(glue::glue('Levels for {target_variable}: {paste(c("18-24", "25-44", "45-64", "65+"), collapse = "; ")}'))
@@ -110,22 +110,36 @@ gen_us <- function(target_variable = "options",
     return(age_weights)
 
   }
-  else if(target_variable == "age_alt" | target_variable == "age_alternative") {
 
-    age_alt_weights <- weights::wpct(c("18-24", "25-39", "40-54", "55+"),
-                                     c(.120, .264, .243, .373))
+  else if(target_variable == "age_fine") {
+
+    age_weights <- weights::wpct(c("18-24", "25-34", "35-44", "45-64", "65+"),
+                                 c(.122, .176, .166, .324, .212))
 
     if(show_levels == TRUE) {
-      print(glue::glue('Levels for {target_variable}: {paste(c("18-24", "25-39", "40-54", "55+"), collapse = "; ")}'))
+      print(glue::glue('Levels for {target_variable}: {paste(c("18-24", "25-34", "35-44", "45-64", "65+"), collapse = "; ")}'))
     }
 
-    return(age_alt_weights)
+    return(age_weights)
 
   }
+
+  # else if(target_variable == "age_alt" | target_variable == "age_alternative") {
+  #
+  #   age_alt_weights <- weights::wpct(c("18-24", "25-39", "40-54", "55+"),
+  #                                    c(.120, .264, .243, .373))
+  #
+  #   if(show_levels == TRUE) {
+  #     print(glue::glue('Levels for {target_variable}: {paste(c("18-24", "25-39", "40-54", "55+"), collapse = "; ")}'))
+  #   }
+  #
+  #   return(age_alt_weights)
+  #
+  # }
   else if(target_variable == "income" | target_variable == "income_ces") {
 
     income_ces_weights <- weights::wpct(c('Under $20,000', 'Between $20,000 and $49,999', 'Between $50,000 and $79,999', 'Between $80,000 and $99,999', 'Between $100,000 and $150,000', 'Over $150,000'),
-                                        c(.0965, .214, .203, .110, .183, .194))
+                                        c(.081, .179, .184, .106, .195, .254))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('Under $20,000', 'Between $20,000 and $49,999', 'Between $50,000 and $79,999', 'Between $80,000 and $99,999', 'Between $100,000 and $150,000', 'Over $150,000'), collapse = ', ')}"))
@@ -137,7 +151,7 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "income_2" | target_variable == "income_ces_2") {
 
     income_ces_2_weights <- weights::wpct(c('Under 20000', 'Between 20000 and 49999', 'Between 50000 and 79999', 'Between 80000 and 99999', 'Between 100000 and 150000', 'Over 150000'),
-                                          c(.0965, .214, .203, .110, .183, .194))
+                                          c(.081, .179, .184, .106, .195, .254))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('Under 20000', 'Between 20000 and 49999', 'Between 50000 and 79999', 'Between 80000 and 99999', 'Between 100000 and 150000', 'Over 150000'), collapse = ', ')}"))
@@ -149,7 +163,7 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "income_3" | target_variable == "income_ces_3" | target_variable == "income_ces_three") {
 
     income_ces_three_weights <- weights::wpct(c('a', 'b', 'c', 'd', 'e', 'f'),
-                                              c(.0965, .214, .203, .110, .183, .194))
+                                              c(.081, .179, .184, .106, .195, .254))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('a', 'b', 'c', 'd', 'e', 'f'), collapse = ', ')}"))
@@ -158,22 +172,22 @@ gen_us <- function(target_variable = "options",
     return(income_ces_three_weights)
 
   }
-  else if(target_variable == "income_hilo") {
-
-    income_hilo_weights <- weights::wpct(c('Low', 'High'),
-                                         c(.6235, .3765))
-
-    if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Low', 'High'), collapse = ', ')}"))
-    }
-
-    return(income_hilo_weights)
-
-  }
+  # else if(target_variable == "income_hilo") {
+  #
+  #   income_hilo_weights <- weights::wpct(c('Low', 'High'),
+  #                                        c(.6235, .3765))
+  #
+  #   if(show_levels == TRUE) {
+  #     print(glue::glue("Levels for {target_variable}: {paste(c('Low', 'High'), collapse = ', ')}"))
+  #   }
+  #
+  #   return(income_hilo_weights)
+  #
+  # }
   else if(target_variable == "income_new") {
 
     income_new_weights <- weights::wpct(c('a', 'b', 'c', 'd', 'e', 'f'),
-                                        c(.0965, .214, .203, .110, .183, .194))
+                                        c(.081, .179, .184, .106, .195, .254))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('a', 'b', 'c', 'd', 'e', 'f'), collapse = ', ')}"))
@@ -185,7 +199,7 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "region") {
 
     region_weights <- weights::wpct(c('Midwest', 'Northeast', 'South', 'West'),
-                                    c(.208, .175, .379, .237))
+                                    c(.207, .177, .380, .236))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('Midwest', 'Northeast', 'South', 'West'), collapse = ', ')}"))
@@ -197,7 +211,7 @@ gen_us <- function(target_variable = "options",
   else if(target_variable == "division") {
 
     division_weights <- weights::wpct(c('East North Central', 'East South Central', 'Mid Atlantic', 'Mountain', 'New England', 'Pacific', 'South Atlantic', 'West North Central', 'West South Central'),
-                                      c(.144, .0584, .128, .0740, .0470, .163, .202, .0646, .119))
+                                      c(.143, .058, .130, .075, .047, .162, .202, .064, .119))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('East North Central', 'East South Central', 'Mid Atlantic', 'Mountain', 'New England', 'Pacific', 'South Atlantic', 'West North Central', 'West South Central'), collapse = ', ')}"))

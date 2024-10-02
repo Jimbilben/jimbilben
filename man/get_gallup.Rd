@@ -4,12 +4,14 @@
 \alias{get_gallup}
 \title{Get Gallup}
 \usage{
-get_gallup(moving_average = 3, custom_url = NULL)
+get_gallup(moving_average = 3, custom_url = NULL, stop_date = NULL)
 }
 \arguments{
 \item{moving_average}{Numeric input indicating how many months to average over. Defaults to 3.}
 
 \item{custom_url}{An alternative input URL in the event that the standard URL changes/does not work}
+
+\item{stop_date}{Character string of the form YYYY-MM-DD: the date at which to stop the partyid collection, if e.g., you want to weight for data from December 2023 then 2023-12-01}
 }
 \description{
 Retrieve uptodate US political party affiliation numbers from Gallup.

@@ -4,12 +4,14 @@
 #'
 #' @param moving_average Numeric input indicating how many months to average over. Defaults to 3.
 #' @param custom_url An alternative input URL in the event that the standard URL changes/does not work
+#' @param stop_date Character string of the form YYYY-MM-DD: the date at which to stop the partyid collection, if e.g., you want to weight for data from December 2023 then 2023-12-01
 
 #'
 #' @export
 
 get_gallup <- function(moving_average = 3,
-                       custom_url = NULL) {
+                       custom_url = NULL,
+                       stop_date = NULL) {
 
   if(is.null(custom_url)) {
     gallup_url <- "https://news.gallup.com/poll/15370/party-affiliation.aspx"
@@ -116,6 +118,16 @@ get_gallup <- function(moving_average = 3,
            day = 1,
            date = lubridate::ymd(paste(year, "/", month, "/", day, sep = ""))) %>%
     dplyr::relocate(date, Republican:prop_dem_other)
+
+  # we now want to make sure we can use older dates for weighting as well
+  gallup_data <-
+    if(is.null(stop_date)) {
+      gallup_data
+    }
+  else {
+    gallup_data %>%
+      dplyr::filter(date <= lubridate::as_date(stop_date))
+  }
 
   gallup_data$order <- nrow(gallup_data):1
 
