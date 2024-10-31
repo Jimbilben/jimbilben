@@ -24,6 +24,7 @@ gen_us_2022 <- function(target_variable = "options",
     print(glue::glue('From misc sources: "urban_rural_suburban"'))
     print(glue::glue('From Pew Internet Frequency Update: "intfreq", "intfreq_collapse"'))
     print(glue::glue('From the Federal Election Commission and US Elections Project: "vote_2020", "vote_2020_reduced", "vote_2020_reduced_2"'))
+    print(glue::glue('From Pew 2023-2024 American\' Social Media Use report: "socplat_reddit", "socplat_youtube"'))
   }
 
   if(target_variable == "education") {
@@ -411,6 +412,32 @@ gen_us_2022 <- function(target_variable = "options",
     }
 
     return(vote_weights)
+
+  }
+
+  else if(target_variable == "socplat_reddit") {
+
+    socplat_reddit_weights <- weights::wpct(c(0, 1),
+                                  c(.78, .22))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c(0, 1), collapse = ', ')}"))
+    }
+
+    return(socplat_reddit_weights)
+
+  }
+
+  else if(target_variable == "socplat_youtube") {
+
+    socplat_youtube_weights <- weights::wpct(c(0, 1),
+                                            c(.17, .83))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c(0, 1), collapse = ', ')}"))
+    }
+
+    return(socplat_youtube_weights)
 
   }
 
