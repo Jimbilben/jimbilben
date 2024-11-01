@@ -11,10 +11,10 @@
 #' @export
 
 gen_us_2022 <- function(target_variable = "options",
-                   moving_average = 3,
-                   .stop_date = NULL,
-                   partyid_as_ind_other = TRUE,
-                   show_levels = TRUE) {
+                        moving_average = 3,
+                        .stop_date = NULL,
+                        partyid_as_ind_other = TRUE,
+                        show_levels = TRUE) {
 
   if(target_variable == "options") {
     print(glue::glue('Your variable weighting options are...'))
@@ -24,7 +24,7 @@ gen_us_2022 <- function(target_variable = "options",
     print(glue::glue('From misc sources: "urban_rural_suburban"'))
     print(glue::glue('From Pew Internet Frequency Update: "intfreq", "intfreq_collapse"'))
     print(glue::glue('From the Federal Election Commission and US Elections Project: "vote_2020", "vote_2020_reduced", "vote_2020_reduced_2"'))
-    print(glue::glue('From Pew 2023-2024 American\' Social Media Use report: "socplat_reddit", "socplat_youtube"'))
+    print(glue::glue('From Pew 2023-2024 American\' Social Media Use report: "socplat_reddit", "socplat_youtube", "socplat_reddit_younger", "socplat_youtube_younger", "socplat_reddit_older", "socplat_youtube_older"'))
   }
 
   if(target_variable == "education") {
@@ -418,7 +418,7 @@ gen_us_2022 <- function(target_variable = "options",
   else if(target_variable == "socplat_reddit") {
 
     socplat_reddit_weights <- weights::wpct(c(0, 1),
-                                  c(.78, .22))
+                                            c(.78, .22))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c(0, 1), collapse = ', ')}"))
@@ -431,7 +431,7 @@ gen_us_2022 <- function(target_variable = "options",
   else if(target_variable == "socplat_youtube") {
 
     socplat_youtube_weights <- weights::wpct(c(0, 1),
-                                            c(.17, .83))
+                                             c(.17, .83))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c(0, 1), collapse = ', ')}"))
@@ -441,4 +441,57 @@ gen_us_2022 <- function(target_variable = "options",
 
   }
 
+  else if(target_variable == "socplat_reddit_younger") {
+
+    socplat_reddit_younger_weights <- weights::wpct(c(0, 1),
+                                                    c(.64, .36))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c(0, 1), collapse = ', ')}"))
+    }
+
+    return(socplat_reddit_younger_weights)
+
+  }
+
+  else if(target_variable == "socplat_youtube_younger") {
+
+    socplat_youtube_younger_weights <- weights::wpct(c(0, 1),
+                                                     c(.924, .076))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c(0, 1), collapse = ', ')}"))
+    }
+
+    return(socplat_youtube_younger_weights)
+
+  }
+
+  else if(target_variable == "socplat_reddit_older") {
+
+    socplat_reddit_older_weights <- weights::wpct(c(0, 1),
+                                                  c(.927, .073))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c(0, 1), collapse = ', ')}"))
+    }
+
+    return(socplat_reddit_older_weights)
+
+  }
+
+  else if(target_variable == "socplat_youtube_older") {
+
+    socplat_youtube_older_weights <- weights::wpct(c(0, 1),
+                                                   c(.276, .724))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c(0, 1), collapse = ', ')}"))
+    }
+
+    return(socplat_youtube_older_weights)
+
+  }
+
 }
+
