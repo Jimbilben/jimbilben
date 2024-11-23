@@ -22,7 +22,7 @@ gen_us_2022 <- function(target_variable = "options",
     print(glue::glue('From Gallup: "partyid"'))
     print(glue::glue('From the GSS: "spanking", "trust", "bible", "polviews", "conmedic", "consci"'))
     print(glue::glue('From misc sources: "urban_rural_suburban"'))
-    print(glue::glue('From Pew Internet Frequency Update: "intfreq", "intfreq_collapse"'))
+    print(glue::glue('From Pew National Public Opinion Reference Survey (NPORS): "intfreq", "intfreq_collapse"'))
     print(glue::glue('From the Federal Election Commission and US Elections Project: "vote_2020", "vote_2020_reduced", "vote_2020_reduced_2"'))
     print(glue::glue('From Pew 2023-2024 American\' Social Media Use report: "socplat_reddit", "socplat_youtube", "socplat_reddit_younger", "socplat_youtube_younger", "socplat_reddit_older", "socplat_youtube_older"'))
   }
@@ -289,11 +289,11 @@ gen_us_2022 <- function(target_variable = "options",
   else if(target_variable == "intfreq") {
 
     intfreq_weights <-
-      weights::wpct(c('Almost constantly', 'Several times a day', 'Once a day or less', 'Less than several times a week'),
-                    c(.31, .48, .1, .11))
+      weights::wpct(c('Almost constantly', 'Several times a day', 'Daily or several times a week', 'Less than several times a week'),
+                    c(.418, .429, .092, .061))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Almost constantly', 'Several times a day', 'Once a day or less', 'Less than several times a week'), collapse = ', ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Almost constantly', 'Several times a day', 'Daily or several times a week', 'Less than several times a week'), collapse = ', ')}"))
     }
 
     return(intfreq_weights)
@@ -303,7 +303,7 @@ gen_us_2022 <- function(target_variable = "options",
 
     intfreq_collapse_weights <-
       weights::wpct(c('Almost constantly', 'Several times a day', 'Once a day or less'),
-                    c(.31, .48, .21))
+                    c(.414, .434, .152))
 
     if(show_levels == TRUE) {
       print(glue::glue("Levels for {target_variable}: {paste(c('Almost constantly', 'Several times a day', 'Once a day or less'), collapse = ', ')}"))
