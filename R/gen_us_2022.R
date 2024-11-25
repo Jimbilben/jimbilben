@@ -173,18 +173,19 @@ gen_us_2022 <- function(target_variable = "options",
     return(income_ces_three_weights)
 
   }
-  # else if(target_variable == "income_hilo") {
-  #
-  #   income_hilo_weights <- weights::wpct(c('Low', 'High'),
-  #                                        c(.6235, .3765))
-  #
-  #   if(show_levels == TRUE) {
-  #     print(glue::glue("Levels for {target_variable}: {paste(c('Low', 'High'), collapse = ', ')}"))
-  #   }
-  #
-  #   return(income_hilo_weights)
-  #
-  # }
+  else if(target_variable == "income_hilo") {
+
+    income_hilo_weights <- weights::wpct(c('Low', 'High'),
+                                         c(.55, .45))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c('Low', 'High'), collapse = ', ')}"))
+    }
+
+    return(income_hilo_weights)
+
+  }
+
   else if(target_variable == "income_new") {
 
     income_new_weights <- weights::wpct(c('a', 'b', 'c', 'd', 'e', 'f'),
