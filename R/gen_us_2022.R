@@ -393,6 +393,19 @@ gen_us_2022 <- function(target_variable = "options",
 
   }
 
+  else if(target_variable == "age_pew") {
+
+    age_pew_weights <- weights::wpct(c("18-29", "30-49", "50-64", "65+"),
+                                     c(.21, .33, .25, .21))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c(0, 1), collapse = ', ')}"))
+    }
+
+    return(age_pew_weights)
+
+  }
+
   else if(target_variable == "socplat_reddit") {
 
     socplat_reddit_weights <- weights::wpct(c(0, 1),
@@ -472,4 +485,3 @@ gen_us_2022 <- function(target_variable = "options",
   }
 
 }
-
