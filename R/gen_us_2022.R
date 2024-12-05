@@ -24,7 +24,7 @@ gen_us_2022 <- function(target_variable = "options",
     print(glue::glue('From misc sources: "urban_rural_suburban"'))
     print(glue::glue('From Pew National Public Opinion Reference Survey (NPORS): "intfreq", "intfreq_collapse"'))
     print(glue::glue('From the Federal Election Commission and US Elections Project: "vote_2020", "vote_2020_reduced", "vote_2020_reduced_2"'))
-    print(glue::glue('From Pew 2023-2024 American\' Social Media Use report: "socplat_reddit", "socplat_youtube", "socplat_reddit_younger", "socplat_youtube_younger", "socplat_reddit_older", "socplat_youtube_older"'))
+    print(glue::glue('From Pew 2023-2024 American\' Social Media Use report: "socplat_reddit", "age_reddit", "socplat_youtube", "socplat_reddit_younger", "socplat_youtube_younger", "socplat_reddit_older", "socplat_youtube_older"'))
   }
 
   if(target_variable == "education") {
@@ -143,34 +143,10 @@ gen_us_2022 <- function(target_variable = "options",
                                         c(.081, .179, .184, .106, .195, .254))
 
     if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Under $20,000', 'Between $20,000 and $49,999', 'Between $50,000 and $79,999', 'Between $80,000 and $99,999', 'Between $100,000 and $150,000', 'Over $150,000'), collapse = ', ')}"))
+      print(glue::glue("Levels for {target_variable}: {paste(c('Between $100,000 and $150,000', 'Between $20,000 and $49,999', 'Between $50,000 and $79,999', 'Between $80,000 and $99,999', 'Over $150,000', 'Under $20,000'), collapse = ', ')}"))
     }
 
     return(income_ces_weights)
-
-  }
-  else if(target_variable == "income_2" | target_variable == "income_ces_2") {
-
-    income_ces_2_weights <- weights::wpct(c('Under 20000', 'Between 20000 and 49999', 'Between 50000 and 79999', 'Between 80000 and 99999', 'Between 100000 and 150000', 'Over 150000'),
-                                          c(.081, .179, .184, .106, .195, .254))
-
-    if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('Under 20000', 'Between 20000 and 49999', 'Between 50000 and 79999', 'Between 80000 and 99999', 'Between 100000 and 150000', 'Over 150000'), collapse = ', ')}"))
-    }
-
-    return(income_ces_2_weights)
-
-  }
-  else if(target_variable == "income_3" | target_variable == "income_ces_3" | target_variable == "income_ces_three") {
-
-    income_ces_three_weights <- weights::wpct(c('a', 'b', 'c', 'd', 'e', 'f'),
-                                              c(.081, .179, .184, .106, .195, .254))
-
-    if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('a', 'b', 'c', 'd', 'e', 'f'), collapse = ', ')}"))
-    }
-
-    return(income_ces_three_weights)
 
   }
   else if(target_variable == "income_hilo") {
@@ -186,18 +162,6 @@ gen_us_2022 <- function(target_variable = "options",
 
   }
 
-  else if(target_variable == "income_new") {
-
-    income_new_weights <- weights::wpct(c('a', 'b', 'c', 'd', 'e', 'f'),
-                                        c(.081, .179, .184, .106, .195, .254))
-
-    if(show_levels == TRUE) {
-      print(glue::glue("Levels for {target_variable}: {paste(c('a', 'b', 'c', 'd', 'e', 'f'), collapse = ', ')}"))
-    }
-
-    return(income_new_weights)
-
-  }
   else if(target_variable == "region") {
 
     region_weights <- weights::wpct(c('Midwest', 'Northeast', 'South', 'West'),
@@ -413,6 +377,19 @@ gen_us_2022 <- function(target_variable = "options",
     }
 
     return(vote_weights)
+
+  }
+
+  else if(target_variable == "age_reddit") {
+
+    age_reddit_weights <- weights::wpct(c("yes_1829", "no_1829", "yes_3049", "no_3049", "yes_5064", "no_5064", "yes_65", "no_65"),
+                                        c(.09, .12, .10, .23, .03, .22, .01, .20))
+
+    if(show_levels == TRUE) {
+      print(glue::glue("Levels for {target_variable}: {paste(c(0, 1), collapse = ', ')}"))
+    }
+
+    return(age_reddit_weights)
 
   }
 
