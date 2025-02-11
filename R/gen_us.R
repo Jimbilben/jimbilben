@@ -327,7 +327,7 @@ gen_us <- function(target_variable = "options",
   }
   else if(target_variable == "partyid") {
 
-    print(glue::glue("Using the get_gallup() function to retrieve the latest party identification numbers, averaging over the last {moving_average} quarters..."))
+    print(glue::glue("Using the get_gallup() function to retrieve the latest party identification numbers, averaging over the last {.moving_average} quarters..."))
 
     partyid_tibble <-
       jimbilben::get_gallup(.moving_average, gallup_url = .gallup_url, stop_date = .stop_date)
