@@ -3,7 +3,8 @@
 #' Generate a weighting target (technically, a weights::wpct() object) for a specified variable in the US population. Run the function without any specification to see your options. This function is updated with ACS5 2022 information on the US population.
 #'
 #' @param target_variable A character argument indicating for which variable to specify the weighting target. The default "options" will just print the possible variables you can choose.
-#' @param moving_average Numeric, whole numbers only, 3 by default. Indicating how many of the past months to average over when getting weights for partyid. 3 months is recommended to be responsive to recent shifts but not affected by single month perturbations that could just be error.
+#' @param .moving_average Numeric, whole numbers only, 1 by default. Indicating how many of the past quarters to average over when getting weights for partyid, with proportions provided from Gallup.
+#' @param .gallup_url The input URL needed to get to the quarterly ratings - it is necessary to contact Gallup to get the URL.
 #' @param partyid_as_ind_other If TRUE, partyid will be percentages based on collapsing other parties and don't know responses into Independent. If FALSE, it will work with only Democrat, Independent, and Other specifically and you must code all other responses as NA.
 #' @param show_levels If TRUE (the default), print the expected levels of the variable to be weighted. Your levels in your data must match these or later weighting stages will not work. If FALSE, it will not print these levels.
 #' @param .stop_date Defaults to NULL - present date. Character string of the form YYYY-MM-DD: the date at which to stop the partyid collection, if e.g., you want to weight for data from December 2023 then 2023-12-01.
@@ -11,7 +12,8 @@
 #' @export
 
 gen_us_2022 <- function(target_variable = "options",
-                        moving_average = 3,
+                        .moving_average = 1,
+                        .gallup_url = "insert your gallup URL",
                         .stop_date = NULL,
                         partyid_as_ind_other = TRUE,
                         show_levels = TRUE) {
@@ -305,10 +307,10 @@ gen_us_2022 <- function(target_variable = "options",
   }
   else if(target_variable == "partyid") {
 
-    print(glue::glue("Using the get_gallup() function to retrieve the latest party identification numbers, averaging over the last {moving_average} months..."))
+    print(glue::glue("Using the get_gallup() function to retrieve the latest party identification numbers, averaging over the last {.moving_average} quarters..."))
 
     partyid_tibble <-
-      jimbilben::get_gallup(moving_average, stop_date = .stop_date)
+      jimbilben::get_gallup(.moving_average, gallup_url = .gallup_url, stop_date = .stop_date)
 
     if(partyid_as_ind_other == TRUE) {
       partyid_weights <-
