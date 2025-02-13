@@ -148,7 +148,7 @@ binary_mrp <- function(variable_name,
            file = glue::glue("mrp_models/{variable_name}_weighted_fit.RData"))
     }
     else {
-      saveRDS(binary_fit,
+      save(binary_fit,
               file = glue::glue("mrp_models/{variable_name}_fit.RData"))
     }
 
