@@ -6,7 +6,7 @@
 \usage{
 categorical_mrp_fit(
   variable_name,
-  my_data = my_data,
+  my_data = set_my_data,
   variable_label = NULL,
   reference_level = "Neither agree nor disagree",
   my_intercept_prior = "normal(0, 2)",
