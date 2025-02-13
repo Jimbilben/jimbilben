@@ -10,8 +10,8 @@ poststrat_multi_binary(
   outcome_name = NULL,
   subgroups = c("education_collapse", "race", "income_ces", "male", "partyid",
     "age_fine", "state", "region"),
-  weighted = set_weighted,
-  save_output = set_save_output,
+  weighted = FALSE,
+  save_output = save_my_poststrat,
   return_state = set_state,
   .poststrat_tibble = set_my_poststrat,
   .poststrat_epred = set_my_epred
@@ -36,7 +36,7 @@ poststrat_multi_binary(
   \item \code{"region"}
 }}
 
-\item{weighted}{Logical. Whether the poststratification weights should be applied. Defaults to \code{set_weighted}.}
+\item{weighted}{Logical. Whether the poststratification weights should be applied. Defaults to FALSE.}
 
 \item{save_output}{Logical. If \code{TRUE}, saves the poststratification summaries to a file. Defaults to \code{set_save_output}.}
 

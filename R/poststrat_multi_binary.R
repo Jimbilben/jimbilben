@@ -16,7 +16,7 @@
 #'     \item \code{"state"}
 #'     \item \code{"region"}
 #'   }
-#' @param weighted Logical. Whether the poststratification weights should be applied. Defaults to \code{set_weighted}.
+#' @param weighted Logical. Whether the poststratification weights should be applied. Defaults to FALSE.
 #' @param save_output Logical. If \code{TRUE}, saves the poststratification summaries to a file. Defaults to \code{set_save_output}.
 #' @param return_state Logical. Whether to include the "state" subgroup in the returned output. Defaults to \code{set_state}.
 #' @param .poststrat_tibble A data frame containing the poststratification tibble. Defaults to \code{set_my_poststrat}.
@@ -41,8 +41,8 @@ poststrat_multi_binary <- function(input, # the object generated from binary_mrp
                                    outcome_name = NULL,
                                    subgroups = c("education_collapse", "race", "income_ces",
                                                  "male", "partyid", "age_fine", "state", "region"),
-                                   weighted = set_weighted,
-                                   save_output = set_save_output,
+                                   weighted = FALSE,
+                                   save_output = save_my_poststrat,
                                    return_state = set_state,
                                    .poststrat_tibble = set_my_poststrat,
                                    .poststrat_epred = set_my_epred) {
