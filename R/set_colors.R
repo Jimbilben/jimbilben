@@ -31,7 +31,7 @@ set_colors <- function(print = TRUE) {
 
   light_teal <<- "#ccf9ee"
   teal <<- "#90dac8"
-  dark_Teal <<- "#3d8f7b"
+  dark_teal <<- "#3d8f7b"
 
   pink <<- "#ffc1c1"
   sky_blue <<- "#afe1ff"
@@ -55,7 +55,7 @@ set_colors <- function(print = TRUE) {
     print("dust_pink, light_dust_pink, dark_dust_pink")
     print("fire_red, light_fire_red, dark_fire_red")
     print("light_teal, teal, dark_teal")
-    print("teal, pink, sky_blue, army_green, golden_brown, maroon")
+    print("pink, sky_blue, army_green, golden_brown, maroon")
     print("republican_red, democrat_blue")
     print("conservative_blue, labour_red, libdem_yellow, reform_blue")
   }
