@@ -110,7 +110,7 @@ categorical_mrp_fit <- function(variable_name,
     print(glue::glue("Saving regression model for {variable_label}"))
 
     save(cat_fit,
-         file = glue::glue("mrp_models/{variable_label}_fit.RData"))
+         file = glue::glue("mrp_models/{variable_name}_fit.RData"))
   }
 
   return(list("model" = cat_fit))
