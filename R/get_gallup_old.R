@@ -1,4 +1,4 @@
-#' Get Gallup
+#' Get Gallup (OLD)
 #'
 #' Retrieve up to date US political party affiliation numbers from Gallup. NOTE: This is the old version of the function that has been shelved due to Gallup changing their policies and availability of monthly data.
 #'
@@ -9,9 +9,9 @@
 #'
 #' @export
 
-get_gallup <- function(moving_average = 3,
-                       custom_url = NULL,
-                       stop_date = NULL) {
+get_gallup_old <- function(moving_average = 3,
+                           custom_url = NULL,
+                           stop_date = NULL) {
 
   if(is.null(custom_url)) {
     gallup_url <- "https://news.gallup.com/poll/15370/party-affiliation.aspx"
