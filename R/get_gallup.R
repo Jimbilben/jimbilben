@@ -4,7 +4,7 @@
 #'
 #' @param moving_average Numeric input indicating how many quarters to average over. Defaults to 1.
 #' @param gallup_url The input URL needed to get to the quarterly ratings - it is necessary to contact Gallup to get the URL.
-#' @param stop_date Character string of the form 'YYYY QQ': the date at which to stop the partyid collection, if e.g., you want to weight for data from Q2 2023 then '2023 Q2'
+#' @param stop_date Defaults to NULL, i.e., using the most recent available data. Character string of the form 'YYYY QQ': the date at which to stop the partyid collection, if e.g., you want to weight for data from Q2 2023 then '2023 Q2'
 
 #'
 #' @export

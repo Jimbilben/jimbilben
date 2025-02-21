@@ -20,7 +20,7 @@ gen_us_2022(
 
 \item{.gallup_url}{The input URL needed to get to the quarterly ratings - it is necessary to contact Gallup to get the URL.}
 
-\item{.stop_date}{Defaults to NULL - present date. Character string of the form YYYY-MM-DD: the date at which to stop the partyid collection, if e.g., you want to weight for data from December 2023 then 2023-12-01.}
+\item{.stop_date}{Defaults to NULL, i.e., using the most recent available data. Character string of the form 'YYYY QQ': the date at which to stop the partyid collection, if e.g., you want to weight for data from Q2 2023 then '2023 Q2'.}
 
 \item{partyid_as_ind_other}{If TRUE, partyid will be percentages based on collapsing other parties and don't know responses into Independent. If FALSE, it will work with only Democrat, Independent, and Other specifically and you must code all other responses as NA.}
 
