@@ -21,6 +21,7 @@
 #' @param my_iter Total number of iterations per chain. Default is \code{set_my_iter}.
 #' @param my_poststrat A data frame for poststratification. Default is \code{set_my_poststrat}.
 #' @param my_adapt_delta Numeric value for the Stan sampler control parameter to improve convergence. Default is \code{set_my_adapt_delta}.
+#' @param mrp_form Defaults to NULL, in which case our standard MRP formula is used, but can be changed to reflect a different MRP formula
 #'
 #' @return A list containing:
 #'   \itemize{
@@ -56,7 +57,8 @@ numeric_mrp <- function(variable_name,
                         my_iter = set_my_iter,
                         my_warmup = set_my_warmup,
                         my_poststrat = set_my_poststrat,
-                        my_adapt_delta = set_my_adapt_delta) {
+                        my_adapt_delta = set_my_adapt_delta,
+                        mrp_form = NULL) {
 
   print("If variable is ordinal/categorical, it will be converted to numeric. Make sure that you set the ordering of factors correctly, using ordered = TRUE")
   my_data <-
@@ -83,10 +85,16 @@ numeric_mrp <- function(variable_name,
                     " - | |-",
                     "_")
 
-  formula_string <-
-    " ~ (1 | state) + (1 | race) + (1 | age_fine) +
+  if(is.null(mrp_form)) {
+    formula_string <-
+      " ~ (1 | state) + (1 | race) + (1 | age_fine) +
   (1 | education_collapse) + (1 | income_ces) + male + (1 | male:race) +
-  (1 | education_collapse:age_fine) + (1 | partyid) + (1 | region) + repvote_cent + tech_cent"
+  (1 | education_collapse:age_fine) + (1 | partyid) + (1 | region) + repvote_sd_cent"
+  }
+  else {
+    formula_string <-
+      mrp_form
+  }
 
   numeric_form <-
     as.formula(glue::glue("`{variable_name}`{formula_string}"))

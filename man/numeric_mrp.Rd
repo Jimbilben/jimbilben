@@ -19,7 +19,8 @@ numeric_mrp(
   my_iter = set_my_iter,
   my_warmup = set_my_warmup,
   my_poststrat = set_my_poststrat,
-  my_adapt_delta = set_my_adapt_delta
+  my_adapt_delta = set_my_adapt_delta,
+  mrp_form = NULL
 )
 }
 \arguments{
@@ -54,6 +55,8 @@ numeric_mrp(
 \item{my_poststrat}{A data frame for poststratification. Default is \code{set_my_poststrat}.}
 
 \item{my_adapt_delta}{Numeric value for the Stan sampler control parameter to improve convergence. Default is \code{set_my_adapt_delta}.}
+
+\item{mrp_form}{Defaults to NULL, in which case our standard MRP formula is used, but can be changed to reflect a different MRP formula}
 }
 \value{
 A list containing:
