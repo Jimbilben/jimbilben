@@ -10,6 +10,7 @@
 #' @param return_state Logical. Whether to include the "state" subgroup in the returned output. Defaults to \code{set_state}.
 #' @param .poststrat_tibble A data frame containing the poststratification tibble. Defaults to \code{set_my_poststrat}.
 #' @param .poststrat_epred A data frame containing the poststratification posterior predictions. Defaults to \code{set_my_epred}.
+#' @param name_addition String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.
 #'
 #' @return A list of poststratification summaries, including:
 #'   \itemize{
@@ -38,7 +39,8 @@ poststrat_multi_categorical <- function(input,
                                         save_output = save_my_poststrat,
                                         return_state = set_state,
                                         .poststrat_tibble = set_my_poststrat,
-                                        .poststrat_epred = set_my_epred) {
+                                        .poststrat_epred = set_my_epred,
+                                        name_addition = "") {
 
   if(is.null(outcome_name)) {
     outcome_name <- variable_name
@@ -313,7 +315,7 @@ poststrat_multi_categorical <- function(input,
 
   if(save_output == TRUE) {
     saveRDS(output,
-            glue::glue("mrp_poststrats/{variable_name}_poststrat.rds"))
+            glue::glue("mrp_poststrats/{variable_name}{name_addition}_poststrat.rds"))
   }
 
   if(return_state == FALSE) {

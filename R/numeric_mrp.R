@@ -22,6 +22,7 @@
 #' @param my_poststrat A data frame for poststratification. Default is \code{set_my_poststrat}.
 #' @param my_adapt_delta Numeric value for the Stan sampler control parameter to improve convergence. Default is \code{set_my_adapt_delta}.
 #' @param mrp_form Defaults to NULL, in which case our standard MRP formula is used, but can be changed to reflect a different MRP formula
+#' @param name_addition String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.
 #'
 #' @return A list containing:
 #'   \itemize{

@@ -58,6 +58,8 @@ numeric_mrp(
 \item{my_adapt_delta}{Numeric value for the Stan sampler control parameter to improve convergence. Default is \code{set_my_adapt_delta}.}
 
 \item{mrp_form}{Defaults to NULL, in which case our standard MRP formula is used, but can be changed to reflect a different MRP formula}
+
+\item{name_addition}{String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.}
 }
 \value{
 A list containing:

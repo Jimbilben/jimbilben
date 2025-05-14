@@ -21,6 +21,7 @@
 #' @param return_state Logical. Whether to include the "state" subgroup in the returned output. Defaults to \code{set_state}.
 #' @param .poststrat_tibble A data frame containing the poststratification tibble. Defaults to \code{set_my_poststrat}.
 #' @param .poststrat_epred A data frame containing the poststratification posterior predictions. Defaults to \code{set_my_epred}.
+#' @param name_addition String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.
 #'
 #' @return A list of poststratification summaries, including:
 #'   \itemize{
@@ -45,7 +46,8 @@ poststrat_multi_binary <- function(input, # the object generated from binary_mrp
                                    save_output = save_my_poststrat,
                                    return_state = set_state,
                                    .poststrat_tibble = set_my_poststrat,
-                                   .poststrat_epred = set_my_epred) {
+                                   .poststrat_epred = set_my_epred,
+                                   name_addition = "") {
 
   # Set outcome_name to variable_name if not provided
   if(is.null(outcome_name)) {
@@ -118,7 +120,7 @@ poststrat_multi_binary <- function(input, # the object generated from binary_mrp
   # Optional: Save output to file
   if(save_output) {
     file_suffix <- if(weighted) "_weighted_poststrat" else "_poststrat"
-    saveRDS(output, file = glue::glue("mrp_poststrats/{variable_name}{file_suffix}.rds"))
+    saveRDS(output, file = glue::glue("mrp_poststrats/{variable_name}{name_addition}{file_suffix}.rds"))
   }
 
   # Prepare the output to return to the user

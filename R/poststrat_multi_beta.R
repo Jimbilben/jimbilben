@@ -30,6 +30,7 @@
 #' @param return_state Logical. Whether to include the "state" subgroup in the output. Defaults to \code{set_state}.
 #' @param .poststrat_tibble A data frame containing the poststratification tibble. Defaults to \code{set_my_poststrat}.
 #' @param .poststrat_epred A data frame containing the poststratification posterior predictions. Defaults to \code{set_my_epred}.
+#' @param name_addition String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.
 #'
 #' @return A list containing poststratification summaries:
 #'   \itemize{
@@ -55,7 +56,8 @@ poststrat_multi_beta <- function(input,
                                       .nsim = 100000,
                                       return_state = set_state,
                                       .poststrat_tibble = set_my_poststrat,
-                                      .poststrat_epred = set_my_epred) {
+                                      .poststrat_epred = set_my_epred,
+                                 name_addition = "") {
 
   # Set outcome_name to variable_name if not provided
   if (is.null(outcome_name)) {
@@ -148,7 +150,7 @@ poststrat_multi_beta <- function(input,
 
   # Optionally save the output to an RDS file
   if (save_output == TRUE) {
-    file_name <- glue::glue("mrp_poststrats/{variable_name}_poststrat.rds")
+    file_name <- glue::glue("mrp_poststrats/{variable_name}{name_addition}_poststrat.rds")
     saveRDS(summary_list, file = file_name)
   }
 

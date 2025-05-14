@@ -10,7 +10,8 @@ poststrat_multi_psup(
   save_output = save_my_poststrat,
   return_state = set_state,
   .poststrat_tibble = set_my_poststrat,
-  .poststrat_epred = set_my_epred
+  .poststrat_epred = set_my_epred,
+  name_addition = ""
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ poststrat_multi_psup(
 \item{.poststrat_tibble}{A data frame containing the poststratification tibble. Defaults to \code{set_my_poststrat}.}
 
 \item{.poststrat_epred}{A data frame containing the poststratification posterior predictions. Defaults to \code{set_my_epred}.}
+
+\item{name_addition}{String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.}
 }
 \value{
 A list of poststratification summaries, including:

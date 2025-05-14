@@ -21,7 +21,8 @@ psup_mrp(
   my_warmup = set_my_warmup,
   my_refresh = 250,
   my_poststrat = set_my_poststrat,
-  my_adapt_delta = set_my_adapt_delta
+  my_adapt_delta = set_my_adapt_delta,
+  name_addition = ""
 )
 }
 \arguments{
@@ -54,6 +55,8 @@ psup_mrp(
 \item{my_poststrat}{A data frame for poststratification. Default is \code{set_my_poststrat}.}
 
 \item{my_adapt_delta}{Numeric value for the Stan sampler control parameter to improve convergence. Default is \code{set_my_adapt_delta}.}
+
+\item{name_addition}{String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.}
 }
 \value{
 A list containing:

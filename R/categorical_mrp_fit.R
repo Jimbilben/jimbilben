@@ -16,6 +16,7 @@
 #' @param my_warmup Numeric. Number of warmup iterations for the sampler. Defaults to \code{set_my_warmup}.
 #' @param my_adapt_delta Numeric. The Stan sampler control parameter to improve convergence. Defaults to \code{0.99}.
 #' @param mrp_form Optional string specifying a custom formula for the regression model. If \code{NULL}, a default formula is used.
+#' @param name_addition String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.
 #'
 #' @return A list containing:
 #'   \itemize{
@@ -41,7 +42,8 @@ categorical_mrp_fit <- function(variable_name,
                                 my_iter = set_my_iter,
                                 my_warmup = set_my_warmup,
                                 my_adapt_delta = .99,
-                                mrp_form = NULL) {
+                                mrp_form = NULL,
+                                name_addition = "") {
 
   # set up categorical priors
   my_data <-
@@ -110,7 +112,7 @@ categorical_mrp_fit <- function(variable_name,
     print(glue::glue("Saving regression model for {variable_label}"))
 
     save(cat_fit,
-         file = glue::glue("mrp_models/{variable_name}_fit.RData"))
+         file = glue::glue("mrp_models/{variable_name}{name_addition}_fit.RData"))
   }
 
   return(list("model" = cat_fit))

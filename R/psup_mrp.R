@@ -20,6 +20,7 @@
 #' @param my_refresh Frequency of progress updates during model fitting. Default is \code{250}.
 #' @param my_poststrat A data frame for poststratification. Default is \code{set_my_poststrat}.
 #' @param my_adapt_delta Numeric value for the Stan sampler control parameter to improve convergence. Default is \code{set_my_adapt_delta}.
+#' @param name_addition String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.
 #'
 #' @return A list containing:
 #'   \itemize{
@@ -55,7 +56,8 @@ psup_mrp <- function(variable_name,
                      my_warmup = set_my_warmup,
                      my_refresh = 250,
                      my_poststrat = set_my_poststrat,
-                     my_adapt_delta = set_my_adapt_delta) {
+                     my_adapt_delta = set_my_adapt_delta,
+                     name_addition = "") {
 
   print("Numeric PSup outcome (0, 0.5, 1) will be converted to a factor, with 0.5 as the reference category")
   my_data <-
@@ -122,14 +124,14 @@ psup_mrp <- function(variable_name,
     print(glue::glue("Saving posterior predictions for {variable_label}"))
 
     saveRDS(psup_epred,
-            file = glue::glue("mrp_epreds/mrp_epred_{variable_name}.rds"))
+            file = glue::glue("mrp_epreds/{variable_name}{name_addition}_epred.rds"))
   }
 
   if(save_model == TRUE) {
     print(glue::glue("Saving regression model for {variable_label}"))
 
     save(psup_fit,
-         file = glue::glue("mrp_models/mrp_model_{variable_name}.RData"))
+         file = glue::glue("mrp_models/{variable_name}{name_addition}_fit.RData"))
   }
 
   return(list("model" = psup_fit,

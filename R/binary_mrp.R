@@ -22,6 +22,7 @@
 #' @param weighted Logical. If \code{TRUE}, performs weighted regression using the specified weights. Defaults to \code{FALSE}.
 #' @param weight_name The name of the weight variable in \code{my_data}. Defaults to \code{"mod_weights_mrp"}.
 #' @param mrp_form Optional string specifying a custom formula for the regression model. If \code{NULL}, a default formula is used.
+#' @param name_addition String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.
 #'
 #' @return A list containing:
 #'   \itemize{
@@ -57,7 +58,8 @@ binary_mrp <- function(variable_name,
                        my_adapt_delta = set_my_adapt_delta,
                        weighted = FALSE,
                        weight_name = "mod_weights_mrp",
-                       mrp_form = NULL) {
+                       mrp_form = NULL,
+                       name_addition = "") {
 
   if(is.null(variable_label)) {
     variable_label <- variable_name

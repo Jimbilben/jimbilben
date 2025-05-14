@@ -55,7 +55,8 @@ beta_mrp <- function(variable_name,
                      my_warmup = set_my_warmup,
                      my_poststrat = set_my_poststrat,
                      my_adapt_delta = set_my_adapt_delta,
-                     mrp_form = NULL) {
+                     mrp_form = NULL,
+                     name_addition  = "") {
 
   if(convert_beta == TRUE) {
     beta_n <-
@@ -147,10 +148,10 @@ beta_mrp <- function(variable_name,
     print(glue::glue("Saving posterior predictions for {variable_label}"))
 
     saveRDS(beta_epred,
-            file = glue::glue("mrp_epreds/{variable_name}_epred.rds"))
+            file = glue::glue("mrp_epreds/{variable_name}{name_addition}_epred.rds"))
 
     saveRDS(beta_phi,
-            file = glue::glue("mrp_epreds/{variable_name}_epred_phi.rds"))
+            file = glue::glue("mrp_epreds/{variable_name}{name_addition}_epred_phi.rds"))
 
   }
 
@@ -158,7 +159,7 @@ beta_mrp <- function(variable_name,
     print(glue::glue("Saving regression model for {variable_label}"))
 
     save(beta_fit,
-         file = glue::glue("mrp_models/{variable_name}_fit.RData"))
+         file = glue::glue("mrp_models/{variable_name}{name_addition}_fit.RData"))
   }
 
   return(list("model" = beta_fit,
