@@ -20,7 +20,8 @@ numeric_mrp(
   my_warmup = set_my_warmup,
   my_poststrat = set_my_poststrat,
   my_adapt_delta = set_my_adapt_delta,
-  mrp_form = NULL
+  mrp_form = NULL,
+  name_addition = ""
 )
 }
 \arguments{
