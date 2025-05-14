@@ -187,7 +187,7 @@ poststrat_multi_numeric <- function(input,
 
   if(save_output == TRUE) {
     saveRDS(output,
-            glue::glue("mrp_poststrats/{variable_name}_poststrat.rds"))
+            glue::glue("mrp_poststrats/{variable_name}{name_addition}_poststrat.rds"))
   }
 
   if(return_state == FALSE) {

@@ -58,7 +58,8 @@ numeric_mrp <- function(variable_name,
                         my_warmup = set_my_warmup,
                         my_poststrat = set_my_poststrat,
                         my_adapt_delta = set_my_adapt_delta,
-                        mrp_form = NULL) {
+                        mrp_form = NULL,
+                        name_addition = "") {
 
   print("If variable is ordinal/categorical, it will be converted to numeric. Make sure that you set the ordering of factors correctly, using ordered = TRUE")
   my_data <-
@@ -66,7 +67,6 @@ numeric_mrp <- function(variable_name,
     mutate(!!sym(variable_name) := as.numeric(!!sym(variable_name)))
 
   if(!is.null(center_value)) {
-    my_data <-
       my_data %>%
       mutate(!!sym(variable_name) := !!sym(variable_name) - center_value)
   }
@@ -136,14 +136,14 @@ numeric_mrp <- function(variable_name,
     print(glue::glue("Saving posterior predictions for {variable_label}"))
 
     saveRDS(numeric_epred,
-            file = glue::glue("mrp_epreds/{variable_name}_epred.rds"))
+            file = glue::glue("mrp_epreds/{variable_name}{name_addition}_epred.rds"))
   }
 
   if(save_model == TRUE) {
     print(glue::glue("Saving regression model for {variable_label}"))
 
     save(numeric_fit,
-         file = glue::glue("mrp_models/{variable_name}_fit.RData"))
+         file = glue::glue("mrp_models/{variable_name}{name_addition}_fit.RData"))
   }
 
   return(list("model" = numeric_fit,
