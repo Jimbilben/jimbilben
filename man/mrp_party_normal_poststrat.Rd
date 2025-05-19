@@ -12,7 +12,8 @@ mrp_party_normal_poststrat(
   poststrat_tibble = acs5_2020_poststrat_with_partyid,
   poststrat_epred = acs5_2020_model_expected_n,
   .decimals = 2,
-  .point_est = "mean"
+  .point_est = "mean",
+  exponentiate = FALSE
 )
 }
 \arguments{
@@ -27,6 +28,8 @@ mrp_party_normal_poststrat(
 \item{poststrat_tibble}{This is the tibble - usually an ACS tibble - containing the demographic variable names. You can group it}
 
 \item{poststrat_epred}{This is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble}
+
+\item{exponentiate}{Logical, defaults to FALSE. whether or not to exponentiate the estimated mean - e.g., in the case of a log-normal model.}
 }
 \description{
 Post-stratify for normally distributed/gaussian models.
