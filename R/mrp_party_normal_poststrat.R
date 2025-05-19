@@ -8,6 +8,7 @@
 #' @param interval The summary interval level
 #' @param poststrat_tibble This is the tibble - usually an ACS tibble - containing the demographic variable names. You can group it
 #' @param poststrat_epred This is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
+#' @param exponentiate Logical, defaults to FALSE. whether or not to exponentiate the estimated mean - e.g., in the case of a log-normal model.
 
 #'
 #' @export
@@ -18,7 +19,8 @@ mrp_party_normal_poststrat <- function(current_model_epred, # posterior predicti
                                        poststrat_tibble = acs5_2020_poststrat_with_partyid, # this is the tibble - usually an ACS tibble - containing the demographic variable names. You can group it!
                                        poststrat_epred = acs5_2020_model_expected_n,
                                        .decimals = 2,
-                                       .point_est = "mean") { # this is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
+                                       .point_est = "mean",
+                                       exponentiate = FALSE) { # this is the epred for our party poststrat model containing numbers of people expected to fall into each row of the poststrat tibble
 
   if(subgroups == FALSE) {
 
@@ -28,6 +30,12 @@ mrp_party_normal_poststrat <- function(current_model_epred, # posterior predicti
              draw = 1:1000) %>%
       mutate(outcome = outcome,
              grouping_type = "Population")
+
+    if(exponentiate == TRUE) {
+      normal_posterior <-
+        normal_posterior %>%
+        mutate(mean = exp(mean))
+    }
 
     # this summary gives some useful/usable default options, but we also return the full posterior as one might wish to summarise it many ways
     normal_summary <-
@@ -71,6 +79,12 @@ mrp_party_normal_poststrat <- function(current_model_epred, # posterior predicti
                draw = 1:1000) %>%
         mutate(outcome = outcome,
                grouping_type = "Subgrouped")
+
+      if(exponentiate == TRUE) {
+        normal_data <-
+          normal_data %>%
+          mutate(mean = exp(mean))
+      }
 
       return(normal_data)
 
