@@ -12,7 +12,8 @@ poststrat_multi_numeric(
   return_state = set_state,
   .poststrat_tibble = set_my_poststrat,
   .poststrat_epred = set_my_epred,
-  name_addition = ""
+  name_addition = "",
+  .exponentiate = FALSE
 )
 }
 \arguments{
@@ -31,6 +32,8 @@ poststrat_multi_numeric(
 \item{.poststrat_epred}{A data frame containing the poststratification posterior predictions. Defaults to \code{set_my_epred}.}
 
 \item{name_addition}{String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.}
+
+\item{.exponentiate}{Logical, defaults to FALSE. whether or not to exponentiate the estimated mean - e.g., in the case of a log-normal model.}
 }
 \value{
 A list of poststratification summaries, including:

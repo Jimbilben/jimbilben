@@ -10,6 +10,7 @@
 #' @param .poststrat_tibble A data frame containing the poststratification tibble. Defaults to \code{set_my_poststrat}.
 #' @param .poststrat_epred A data frame containing the poststratification posterior predictions. Defaults to \code{set_my_epred}.
 #' @param name_addition String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.
+#' @param .exponentiate Logical, defaults to FALSE. whether or not to exponentiate the estimated mean - e.g., in the case of a log-normal model.
 #'
 #' @return A list of poststratification summaries, including:
 #'   \itemize{
@@ -37,7 +38,8 @@ poststrat_multi_numeric <- function(input,
                                     return_state = set_state,
                                     .poststrat_tibble = set_my_poststrat,
                                     .poststrat_epred = set_my_epred,
-                                    name_addition = "") {
+                                    name_addition = "",
+                                    .exponentiate = FALSE) {
 
   # overall population level
   print(glue::glue("getting population level for {outcome_name}"))
@@ -45,7 +47,8 @@ poststrat_multi_numeric <- function(input,
     mrp_party_normal_poststrat(input$epred,
                                outcome = outcome_name,
                                poststrat_tibble = .poststrat_tibble,
-                               poststrat_epred = .poststrat_epred)
+                               poststrat_epred = .poststrat_epred,
+                               exponentiate = .exponentiate)
 
   population_summary$summary <-
     population_summary$summary %>%
@@ -60,7 +63,8 @@ poststrat_multi_numeric <- function(input,
                                outcome = outcome_name,
                                subgroups = TRUE,
                                poststrat_tibble = .poststrat_tibble %>% group_by(education_collapse),
-                               poststrat_epred = .poststrat_epred)
+                               poststrat_epred = .poststrat_epred,
+                               exponentiate = .exponentiate)
 
   education_collapse_summary$summary <-
     education_collapse_summary$summary %>%
@@ -76,7 +80,8 @@ poststrat_multi_numeric <- function(input,
                                outcome = outcome_name,
                                subgroups = TRUE,
                                poststrat_tibble = .poststrat_tibble %>% group_by(race),
-                               poststrat_epred = .poststrat_epred)
+                               poststrat_epred = .poststrat_epred,
+                               exponentiate = .exponentiate)
 
   race_summary$summary <-
     race_summary$summary %>%
@@ -91,7 +96,8 @@ poststrat_multi_numeric <- function(input,
                                outcome = outcome_name,
                                subgroups = TRUE,
                                poststrat_tibble = .poststrat_tibble %>% group_by(income_ces),
-                               poststrat_epred = .poststrat_epred)
+                               poststrat_epred = .poststrat_epred,
+                               exponentiate = .exponentiate)
 
   income_ces_summary$summary <-
     income_ces_summary$summary %>%
@@ -107,7 +113,8 @@ poststrat_multi_numeric <- function(input,
                                outcome = outcome_name,
                                subgroups = TRUE,
                                poststrat_tibble = .poststrat_tibble %>% group_by(male),
-                               poststrat_epred = .poststrat_epred)
+                               poststrat_epred = .poststrat_epred,
+                               exponentiate = .exponentiate)
 
   male_summary$summary <-
     male_summary$summary %>%
@@ -122,7 +129,8 @@ poststrat_multi_numeric <- function(input,
                                outcome = outcome_name,
                                subgroups = TRUE,
                                poststrat_tibble = .poststrat_tibble %>% group_by(partyid),
-                               poststrat_epred = .poststrat_epred)
+                               poststrat_epred = .poststrat_epred,
+                               exponentiate = .exponentiate)
 
   partyid_summary$summary <-
     partyid_summary$summary %>%
@@ -137,7 +145,8 @@ poststrat_multi_numeric <- function(input,
                                outcome = outcome_name,
                                subgroups = TRUE,
                                poststrat_tibble = .poststrat_tibble %>% group_by(age_fine),
-                               poststrat_epred = .poststrat_epred)
+                               poststrat_epred = .poststrat_epred,
+                               exponentiate = .exponentiate)
 
   age_fine_summary$summary <-
     age_fine_summary$summary %>%
@@ -152,7 +161,8 @@ poststrat_multi_numeric <- function(input,
                                outcome = outcome_name,
                                subgroups = TRUE,
                                poststrat_tibble = .poststrat_tibble %>% group_by(state),
-                               poststrat_epred = .poststrat_epred)
+                               poststrat_epred = .poststrat_epred,
+                               exponentiate = .exponentiate)
 
   state_summary$summary <-
     state_summary$summary %>%
@@ -167,7 +177,8 @@ poststrat_multi_numeric <- function(input,
                                outcome = outcome_name,
                                subgroups = TRUE,
                                poststrat_tibble = .poststrat_tibble %>% group_by(region),
-                               poststrat_epred = .poststrat_epred)
+                               poststrat_epred = .poststrat_epred,
+                               exponentiate = .exponentiate)
 
   region_summary$summary <-
     region_summary$summary %>%
