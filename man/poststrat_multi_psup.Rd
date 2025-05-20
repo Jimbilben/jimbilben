@@ -6,6 +6,7 @@
 \usage{
 poststrat_multi_psup(
   input,
+  variable_name,
   outcome_name,
   save_output = save_my_poststrat,
   return_state = set_state,
@@ -15,7 +16,7 @@ poststrat_multi_psup(
 )
 }
 \arguments{
-\item{input}{The object generated from \code{psup_mrp}, containing the model and posterior predictions.}
+\item{input}{The object generated from \code{psup_mrp}, containing the model and posterior predictions. #' @param variable_name String. The name of the categorical variable being poststratified.}
 
 \item{outcome_name}{String. The name of the PSup variable being poststratified.}
 

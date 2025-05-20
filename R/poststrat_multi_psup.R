@@ -2,7 +2,7 @@
 #'
 #' Perform poststratification on the posterior predictive draws from a partially supervised (PSup) MRP model across specified subgroups.
 #'
-#' @param input The object generated from \code{psup_mrp}, containing the model and posterior predictions.
+#' @param input The object generated from \code{psup_mrp}, containing the model and posterior predictions. #' @param variable_name String. The name of the categorical variable being poststratified.
 #' @param outcome_name String. The name of the PSup variable being poststratified.
 #' @param save_output Logical. If \code{TRUE}, saves the poststratification summaries to a file. Defaults to \code{save_my_poststrat}.
 #' @param return_state Logical. Whether to include the "state" subgroup in the returned output. Defaults to \code{set_state}.
@@ -31,6 +31,7 @@
 #'
 #' @export
 poststrat_multi_psup <- function(input,
+                                 variable_name,
                                  outcome_name,
                                  save_output = save_my_poststrat,
                                  return_state = set_state,
@@ -166,22 +167,23 @@ poststrat_multi_psup <- function(input,
     relocate(comparison, grouping_type, new_label)
 
   ## state
-  print(glue::glue("stratifying by state for {outcome_name}"))
-  state_summary <-
-    mrp_party_psup_poststrat(input$epred,
-                             superior_name = "1",
-                             inferior_name = "0",
-                             equal_name = "0.5",
-                             comparison = outcome_name,
-                             subgroups = TRUE,
-                             poststrat_tibble = .poststrat_tibble %>% group_by(state),
-                             poststrat_epred = .poststrat_epred)
-
-  state_summary$summary <-
-    state_summary$summary %>%
-    mutate(new_label = glue::glue("**{nice_num(mean, 2, TRUE)}** [{nice_num(lower, 2, TRUE)}; {nice_num(upper, 2, TRUE)}]"),
-           grouping_type = "State") %>%
-    relocate(comparison, grouping_type, new_label)
+  print("I'm not doing this by state, but you can unhash this in the function")
+  # print(glue::glue("stratifying by state for {outcome_name}"))
+  # state_summary <-
+  #   mrp_party_psup_poststrat(input$epred,
+  #                            superior_name = "1",
+  #                            inferior_name = "0",
+  #                            equal_name = "0.5",
+  #                            comparison = outcome_name,
+  #                            subgroups = TRUE,
+  #                            poststrat_tibble = .poststrat_tibble %>% group_by(state),
+  #                            poststrat_epred = .poststrat_epred)
+  #
+  # state_summary$summary <-
+  #   state_summary$summary %>%
+  #   mutate(new_label = glue::glue("**{nice_num(mean, 2, TRUE)}** [{nice_num(lower, 2, TRUE)}; {nice_num(upper, 2, TRUE)}]"),
+  #          grouping_type = "State") %>%
+  #   relocate(comparison, grouping_type, new_label)
 
   ## region
   print(glue::glue("stratifying by region for {outcome_name}"))
@@ -209,12 +211,13 @@ poststrat_multi_psup <- function(input,
          "income_ces" = income_ces_summary,
          "partyid" = partyid_summary,
          "male" = male_summary,
-         "region" = region_summary,
-         "state" = state_summary)
+         "region" = region_summary#,
+         #"state" = state_summary
+         )
 
   if(save_output == TRUE) {
     saveRDS(output,
-            glue::glue("mrp_poststrats/{outcome_name}{name_addition}_poststrat.rds"))
+            glue::glue("mrp_poststrats/{variable_name}{name_addition}_poststrat.rds"))
   }
 
   if(return_state == FALSE) {
