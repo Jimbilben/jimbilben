@@ -11,7 +11,9 @@
 #' @param split_type Either a string keyword (`"agree"` or `"support"`) to use built-in regex logic, or a named list defining custom category groupings.
 #' @param .percentage Logical. Whether to format the summary as percentages (default `TRUE`).
 #' @param .decimals Integer. Number of decimal places to show in the summary (default `1`).
-#'
+#' @param use_excluded Logical. If TRUE, the function operates on `posterior_excluded` (from `exclude_likert()`) instead of `posterior`,
+#' and writes output to `posterior_excluded_reduced` and `summary_excluded_reduced`. Default is FALSE.
+
 #' @return The input `data_list` with additional `$posterior_reduced` and `$summary_reduced` elements appended to each specified subgroup.
 #'
 #' @examples
@@ -31,7 +33,8 @@ reduce_likert <- function(data_list,
                           subgroups = c("population", "partyid", "male", "income_ces", "age_fine", "race", "education_collapse", "region"),
                           split_type = "agree",  # or list(...)
                           .percentage = TRUE,
-                          .decimals = 1) {
+                          .decimals = 1,
+                          use_excluded = FALSE) {
 
   subgroup_group_vars <- list(
     population = character(0),
@@ -61,8 +64,14 @@ reduce_likert <- function(data_list,
       } else {
         return("Support")
       }
+    } else if (type == "positive") {
+      if (stringr::str_detect(choice_text, "egative")) {
+        return("Negative")
+      } else {
+        return("Positive")
+      }
     } else {
-      stop("Unsupported split_type string. Use 'agree', 'support', or a custom list.")
+      stop("Unsupported split_type string. Use 'agree', 'support', 'positive', or a custom list.")
     }
   }
 
@@ -80,7 +89,8 @@ reduce_likert <- function(data_list,
       split_type,
       agree = c("Disagree", "Neutral", "Agree"),
       support = c("Oppose", "Neutral", "Support"),
-      stop("Unsupported split_type string. Use 'agree', 'support', or a custom list.")
+      positive = c("Negative", "Neutral", "Positive"),
+      stop("Unsupported split_type string. Use 'agree', 'support', 'positive', or a custom list.")
     )
   }
 
@@ -88,7 +98,11 @@ reduce_likert <- function(data_list,
     if (!sg %in% names(data_list)) next
     group_vars <- subgroup_group_vars[[sg]]
 
-    posterior <- data_list[[sg]]$posterior
+    posterior <- if (use_excluded) {
+      data_list[[sg]]$posterior_excluded
+    } else {
+      data_list[[sg]]$posterior
+    }
 
     # Recode choices
     if (use_custom_split) {
@@ -103,7 +117,6 @@ reduce_likert <- function(data_list,
       dplyr::group_by(dplyr::across(dplyr::all_of(c("choice", "draw", "outcome", "grouping_type", group_vars)))) %>%
       dplyr::summarise(proportion = sum(proportion), .groups = "drop")
 
-    # Summary
     summary_reduced <- posterior_reduced %>%
       dplyr::group_by(dplyr::across(dplyr::all_of(c("choice", "outcome", "grouping_type", group_vars)))) %>%
       jimbilben::nice_post(proportion, percentage = .percentage, decimals = .decimals) %>%
@@ -114,9 +127,11 @@ reduce_likert <- function(data_list,
       ) %>%
       dplyr::relocate(new_label)
 
-    # Append both versions to the list
-    data_list[[sg]]$posterior_reduced <- posterior_reduced
-    data_list[[sg]]$summary_reduced <- summary_reduced
+    posterior_out <- if (use_excluded) "posterior_excluded_reduced" else "posterior_reduced"
+    summary_out   <- if (use_excluded) "summary_excluded_reduced" else "summary_reduced"
+
+    data_list[[sg]][[posterior_out]] <- posterior_reduced
+    data_list[[sg]][[summary_out]]   <- summary_reduced
   }
 
   return(data_list)

@@ -10,7 +10,8 @@ reduce_likert(
     "education_collapse", "region"),
   split_type = "agree",
   .percentage = TRUE,
-  .decimals = 1
+  .decimals = 1,
+  use_excluded = FALSE
 )
 }
 \arguments{
@@ -23,6 +24,9 @@ reduce_likert(
 \item{.percentage}{Logical. Whether to format the summary as percentages (default `TRUE`).}
 
 \item{.decimals}{Integer. Number of decimal places to show in the summary (default `1`).}
+
+\item{use_excluded}{Logical. If TRUE, the function operates on `posterior_excluded` (from `exclude_likert()`) instead of `posterior`,
+and writes output to `posterior_excluded_reduced` and `summary_excluded_reduced`. Default is FALSE.}
 }
 \value{
 The input `data_list` with additional `$posterior_reduced` and `$summary_reduced` elements appended to each specified subgroup.
