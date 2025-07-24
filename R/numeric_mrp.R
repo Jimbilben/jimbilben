@@ -28,6 +28,7 @@
 #'   \itemize{
 #'     \item \code{"model"}: The fitted \code{brms} model object.
 #'     \item \code{"epred"}: Posterior predictions from the fitted model.
+#'     \item \code{"sd"}: Posterior draws for the sigma (standard deviation) value of the model, with draws matching those for the epred object.
 #'   }
 #'
 #' @details
@@ -44,23 +45,23 @@
 #'
 #' @export
 numeric_mrp <- function(variable_name,
-                        variable_label = NULL,
-                        center_value = set_center_value, # e.g., 4 to make 4/neutral become 0
-                        my_data = set_my_data,
-                        save_model = save_my_model,
-                        save_epred = save_my_epred,
-                        my_prior = c(set_prior("normal(0 , 2)", class = "Intercept"),
-                                     set_prior("normal(0 , 1)", class = "b"),
-                                     set_prior("exponential(2)", class = "sd"),
-                                     set_prior("normal(1, 1)", class = "sigma", lb = .01)),
-                        my_init = 0,
-                        my_refresh = 250,
-                        my_iter = set_my_iter,
-                        my_warmup = set_my_warmup,
-                        my_poststrat = set_my_poststrat,
-                        my_adapt_delta = set_my_adapt_delta,
-                        mrp_form = NULL,
-                        name_addition = "") {
+                             variable_label = NULL,
+                             center_value = set_center_value, # e.g., 4 to make 4/neutral become 0
+                             my_data = set_my_data,
+                             save_model = save_my_model,
+                             save_epred = save_my_epred,
+                             my_prior = c(set_prior("normal(0 , 2)", class = "Intercept"),
+                                          set_prior("normal(0 , 1)", class = "b"),
+                                          set_prior("exponential(2)", class = "sd"),
+                                          set_prior("normal(1, 1)", class = "sigma", lb = .01)),
+                             my_init = 0,
+                             my_refresh = 250,
+                             my_iter = set_my_iter,
+                             my_warmup = set_my_warmup,
+                             my_poststrat = set_my_poststrat,
+                             my_adapt_delta = set_my_adapt_delta,
+                             mrp_form = NULL,
+                             name_addition = "") {
 
   print("If variable is ordinal/categorical, it will be converted to numeric. Make sure that you set the ordering of factors correctly, using ordered = TRUE")
   my_data <-
@@ -68,7 +69,7 @@ numeric_mrp <- function(variable_name,
     mutate(!!sym(variable_name) := as.numeric(!!sym(variable_name)))
 
   if(!is.null(center_value)) {
-      my_data %>%
+    my_data %>%
       mutate(!!sym(variable_name) := !!sym(variable_name) - center_value)
   }
 
@@ -124,11 +125,27 @@ numeric_mrp <- function(variable_name,
 
   print(glue::glue("Computing posterior predictions for {variable_label}"))
 
+  max_draws <-
+    (my_iter - my_warmup) * 4
+
+  selected_draws <-
+    seq(1, max_draws, length.out = 1000) %>% round()
+
   numeric_epred <-
-    posterior_epred(object = numeric_fit,
-                    newdata = my_poststrat,
-                    ndraws = 1000,
-                    allow_new_levels = TRUE)
+    rstantools::posterior_epred(object = numeric_fit,
+                                newdata = my_poststrat,
+                                draw_ids = selected_draws,
+                                allow_new_levels = TRUE)
+
+  numeric_sd <-
+    numeric_fit %>%
+    posterior::as_draws_df() %>%
+    tibble::as_tibble() %>%
+    dplyr::select(sigma)
+
+  numeric_sd <-
+    numeric_sd[selected_draws,]
+
 
   print(glue::glue("Completed posterior predictions for {variable_label}"))
 
@@ -147,7 +164,13 @@ numeric_mrp <- function(variable_name,
          file = glue::glue("mrp_models/{variable_name}{name_addition}_fit.RData"))
   }
 
+  if(save_model == TRUE | save_epred == TRUE) {
+    saveRDS(numeric_sd,
+            file = glue::glue("mrp_models/{variable_name}{name_addition}_sigma.rds"))
+  }
+
   return(list("model" = numeric_fit,
-              "epred" = numeric_epred))
+              "epred" = numeric_epred,
+              "sd" = numeric_sd))
 
 }

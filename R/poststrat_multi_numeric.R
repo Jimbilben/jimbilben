@@ -11,6 +11,7 @@
 #' @param .poststrat_epred A data frame containing the poststratification posterior predictions. Defaults to \code{set_my_epred}.
 #' @param name_addition String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.
 #' @param .exponentiate Logical, defaults to FALSE. whether or not to exponentiate the estimated mean - e.g., in the case of a log-normal model.
+#' @param .exponentiate Logical, defaults to TRUE. whether or not to return the sd from the model (this must have been precomputed and included in the input, using the numeric_mrp function)
 #'
 #' @return A list of poststratification summaries, including:
 #'   \itemize{
@@ -39,7 +40,29 @@ poststrat_multi_numeric <- function(input,
                                     .poststrat_tibble = set_my_poststrat,
                                     .poststrat_epred = set_my_epred,
                                     name_addition = "",
-                                    .exponentiate = FALSE) {
+                                    .exponentiate = FALSE,
+                                    include_sd = TRUE) {
+
+  if(include_sd == TRUE) {
+    # standard deviation
+    standard_dev <- list()
+
+    standard_dev$posterior <-
+      input$sd %>%
+      dplyr::mutate(
+        outcome = outcome_name
+      )
+
+    standard_dev$summary <-
+      standard_dev$posterior %>%
+      group_by(outcome) %>%
+      jimbilben::nice_post(estimate = sigma) %>%
+      mutate(new_label = glue::glue("**{nice_num(mean, 1, FALSE)}** [{nice_num(lower, 2, FALSE)}; {nice_num(upper, 2, FALSE)}]")) %>%
+      relocate(outcome, new_label)
+
+    names(standard_dev$summary) <- paste0("sigma_", names(standard_dev$summary))
+
+  }
 
   # overall population level
   print(glue::glue("getting population level for {outcome_name}"))
@@ -186,23 +209,7 @@ poststrat_multi_numeric <- function(input,
            grouping_type = "Region") %>%
     relocate(outcome, grouping_type, new_label)
 
-  output <-
-    list("population" = population_summary,
-         "education_collapse" = education_collapse_summary,
-         "age_fine" = age_fine_summary,
-         "race" = race_summary,
-         "income_ces" = income_ces_summary,
-         "partyid" = partyid_summary,
-         "male" = male_summary,
-         "region" = region_summary,
-         "state" = state_summary)
-
-  if(save_output == TRUE) {
-    saveRDS(output,
-            glue::glue("mrp_poststrats/{variable_name}{name_addition}_poststrat.rds"))
-  }
-
-  if(return_state == FALSE) {
+  if(include_sd == TRUE) {
     output <-
       list("population" = population_summary,
            "education_collapse" = education_collapse_summary,
@@ -211,7 +218,53 @@ poststrat_multi_numeric <- function(input,
            "income_ces" = income_ces_summary,
            "partyid" = partyid_summary,
            "male" = male_summary,
-           "region" = region_summary)
+           "region" = region_summary,
+           "state" = state_summary,
+           "standard_dev" = standard_dev)
+  } else {
+    output <-
+      list("population" = population_summary,
+           "education_collapse" = education_collapse_summary,
+           "age_fine" = age_fine_summary,
+           "race" = race_summary,
+           "income_ces" = income_ces_summary,
+           "partyid" = partyid_summary,
+           "male" = male_summary,
+           "region" = region_summary,
+           "state" = state_summary)
+  }
+
+
+
+  if(save_output == TRUE) {
+    saveRDS(output,
+            glue::glue("mrp_poststrats/{variable_name}{name_addition}_poststrat.rds"))
+  }
+
+  if(return_state == FALSE) {
+    if(include_sd == TRUE) {
+      output <-
+        list("population" = population_summary,
+             "education_collapse" = education_collapse_summary,
+             "age_fine" = age_fine_summary,
+             "race" = race_summary,
+             "income_ces" = income_ces_summary,
+             "partyid" = partyid_summary,
+             "male" = male_summary,
+             "region" = region_summary,
+             "standard_dev" = standard_dev)
+    }
+    else {
+      output <-
+        list("population" = population_summary,
+             "education_collapse" = education_collapse_summary,
+             "age_fine" = age_fine_summary,
+             "race" = race_summary,
+             "income_ces" = income_ces_summary,
+             "partyid" = partyid_summary,
+             "male" = male_summary,
+             "region" = region_summary)
+    }
   }
 
   return(output)

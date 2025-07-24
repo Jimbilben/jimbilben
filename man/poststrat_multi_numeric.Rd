@@ -13,7 +13,8 @@ poststrat_multi_numeric(
   .poststrat_tibble = set_my_poststrat,
   .poststrat_epred = set_my_epred,
   name_addition = "",
-  .exponentiate = FALSE
+  .exponentiate = FALSE,
+  include_sd = TRUE
 )
 }
 \arguments{
@@ -33,7 +34,7 @@ poststrat_multi_numeric(
 
 \item{name_addition}{String, defaults to "" (i.e., nothing). Can provide a string to more uniquely identify what the file will be named as.}
 
-\item{.exponentiate}{Logical, defaults to FALSE. whether or not to exponentiate the estimated mean - e.g., in the case of a log-normal model.}
+\item{.exponentiate}{Logical, defaults to TRUE. whether or not to return the sd from the model (this must have been precomputed and included in the input, using the numeric_mrp function)}
 }
 \value{
 A list of poststratification summaries, including:

@@ -66,6 +66,7 @@ A list containing:
   \itemize{
     \item \code{"model"}: The fitted \code{brms} model object.
     \item \code{"epred"}: Posterior predictions from the fitted model.
+    \item \code{"sd"}: Posterior draws for the sigma (standard deviation) value of the model, with draws matching those for the epred object.
   }
 }
 \description{
