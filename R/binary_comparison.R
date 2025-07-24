@@ -53,7 +53,7 @@ binary_comparison <- function(current,
       values_to = "value"
     ) %>%
     dplyr::group_by(
-      type
+      outcome, type
     ) %>%
     nice_post(
       estimate = value,
