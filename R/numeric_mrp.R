@@ -69,7 +69,8 @@ numeric_mrp <- function(variable_name,
     mutate(!!sym(variable_name) := as.numeric(!!sym(variable_name)))
 
   if(!is.null(center_value)) {
-    my_data %>%
+    my_data <-
+      my_data %>%
       mutate(!!sym(variable_name) := !!sym(variable_name) - center_value)
   }
 
