@@ -17,7 +17,7 @@ mutate_race_collapse <- function(data, race_var_name = race_og, hisp_var_name = 
                                             {{race_var_name}} == "Some other race" ~ "Other",
                                             {{race_var_name}} == "Other race" ~ "Other",
                                             {{race_var_name}} == "Identify with two or more races" ~ "Other",
-                                            {{race_var_name}} == "Black" ~ "Black of African American",
+                                            {{race_var_name}} == "Black" ~ "Black or African American",
                                             {{race_var_name}} == "White" ~ "White or Caucasian",
                                             {{race_var_name}} == "More than one race" ~ "Other",
                                             {{race_var_name}} == "Asian or Asian American" ~ "Other",
